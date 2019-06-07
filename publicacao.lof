@@ -1,0 +1,12 @@
+\babel@toc {portuguese}{}
+\babel@toc {english}{}
+\babel@toc {portuguese}{}
+\babel@toc {english}{}
+\babel@toc {portuguese}{}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Passos de um processo de KDD. Fonte: Pr\IeC {\'o}prio Autor.}}{6}{figure.2.1}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Modelo de conjunto de \IeC {\'a}rvores. O resultado final para um dada amostra \IeC {\'e} a soma das predi\IeC {\c c}\IeC {\~o}es para cada \IeC {\'a}rvore. Fonte: Adaptado de \cite {CHEN:2016}.}}{18}{figure.2.2}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Estrutura do c\IeC {\'a}lculo de divis\IeC {\~a}o.Apenas \IeC {\'e} necess\IeC {\'a}rio soma o gradiente e o gradiente de segunda ordem da fun\IeC {\c c}\IeC {\~a}o de erro em cada n\IeC {\'o}, ent\IeC {\~a}o aplicar a f\IeC {\'o}rmula \textup {\hbox {\mathsurround \z@ \normalfont (\ignorespaces \ref {eq:split}\unskip \@@italiccorr )}} para obter a medida de qualidade. Fonte: Adaptado de \cite {CHEN:2016}.}}{21}{figure.2.3}
+\addvspace {10\p@ }
+\contentsfinish 

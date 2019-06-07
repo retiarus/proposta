@@ -1,0 +1,91 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{1.45.2.1 }
+
+\bibitem[Chen e Guestrin 2016]{CHEN:2016}
+\abntrefinfo{Chen e Guestrin}{CHEN; GUESTRIN}{2016}
+{CHEN, T.; GUESTRIN, C. Xgboost: A scalable tree boosting system. In:
+  \textbf{Proceedings of the 22Nd ACM SIGKDD International Conference on
+  Knowledge Discovery and Data Mining}. New York, NY, USA: ACM, 2016.  (KDD
+  '16), p. 785--794.
+ISBN 978-1-4503-4232-2. Dispon{\'\i}vel em:
+  <\url{http://doi.acm.org/10.1145/2939672.2939785}>.}
+
+
+\bibitem[Hofmann-Wellenhof et al. 2013]{HOFMANN:2013}
+\abntrefinfo{Hofmann-Wellenhof et al.}{HOFMANN-WELLENHOF et al.}{2013}
+{HOFMANN-WELLENHOF, B.; LICHTENEGGER, H.; COLLINS, J. \textbf{Global
+  Positioning System: Theory and Practice}. Springer Vienna, 2013.
+ISBN 9783709133118. Dispon{\'\i}vel em:
+  <\url{https://books.google.com.br/books?id=bQntCAAAQBAJ}>.}
+
+
+\bibitem[Kirchhoff 1991]{KIRCHHOFF:1991}
+\abntrefinfo{Kirchhoff}{KIRCHHOFF}{1991}
+{KIRCHHOFF, V. W. J.~H. \textbf{{Introdução à geofísica espacial}}. [S.l.:
+  s.n.], 1991. 152~p.
+ISBN 9788572330015.}
+
+
+\bibitem[Laundal e Richmond 2017]{LAUNDAL:2017}
+\abntrefinfo{Laundal e Richmond}{LAUNDAL; RICHMOND}{2017}
+{LAUNDAL, K.~M.; RICHMOND, A.~D. Magnetic coordinate systems.
+\textbf{Space Science Reviews}, v.~206, n.~1, p. 27--59, Mar 2017.
+ISSN 1572-9672.
+Dispon{\'\i}vel em: <\url{https://doi.org/10.1007/s11214-016-0275-y}>.}
+
+
+\bibitem[Muella 2008]{MUELLA:2008}
+\abntrefinfo{Muella}{MUELLA}{2008}
+{MUELLA, M.~T. de A.~H.
+\textbf{Morfologia e dinâmica das irregularidades ionosféricas de pequena
+  escala e imageamento ionosférico por GPS}.
+383~p. INPE-15365-TDI/1393.
+Tese (Doutorado em Geofísica Espacial) --- Instituto Nacional de Pesquisas
+  Espaciais (INPE), São José dos Campos, 2008. Dispon{\'\i}vel em:
+  <\url{http://urlib.net/sid.inpe.br/mtc-m18@80/2008/09.25.12.42}>.}
+
+
+\bibitem[Negreti 2012]{NEGRETI:2012}
+\abntrefinfo{Negreti}{NEGRETI}{2012}
+{NEGRETI, P. M.~S.
+\textbf{Estudo do conteúdo eletrônico total na região brasileira em
+  períodos magneticamente perturbados}.
+323~p. Sid.inpe.br/mtc-m19/2012/05.10.21.43-TDI.
+Tese (Doutorado em Geofísica Espacial/Ciências do Ambiente Solar-Terrestre)
+  --- Instituto Nacional de Pesquisas Espaciais (INPE), São José dos Campos,
+  2012. Dispon{\'\i}vel em:
+  <\url{http://urlib.net/sid.inpe.br/mtc-m19/2012/05.10.21.43}>.}
+
+
+\bibitem[Rezende 2009]{REZENDE:2009}
+\abntrefinfo{Rezende}{REZENDE}{2009}
+{REZENDE, L.~F.
+\textbf{Mineração de dados aplicada à análise e predição de cintilação
+  ionosférica}.
+176~p. (INPE-16080-TDI/1537).
+Dissertação (Mestrado em Compuatação Aplicada) --- Instituto Nacional de
+  Pesquisas Espaciais (INPE), São José dos Campos, 2009. Dispon{\'\i}vel em:
+  <\url{http://urlib.net/sid.inpe.br/mtc-m18@80/2009/06.22.15.52}>.}
+
+
+\bibitem[{Rishbeth} e {Garriott} 1969]{RISNBETH:1969}
+\abntrefinfo{{Rishbeth} e {Garriott}}{{Rishbeth}; {Garriott}}{1969}
+{{Rishbeth}, H.; {Garriott}, O.~K. \textbf{{Introduction to ionospheric
+  physics}}. [S.l.: s.n.], 1969.}
+
+
+\bibitem[Takahashi et al. 2016]{TAKAHASHI:2006}
+\abntrefinfo{Takahashi et al.}{TAKAHASHI et al.}{2016}
+{TAKAHASHI, H.; WRASSE, C.~M.; DENARDINI, C.~M.; PáDUA, M.~B.; PAULA, E.~R.;
+  COSTA, S. M.~A.; OTSUKA, Y.; SHIOKAWA, K.; MONICO, J. F.~G.; IVO, A.;
+  SANT'ANNA, N. Ionospheric tec weather map over south america.
+\textbf{Space Weather}, v.~14, n.~11, p. 937--949, 2016.
+Dispon{\'\i}vel em:
+  <\url{https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1002/2016SW001474}>.}
+
+
+\end{thebibliography}

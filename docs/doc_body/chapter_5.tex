@@ -1,0 +1,298 @@
+\chapter{TESTES E RESULTADOS}
+
+Os dados utilizados neste trabalho se restringem ao período de atividade solar máxima de um ciclo solar, no caso, de 01/12/2013 até 28/02/2014, totalizando 90 dias/noites, destes aproximadamente 5 dias/noites foram usados para validação, aproximadamente 59 foram utilizados para treinamento e 25 para testes. Existe um total de 12772 amostras neste período, correspondendo a frequência de uma amostra a cada 10 min. 1382 amostras apresentam valores de S4 acima de 0.2, enquanto as demais 11390 apresentam cintilação inferior ou igual a 0.2. Devido a problemas técnicos e de equipamentos, sensores, existem muitas lacunas nestes dados e, portanto, técnicas de pré-processamento como suavização precisaram ser aplicadas.
+
+\section{Estimação do S4 a partir do VTEC e suas variáveis derivadas}
+
+Um dos primeiros resultados que foi buscado é o mapeamento entre VTEC e S4 por meio de uma regressão não linear que foi efetuada por diversos algoritmos de aprendizagem de máquina diferentes, os melhores resultados foram obtidos pela floresta aleatória. O objetivo dessa busca foi determinar variáveis derivadas do VTEC assim como ele próprio que poderiam ser utilizadas como indicativo do valor de S4, sendo que posteriormente, em novos estudos, as melhores variáveis poderiam ser utilizadas para predizer o valor de S4. As Figuras \ref{fig:regressioncart}, \ref{fig:regressionrf} e \ref{fig:regressionsvm} apresentam os resultados obtidos respectivamente pela árvore de decisão, pela floresta aleatória e pela máquina de vetor de suporte. 
+
+\begin{figure}
+\centering
+\makebox[\textwidth][c]{\includegraphics[width=1.2\columnwidth]{./Figuras/regression_cart.eps}}
+\caption{Regressão da variável S4 por meio de uma árvore CART, para São José dos Campos - SP, no período ente 24/02/2014 até 01/03/2014. As linhas verticais vermelhas representam o por do sol, enquanto as amarelas representam o nascer do sol. Fonte: próprio autor.}
+\label{fig:regressioncart}
+\end{figure}
+
+\begin{figure}
+\centering
+\makebox[\textwidth][c]{\includegraphics[width=1.2\columnwidth]{./Figuras/regression_random_florest.eps}}
+\caption{Regressão da variável S4 por meio de uma floresta aleatória, para São José dos Campos - SP, no período ente 24/02/2014 até 01/03/2014. As linhas verticais vermelhas representam o por do sol, enquanto as amarelas representam o nascer do sol. Fonte: próprio autor.}
+\label{fig:regressionrf}
+\end{figure}
+
+\begin{figure}
+\centering
+\makebox[\textwidth][c]{\includegraphics[width=1.2\columnwidth]{./Figuras/regression_svm.eps}}
+\caption{Regressão da variável S4 por meio de uma máquina de vetor de suporte, para São José dos Campos - SP, no período ente 24/02/2014 até 01/03/2014. As linhas verticais vermelhas representam o por do sol, enquanto as amarelas representam o nascer do sol. Fonte: próprio autor.}
+\label{fig:regressionsvm}
+\end{figure}
+
+Uma análise visual dos resultados indica que as técnicas baseadas em árvores de decisão tiveram um resultado melhor. Para uma avaliação numérica entre os modelos inicialmente se optou por utilizar o erro relativo médio entre o valor real e o gerado pela regressão, o que foi de 17.4\% para árvore de decisão, 13.9\% para a floresta aleatória e 17.4\% para a máquina de vetor de suporte.
+
+Considerando-se a estimação do S4 a partir das  7 variáveis descritas, repetiu-se a estimação eliminando-se uma delas de cada vez, de forma a avaliar sua relevância na estimação. A Tabela \ref{tab:relativeerror} apresenta o erro relativo médio do índice S4 entre a série real e a predita para cada variável descartada, considerando-se na estimação as demais 6 variáveis. Observa-se que o erro aumenta para qualquer variável descartada, em relação à estimação com todas as 7 variáveis, sendo que os erros que aparecem na tabela são similares para cada algoritmo utilizado, demonstrando que as variáveis tem relevância similar na estimação do índice S4. Entretanto, esse erro é um pouco maior ao se descartar a variável {\bf vtec}, que pode ser considerada a mais relevante.
+
+\begin{table}
+\addtolength{\leftskip} {-2cm} % increase (absolute) value if needed
+\addtolength{\rightskip}{-2cm}
+\small
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\hline
+&  {\bf vtec} &  {\bf vtec\_dt} &  {\bf vtec\_dt2} &  {\bf gvtec1} &  {\bf gvtec1\_dt} &  {\bf gvtec2} &  {\bf gvtec2\_dt} \\ \hline
+Árvore de decisão & 19.1 & 15.8 & 16.5 & 16.5 & 16.0 & 19.7 & 17.3 \\ \hline
+Floresta aleatória & 18.2 & 15.3 & 14.7 & 15.9 & 14.6 & 15.5 & 14.8 \\ \hline
+Maquina de vetor de suporte & 34.3 & 32.6 & 30.2 & 33.7 & 29.7 & 34.4 & 29.5 \\ \hline
+\end{tabular}
+\vspace{12pt}
+\caption{Erro relativo obtido pelo modelo após a exclusão da variável que nomeia a coluna. A estação de referência foi São José dos Campos, no período entre 24/02/2014 e 01/03/2014. Fonte: próprio autor.}
+\label{tab:relativeerror}
+\end{table}
+
+A mesma conclusão pode ser obtida utilizando-se a análise de componentes principais (PCA), cujo resultado aparece na Tabela \ref{tab:pca1}, a qual apresenta os pesos de cada uma das 7 variáveis em cada uma das 7 rotações. Nota-se que cada variável tem um peso próximo ao valor unitário em uma única rotação. Além disso, a ferramenta computacional calculou os valores resultantes, para cada rotação, da soma obtida pela aplicação dos pesos em todas as amostras da base de dados, obtendo-se assim 7 séries de valores e as respectivas médias e variâncias. Estas últimas são apresentadas também na Tabela \ref{tab:pca1}, com valores normalizados. Observa-se que as variâncias correspondentes às 7 rotações são iguais, demonstrando que as variáveis são igualmente relevantes no espaço de atributos.
+
+\begin{table}[hhh]
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|c|c|c|} 
+\hline
+                 &   RC3 &   RC4 &  RC6 &   RC5 &   RC2 &   RC7 &   RC1 \\ \hline
+{\bf vtec      } & -0.14 &  0.98 & 0.02 & -0.07 & -0.07 & -0.01 &  0.10 \\ \hline
+{\bf vtec\_dt  } &  0.07 &  0.02 & 0.95 &  0.05 &  0.17 &  0.18 &  0.14 \\ \hline
+{\bf vtec\_dt2 } &  0.98 & -0.14 & 0.06 & -0.02 & -0.01 & -0.05 & -0.08 \\ \hline 
+{\bf gvtec1    } & -0.06 & -0.02 & 0.19 &  0.04 & -0.02 &  0.92 &  0.33 \\ \hline
+{\bf gvtec1\_dt} & -0.02 & -0.06 & 0.04 &  0.99 &  0.14 &  0.04 &  0.01 \\ \hline
+{\bf gvtec2    } & -0.09 &  0.12 & 0.15 &  0.01 &  0.03 &  0.32 &  0.92 \\ \hline
+{\bf gvtec2\_dt} & -0.01 & -0.08 & 0.16 &  0.15 &  0.97 & -0.02 &  0.02 \\ \hline
+\end{tabular}
+
+\vspace{12pt}
+
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\hline
+                 &   RC3 &   RC4 &  RC6 &   RC5 &   RC2 &   RC7 &   RC1 \\ \hline
+Proporção Explicada  & 0.14 & 0.14 & 0.14 & 0.14 & 0.14 & 0.14 & 0.14 \\ \hline
+Proporção Cumulativa & 0.14 & 0.29 & 0.43 & 0.57 & 0.71 & 0.86 & 1.00 \\ \hline
+\end{tabular}
+\end{center}
+\vspace{12pt}
+\caption{Análise em termos Rotações, utilizando a técnica de Componentes Principais. RC1 até RC7 indicam as componentes da rotação. Note que cada componente apresenta contribuição predominante de apenas uma variável, e que a proporção de variância explicada é igual para todas as componentes. Fonte: próprio autor.}
+\label{tab:pca1}
+\end{table}
+
+
+O instante de referência utilizada para avaliar diferentes intervalos de tempo de forma a otimizar a derivada temporal calculada por diferenças finitas foi 14/12/2013 às 00:00:00 UT. Este instante corresponde a um pico de cintilação com valor aproximado de 0.55. O intervalo foi escolhido tal que fosse possível varrer um período de um dia. As Figuras \ref{fig:findifgvtec1} até \ref{fig:findifgvtec2} exibem os resultados dessa avaliação.
+
+\begin{figure}[H]
+\centering
+\makebox[\textwidth][c]{\includegraphics[width=1.2\columnwidth]{./Figuras/fin_dif_gvtec1.eps}}
+\caption{Amplitude da diferença no tempo da variável {\bf gvtec1} para diferentes intervalos. Fonte: próprio autor.}
+\label{fig:findifgvtec1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\makebox[\textwidth][c]{\includegraphics[width=1.2\columnwidth]{./Figuras/fin_dif_gvtec2.eps}}
+\caption{Amplitude da diferença no tempo da variável {\bf gvtec2} para diferentes intervalos. Fonte: próprio autor.}
+\label{fig:findifgvtec2}
+\end{figure}
+
+Pode-se notar nestas figuras que variações no valor da amplitude da diferença, tais variações são esperadas devido a presença de periodicidade ao longo do tempo nestes atributos. Os picos, máximos, correspondem as maiores diferenças de sinais, isto é, situações, por exemplo, onde o valor do {\bf gvtec1} no passado é menor do que no ponto de referência. Finalmente, seria interessante avaliar modelos tanto com valores de mínimo, quanto de máximo, pois correspondem a indicativos de janelas no tempo que podem fornecer informação interessante para a regressão. Uma segunda rodada de testes vai levar em consideração variáveis derivadas da análise destes gráficos, e discussões realizados com colaboradores.
+
+\section{Novos testes, novos resultados}
+
+Novos testes foram realizados para estimação do índice S4 a partir do {\bf vtec} e suas variáveis derivadas, utilizando-se subconjuntos de novas variáveis que foram definidas na Seção \ref{sec:nvnt}. Em todos os testes optou-se pela regressão por meio de floresta aleatória. Os resultados aparecem na Tabela \ref{tab:final_result} considerando-se o valor do índice S4 categorizado e um limiar de ocorrência de cintilação de 0.2. O operador $-$ indica que dado um conjunto uma variável foi removida, o operador $+$ indica a união dos subconjuntos, ou combinação de variáveis. Variáveis individuais são denotadas por negrito, enquanto os subconjuntos adotam letras normais.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|} 
+\hline
+ 
+	                          & Erro médio relativo	& POD	& FAR	& ACC  \\ \hline
+original	                               & 14.34\%	& 0.88	& 0.55	& 0.84 \\ \hline
+original - {\bf vtec}	                       & 17.78\%	& 0.85	& 0.63	& 0.79 \\ \hline
+original - {\bf vtec\_dt}	               & 14.81\%	& 0.93	& 0.50	& 0.87 \\ \hline
+original - {\bf vtec\_dt2}	               & 14.97\%	& 0.83	& 0.57	& 0.83 \\ \hline 
+original - {\bf gvtec1}	                       & 16.22\%	& 0.80	& 0.64	& 0.79 \\ \hline
+original - {\bf gvtec1\_dt}	               & 13.84\%	& 0.83	& 0.50	& 0.87 \\ \hline
+original - {\bf gvtec2}	                       & 16.09\%	& 0.92	& 0.60	& 0.82 \\ \hline
+original - {\bf gvtec2\_dt}	               & 14.81\%	& 0.94	& 0.49	& 0.88 \\ \hline
+original - {\bf gvtec2} - {\bf gvtec2\_dt}     & 15.81\%        & 0.81  & 0.64  & 0.80 \\ \hline
+original + tempo	                       & 13.54\%	& 0.88	& 0.59	& 0.83 \\ \hline
+original + {\bf gvtec1\_dt\_lag\_9}            & 14.78\%	& 0.90	& 0.62	& 0.81 \\ \hline
+original + {\bf gvtec2\_dt\_lag\_20}           & 14.34\%	& 0.81	& 0.63	& 0.81 \\ \hline
+original + lag	                               & 15.53\%	& 0.86	& 0.63	& 0.81 \\ \hline
+original + mdv1	                               & 13.69\%	& 0.69	& 0.60	& 0.84 \\ \hline
+original + mdv2	                               & 15.40\%	& 0.69	& 0.66	& 0.80 \\ \hline
+original + tempo + lag	                       & 15.00\%	& 0.85	& 0.64	& 0.80 \\ \hline
+original + tempo + mdv2	                       & 13.62\%	& 0.76	& 0.62	& 0.82 \\ \hline
+original + tempo + mdv2 + lag 	               & 12.20\%	& 0.77	& 0.54	& 0.85 \\ \hline
+original + tempo + lag + mdv1 + mdv2	       & 12.23\%	& 0.77	& 0.54	& 0.86 \\ \hline
+{\bf vtec}	                               & 15.43\%	& 0.29	& 0.70	& 0.82 \\ \hline
+{\bf vtec} + {\bf gvtec1\_dt\_lag\_9}          & 16.43\%        & 0.67  & 0.67  & 0.79 \\ \hline
+{\bf vtec} + {\bf gvtec2\_dt\_lag\_20}         & 14.81\%        & 0.56  & 0.64  & 0.82 \\ \hline
+{\bf vtec} + {\bf vtec\_dt} + {\bf vtec\_dt2}  & 16.65\%	& 0.71	& 0.63	& 0.81 \\ \hline
+{\bf vtec} + {\bf gvtec1} + {\bf gvtec2}       & 15.35\%	& 0.67	& 0.54	& 0.86 \\ \hline
+{\bf vtec} + tempo	                       & 15.73\%	& 0.75	& 0.54	& 0.86 \\ \hline
+{\bf vtec} + tempo + mdv1	               & 13.73\%	& 0.41	& 0.58	& 0.86 \\ \hline
+{\bf vtec} + tempo + lag	               & 13.54\%	& 0.79	& 0.52	& 0.86 \\ \hline
+{\bf vtec} + tempo + lag + mdv1	               & 12.21\%	& 0.71	& 0.48	& 0.88 \\ \hline
+{\bf vtec} + tempo + lag + mdv2	               & 13.58\%	& 0.61	& 0.52	& 0.87 \\ \hline
+{\bf vtec} + tempo + lag + mdv1 + mdv2	       & 11.95\%	& 0.52	& 0.54	& 0.86 \\ \hline
+\end{tabular}
+\end{center}
+\vspace{12pt}
+\caption{Desempenho da regressão para a estimação do índice S4, para diferentes conjuntos de atributos, considerando-se o limiar de cintilação de S4$=0.2$. Fonte: próprio autor.}
+\label{tab:final_result}
+\end{table}
+
+Observando a Tabela \ref{tab:final_result} se nota que a adição individual do subconjunto tempo melhora o resultado, enquanto a adição do subconjunto ``lag"\, piora o resultado, resultado análogo para os subconjuntos mdv1 e mdv2. A variável {\bf gvtec2\_dt} parece uma boa candidata a exclusão, pois sua remoção apesar de levar a um aumento no erro relativo, este é pequeno, contudo, ouve significativa melhora nos valores de POD e FAR. {\bf gvtec1\_dt} também poderia ser removida, pois sua exclusão leva a um diminuição do erro relativo, apesar da redução do POD. A adição do subconjunto tempo melhora não somente os resultados do subconjunto original, como também da variável {\bf vtec}. A adição das variáveis {\bf vtec\_dt} e {\bf vtec\_dt2} levam a melhoras mais significativas para o POD e o FAR do as variáveis {\bf gvtec1} e {\bf gvtec1}. Os resultados mostram claramente que o subconjunto mdv1 é mais importante que o mdv2. A combinação dos subconjuntos lag, tempo juntos do original mostram relativa piora em relação ao original, comparando com o subconjunto original mais tempo, conclui-se que a adição do lag pode não ser adequada. Finalmente, seria interessante utilizar um algorítimo que teste cada combinação possível de variáveis de forma a determinar o melhor subconjunto de variáveis. 
+
+A presença de baixos valores de POD e FAR com altos valores de ACC é um forte indicativo da predominância de verdadeiros negativos (TN) que neste caso correspondem a valores com S4 $<0.2$. A Tabela \ref{tab:final_result1} apresenta os resultados considerando o limiar de S4 como sendo de 0.5. Pode-se notar uma variação mais acentuada para o POD e o FAR do que o ACC, quando comparado com os resultados na Tabela \ref{tab:final_result}.
+
+A Tabela \ref{tab:final_result2} apresenta uma variação dos resultados obtidos quando se troca a variável {\bf vtec\_dt} por {\bf vtec\_dt\_lag\_3}. Os testes realizados, então, foram aqueles que apresentavam essa variável, seja internamente na definição do conjunto original, quanto uma variável adicional. A principal característica que se nota foi em uma redução do POD e um aumento do FAR.
+
+
+        A Tabela \ref{tab:final_result3} apresenta os resultados dos testes, quando no treinamento só foram consideradas amostras correspondentes ao período noturno e à madrugada, isto é, excluindo as amostras referentes ao período diurno. Nestes resultados, existem também variações do POD e do FAR, mas nota-se principalmente uma queda acentuada no ACC, uma vez que o número de amostras com S2 inferior a 0.2, correspondentes aos verdadeiros negativos, referem-se predominantemente ao período diurno, constituindo justamente as amostras descartadas.
+
+
+      Existem dois pontos em comum observados nos testes realizados. Primeiramente, a variável {\bf vtec\_dt} que correspondem à diferença finita no tempo da variável{\bf vtec} não apresentou a influência e contribuição esperadas, mesmo quando sendo calculada para intervalos de 30 minutos. Esta expectativa vem da tendência de diminuição do VTEC ao longo do tempo precedendo ou acompanhando a cintilação, é claramente observável nas figuras que mostram a evolução do VTEC e do índice S4, de forma que o atributo {\bf vtec\_dt} deve ser em breve revisto ou recalculado,  de forma a se aproveitar essa informação na regressão. Em segundo lugar, o gradiente espacial foi avaliado apenas em relação a duas localizações, Pirassununga e Brasília, resultando, respectivamente, nas variáveis  {\bf gvtec1} e {\bf gvtec2}, Observou-se que a contribuição destas varáveis na regressão foi bem diferente, sendo que esta última não apresentou a relevância esperada, o que pode decorrer do fato de Brasília estar num meridiano magnético mais a oeste que o meridiano de São José dos Campos comparando-se com  meridiano magnético de Pirassununga. Entretanto, deve-se considerar que a evolução espaço-temporal das bolhas ionosféricas, bem como sua forma e extensão, podem variar muito, o que implica em diferentes influências do VTEC medido em diferentes estações de medição na regressão para estimar o índice S4 em São José dos Campos. Assim, embora seja desejável utilizar dados de diversas estações, não se pode esperar que sua contribuição nessa estimação seja a mesma.
+
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|} 
+\hline
+	                          & Erro médio relativo	& POD	& FAR	& ACC  \\ \hline
+original                                        & 15.00\%  &  0.81  &  0.62  &  0.81 \\ \hline
+original - {\bf vtec}                           & 18.17\%  &  0.81  &  0.69  &  0.75 \\ \hline
+original - {\bf vtec\_dt}                       & 14.71\%  &  0.83  &  0.60  &  0.82 \\ \hline
+original - {\bf vtec\_dt2}                      & 14.52\%  &  0.80  &  0.65  &  0.79 \\ \hline
+original - {\bf gvtec1}                         & 15.20\%  &  0.77  &  0.64  &  0.81 \\ \hline
+original - {\bf gvtec1\_dt}                     & 14.55\%  &  0.80  &  0.60  &  0.83 \\ \hline
+original - {\bf gvtec2}                         & 16.41\%  &  0.87  &  0.66  &  0.77 \\ \hline
+original - {\bf gvtec2\_dt}                     & 14.18\%  &  0.86  &  0.58  &  0.83 \\ \hline
+original - {\bf gvtec2} - {\bf gvtec2\_dt}      & 15.86\%  &  0.88  &  0.63  &  0.80 \\ \hline
+original + tempo                                & 14.13\%  &  0.86  &  0.59  &  0.83 \\ \hline
+original + {\bf gvtec1\_dt\_lag\_9}             & 14.62\%  &  0.89  &  0.60  &  0.83 \\ \hline
+original + {\bf gvtec2\_dt\_lag\_20}            & 14.78\%  &  0.86  &  0.63  &  0.80 \\ \hline
+original + lag                                  & 15.45\%  &  0.87  &  0.66  &  0.78 \\ \hline
+original + mdv1                                 & 14.53\%  &  0.76  &  0.62  &  0.82 \\ \hline
+original + mdv2                                 & 14.11\%  &  0.73  &  0.63  &  0.81 \\ \hline
+original + tempo + lag                          & 14.13\%  &  0.86  &  0.60  &  0.83 \\ \hline
+original + tempo + mdv2                         & 13.33\%  &  0.76  &  0.59  &  0.84 \\ \hline
+original + tempo + mdv2 + lag                   & 12.94\%  &  0.78  &  0.60  &  0.83 \\ \hline
+original + tempo + lag + mdv1 + mdv2            & 13.20\%  &  0.85  &  0.58  &  0.84 \\ \hline
+{\bf vtec}                                      & 14.89\%  &  0.29  &  0.75  &  0.81 \\ \hline
+{\bf vtec} + {\bf gvtec1\_dt\_lag\_9}           & 17.15\%  &  0.71  &  0.66  &  0.79 \\ \hline
+{\bf vtec} + {\bf gvtec2\_dt\_lag\_20}          & 14.51\%  &  0.56  &  0.64  &  0.82 \\ \hline
+{\bf vtec} + {\bf vtec\_dt} + {\bf vtec\_dt2}   & 14.90\%  &  0.67  &  0.62  &  0.83 \\ \hline
+{\bf vtec} + {\bf gvtec1} + {\bf gvtec2}        & 14.83\%  &  0.61  &  0.64  &  0.82 \\ \hline
+{\bf vtec} + tempo                              & 15.95\%  &  0.80  &  0.55  &  0.85 \\ \hline
+{\bf vtec} + tempo + mdv1                       & 14.05\%  &  0.55  &  0.56  &  0.85 \\ \hline
+{\bf vtec} + tempo + lag                        & 14.30\%  &  0.80  &  0.52  &  0.87 \\ \hline
+{\bf vtec} + tempo + lag + mdv1                 & 13.27\%  &  0.69  &  0.52  &  0.87 \\ \hline
+{\bf vtec} + tempo + lag + mdv2                 & 13.07\%  &  0.83  &  0.53  &  0.86 \\ \hline
+{\bf vtec} + tempo + lag + mdv1 + mdv2          & 13.42\%  &  0.78  &  0.55  &  0.86 \\ \hline
+\end{tabular}
+\end{center}
+\vspace{12pt}
+\caption{Desempenho da regressão para a estimação do índice S4, para diferentes conjuntos de atributos, considerando-se o limiar de cintilação de S4$=0.5$. Fonte: próprio autor.}
+\label{tab:final_result1}
+\end{table}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|} 
+\hline
+	                          & Erro médio relativo	& POD	& FAR	& ACC  \\ \hline
+original                                                & 14.20\% &  0.80  & 0.60  & 0.83 \\ \hline
+original - {\bf vtec}                                   & 17.22\% &  0.82  & 0.68  & 0.77 \\ \hline
+original - {\bf vtec\_dt\_lag\_3}                       & 14.31\% &  0.84  & 0.61  & 0.82 \\ \hline
+original - {\bf vtec\_dt2}                              & 14.55\% &  0.83  & 0.60  & 0.83 \\ \hline
+original - {\bf gvtec1}                                 & 14.92\% &  0.80  & 0.63  & 0.81 \\ \hline
+original - {\bf gvtec1\_dt}                             & 13.85\% &  0.80  & 0.59  & 0.83 \\ \hline
+original - {\bf gvtec2}                                 & 16.12\% &  0.85  & 0.65  & 0.79 \\ \hline
+original - {\bf gvtec2\_dt}                             & 13.56\% &  0.82  & 0.58  & 0.84 \\ \hline
+original - {\bf gvtec2} - {\bf gvtec2\_dt}              & 16.30\% &  0.86  & 0.64  & 0.79 \\ \hline
+original + tempo                                        & 13.22\% &  0.78  & 0.57  & 0.84 \\ \hline
+original + {\bf gvtec1\_dt\_lag\_9}                     & 15.24\% &  0.89  & 0.61  & 0.82 \\ \hline
+original + {\bf gvtec2\_dt\_lag\_20}                    & 15.14\% &  0.88  & 0.62  & 0.81 \\ \hline
+original + lag                                          & 14.24\% &  0.85  & 0.63  & 0.80 \\ \hline
+original + mdv1                                         & 14.35\% &  0.74  & 0.61  & 0.83 \\ \hline
+original + mdv2                                         & 14.95\% &  0.80  & 0.60  & 0.83 \\ \hline
+original + tempo + lag                                  & 13.31\% &  0.87  & 0.53  & 0.85 \\ \hline
+original + tempo + mdv2                                 & 12.68\% &  0.85  & 0.54  & 0.86 \\ \hline
+original + tempo + mdv2 + lag                           & 13.94\% &  0.60  & 0.60  & 0.83 \\ \hline
+original + tempo + lag + mdv1 + mdv2                    & 12.90\% &  0.78  & 0.58  & 0.84 \\ \hline
+{\bf vtec} + {\bf vtec\_dt\_lag\_3} + {\bf vtec\_dt2}   & 15.51\% &  0.71  & 0.63  & 0.81 \\ \hline
+\end{tabular}
+\end{center}
+\vspace{12pt}
+\caption{Desempenho da regressão para a estimação do índice S4, para diferentes conjuntos de atributos, considerando-se o limiar de cintilação de S4$=0.2$, trocando-se a variável {\bf vtec\_dt} por {\bf vtec\_dt\_lag\_3}. Fonte: próprio autor.}
+\label{tab:final_result2}
+\end{table}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|} 
+\hline
+ 
+	                          & Erro médio relativo	& POD	& FAR	& ACC  \\ \hline
+original                                      &  23.19\%  & 0.82  & 0.53  & 0.70 \\ \hline
+original - {\bf vtec}                         &  29.84\%  & 0.82  & 0.59  & 0.63 \\ \hline
+original - {\bf vtec\_dt}                     &  23.81\%  & 0.87  & 0.50  & 0.72 \\ \hline
+original - {\bf vtec\_dt2}                    &  24.14\%  & 0.84  & 0.55  & 0.67 \\ \hline
+original - {\bf gvtec1}                       &  23.84\%  & 0.83  & 0.56  & 0.66 \\ \hline
+original - {\bf gvtec1\_dt}                   &  21.64\%  & 0.84  & 0.47  & 0.75 \\ \hline
+original - {\bf gvtec2}                       &  26.41\%  & 0.86  & 0.56  & 0.65 \\ \hline
+original - {\bf gvtec2\_dt}                   &  23.64\%  & 0.85  & 0.49  & 0.73 \\ \hline
+original - {\bf gvtec2} - {\bf gvtec2\_dt}    &  27.09\%  & 0.85  & 0.60  & 0.63 \\ \hline
+original + tempo                              &  24.53\%  & 0.89  & 0.55  & 0.67 \\ \hline
+original + {\bf gvtec1\_dt\_lag\_9}           &  22.75\%  & 0.84  & 0.53  & 0.70 \\ \hline
+original + {\bf gvtec2\_dt\_lag\_20}          &  23.25\%  & 0.87  & 0.53  & 0.69 \\ \hline
+original + lag                                &  22.67\%  & 0.88  & 0.52  & 0.70 \\ \hline
+original + mdv1                               &  22.53\%  & 0.83  & 0.49  & 0.73 \\ \hline
+original + mdv2                               &  20.60\%  & 0.76  & 0.48  & 0.75 \\ \hline
+original + tempo + lag                        &  23.70\%  & 0.88  & 0.54  & 0.68 \\ \hline
+original + tempo + mdv2                       &  20.49\%  & 0.69  & 0.47  & 0.75 \\ \hline
+original + tempo + mdv2 + lag                 &  24.38\%  & 0.75  & 0.53  & 0.70 \\ \hline
+original + tempo + lag + mdv1 + mdv2          &  18.44\%  & 0.79  & 0.44  & 0.78 \\ \hline
+{\bf vtec}                                    &  26.72\%  & 0.62  & 0.59  & 0.65 \\ \hline
+{\bf vtec} + {\bf gvtec1\_dt\_lag\_9}         &  31.83\%  & 0.81  & 0.61  & 0.60 \\ \hline
+{\bf vtec} + {\bf gvtec2\_dt\_lag\_20}        &  23.77\%  & 0.74  & 0.53  & 0.70 \\ \hline
+{\bf vtec} + {\bf vtec\_dt} + {\bf vtec\_dt2} &  27.08\%  & 0.84  & 0.55  & 0.67 \\ \hline
+{\bf vtec} + {\bf gvtec1} + {\bf gvtec2}      &  21.68\%  & 0.66  & 0.46  & 0.75 \\ \hline
+{\bf vtec} + tempo                            &  29.69\%  & 0.83  & 0.54  & 0.69 \\ \hline
+{\bf vtec} + tempo + mdv1                     &  20.45\%  & 0.54  & 0.48  & 0.74 \\ \hline
+{\bf vtec} + tempo + lag                      &  24.15\%  & 0.81  & 0.51  & 0.72 \\ \hline
+{\bf vtec} + tempo + lag + mdv1               &  23.56\%  & 0.58  & 0.56  & 0.69 \\ \hline
+{\bf vtec} + tempo + lag + mdv2               &  24.77\%  & 0.56  & 0.52  & 0.72 \\ \hline
+{\bf vtec} + tempo + lag + mdv1 + mdv2        &  20.52\%  & 0.51  & 0.52  & 0.71 \\ \hline
+\end{tabular}
+\end{center}
+\vspace{12pt}
+\caption{Desempenho da regressão para a estimação do índice S4, para diferentes conjuntos de atributos, considerando-se o limiar de cintilação de S4$=0.2$, e somente o período entre o por do sol e o nascer do sol. Fonte: próprio autor.}
+\label{tab:final_result3}
+\end{table}
+
+\clearpage
+
+\section{Matriz de correlação}
+
+Além da seção anterior, na qual a estimação do índice S4 a partir do {\bf vtec} e suas variáveis derivadas foi utilizada indiretamente para avaliar a correlação do S4 com estas variáveis, apresenta-se aqui o cálculo da correlação utilizando-se o coeficiente de correlação de Pearson (r), definido para N amostras de um par de variáveis $x$ e $y$, como sendo: 
+
+\begin{equation}
+ r = \frac{\sum_{i=1}^{N}(x_i-\overline{x})(y_i-\overline{y})}{\sqrt{\sum_{i=1}^{N}(x_i-\overline{x})^2}\sqrt{\sum_{i=1}^{N}(y_i-\overline{y})^2}}~
+ \end{equation}
+ 
+onde $\overline{x}=\frac{1}{N}\sum_{i=1}^Nx_i$ indica o valor médio de $x$ e analogamente para $y$.
+
+As correlações duas-a-duas variáveis, incluindo o índice S4, aparecem na Figura \ref{fig:matriz_corr}, sendo a matriz de correlação apresentada numa escala de cores.
+
+\begin{figure}[hhh]
+\centering
+\makebox[\textwidth][c]{\includegraphics[width=1.3\columnwidth]{./Figuras/matriz_corr.eps}}
+\caption{Matriz de correlação para o índice S4 e o {\bf vtec} e suas variáveis derivadas. Fonte: próprio autor.}
+\label{fig:matriz_corr}
+\end{figure}
+
+Pode-se observar que essa representação em cores da matriz de correlação confirma as análises feitas ao se utilizar essas variáveis na estimação do S4 por regressão apresentada na seção anterior. Ou seja, a correlação praticamente nula do S4 com as variáveis {\bf vm1}, {\bf vm2}, {\bf vd1}, {\bf vd2}, a baixa correlação do S4 com {\bf gvtec2}, {\bf gvtec2\_dt} e {\bf vtec\_dt2}, além das anti-correlações do S4 com {\bf gvtec1}, {\bf vtec\_dt} e {\bf vtec\_dt\_lag\_3}, embora estas duas últimas tenham sido menores em módulo.    
+
