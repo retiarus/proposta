@@ -4,4 +4,11 @@
 *.swn
 *.swo
 *.pdf
+*.out
+*.log
+*.brf
+*.lot
+*.lof
 *~
+
+tags
