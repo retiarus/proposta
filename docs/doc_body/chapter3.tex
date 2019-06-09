@@ -237,7 +237,7 @@ Admita que o conjunto de dados apresente $p$ atributos preditores e um atributo 
 min\frac{1}{N}\sum_{i=1}^N(y_i-\hat{f}(x_i))^2\mbox{.}~
 \end{equation}
 
-Avaliando a expressão \eqref{eq:a} com relação aos paramêtros $c_m$, isto é, derivando a expressão com relação a $c_m$ e igualando a zero, obtém-se
+Avaliando a expressão \eqref{eq:a} com relação aos parâmetros $c_m$, isto é, derivando a expressão com relação a $c_m$ e igualando a zero, obtém-se
 
 \begin{align}
 \sum_{i=1}^N(y_i-f(x_i))frac{\partial(f(x_i))}{\partial{c_l}}&=&0\\
@@ -319,7 +319,43 @@ A escolha da medida de impureza depende do algoritmo, a CART utiliza o índice G
 
 \section{Técnicas de Conjunto}
 
-XXXXXX Falta texto aqui
+A grande maioria dos algoritmos de aprendizagem de máquina, usualmente, ajustam um único modelo para resolver um problema, em contraste, existe uma classe de métodos que adotam a abordagem de construir um conjunto de modelos e combiná-los de forma a tratar o problema. Essa classe é denominada de métodos de conjunto do inglês ``ensemble methods" ou métodos baseados em comitê.
+
+Um conjunto contém um número de modelos de base, os quais são gerados a partir dos dados de treinamento por um algoritmo de aprendizagem de base. A maioria das técnicas de conjunto utilizam um único algoritmo de aprendizagem de base, e neste caso são denominados de conjuntos homogêneos. Todavia em princípio não existe nenhuma restrição para a utilização de diferentes algoritmos, neste caso, tem-se conjuntos heterogêneos.
+
+A capacidade de generalização de um conjunto é maior do que os modelos de base. Em geral, utiliza-se algoritmos de base denominados de aprendizes fracos que são aqueles cuja previsão é um pouco melhor do que um sorteio aleatório. Assim, o papel da técnica de conjuntos é melhor os aprendizes fracos, onde suas combinações o tornam um aprendiz forte, isto é, aquele que gera modelos capazes de predições bem acuradas. O cerne da técnica pode ser traduzido no ditado popular ``a união faz a força".
+
+Os métodos de conjunto se tornaram um importante paradigma depois da década de 90, com a publicação de dois trabalhos pioneiros \cite{HANSEN:1990} e \cite{SCHAPIRE:1990}. O primeiro destes mostrou empiricamente que a predição realizada pela combinação de um conjunto de classificadores é em geral mais acurada do que a feita por um único bom classificador. O segundo de caráter teórico mostra que aprendizes fracos podem ser combinados de forma a geral aprendizes fortes. 
+
+Em geral, estes conjuntos são construídos em dois passos, a geração dos modelos de base e, então, a combinação deles. Assim, para a obtenção de um bom conjunto se busca modelos de base tão acurados quanto possível, e tão diversos quanto possível. 
+
+Nas próximas duas subseções ir-se-á discutir dois métodos gerais a respeito de técnicas de conjunto o ``bagging" e o ``boosting".
+
+\subsection{Boosting}
+
+O termo ``boosting" se refere a uma família de algoritmos que são capazes de converter um preditor fraco em um preditor forte. O procedimento geral é bem simples. Considere que um preditor fraco sobre uma distribuição qualquer, e considere um problema de classificação binária como exemplo, ou seja, deseja classificar as amostras em positivo ou negativo. O domínio $D$ é amostrado identicamente e independentemente da distribuição.
+
+Admita agora que o domínio $D$ é divido em 3 regiões $D_1$, $D_2$ e $D_3$, onde cada uma compõem um terço de $D$ e que um preditor fraco tenha um erro de classificação da ordem de 50\%. O objetivo é ter uma acurácia alta, com um erro de classificação próximo de 100\%. Todavia inicialmente, tem-se apenas um preditor fraco $f_1$ que apenas realiza classificações corretas para as regiões $D_1$ e $D_2$ errando todas as classificações para a região $D_3$, neste caso ele tem um erro de classificação de ao menos um terço.
+
+A ideia geral de boosting é corrigir os erros gerados pelo classificador $f_1$, para tal gerasse um novo domínio $D'$ que realce os erros de $f_1$, em outras palavras, foque nas amostras em $D_3$. Então treinasse um novo classificador $f_2$  no domínio $D'$. Este novo classificador apresenta bons resultados para a subregiões $D_1$ e $D_3$, porém apresenta muitos erros para a região $D_2$. Combinando de maneira adequada os classificadores $f_1$ e $f_2$ ter-se-á classificações corretas para $D_1$ e alguns erros para $D_2$ e $D_3$.
+
+Novamente, o mesmo procedimento é adotado, gera-se um novo domínio $D''$ que destaque os erros de classificação cometidos pela combinação de $f_1$ e $f_2$ e treinasse um classificador $f_3$ que produza boas classificações para a região $D_2$ e $D_3$.
+
+Resumidamente, a técnica de ``boosting" treina um conjunto de preditores sequencialmente e os combinando para gerar um predição, onde cada preditor é treinado focando nos erros dos preditores anteriores.
+
+\sbsection{Bagging}
+
+Existem basicamente dois paradigmas centrais nas técnicas de conjuntos. O primeiro é a técnica de conjuntos sequencias (boosting) onde os preditores base são gerados sequencialmente, e o segundo é a técnica de conjuntos paralelo, onde os preditores base são gerados em paralelo (``bagging") \cite{BREIMAN:1996}.
+
+A principal motivação por trás dos métodos sequencias é explorar a dependência entre os preditores base, uma vez que a performance pode ser melhorada por um processo análogo a redução de resido. Por sua, o cerne dos métodos paralelos é explorar a independência entre os preditores de base, uma vez que o erro pode ser reduzido combinando preditores de base independentes.
+
+Todavia é praticamente impossível obter preditores de base independentes, haja visto que são gerados com base no mesmo conjunto de treinamento. Assim, uma maneira de reduzir a dependência dos preditores se dá pela introdução de aleatoriedade no processo de treinamento, incluindo aqui a própria geração do conjunto de treinamento.
+
+A estratégia de bagging introduz aleatoriedade pela adoção de amostras do subconjunto de treinamento. Os dois elementos principais são a agregação, isto é, a combinação do preditores de base e a amostragem com reposição.
+
+Considere um conjunto de treinamento contendo $m$ amostras $A$, um novo conjunto de $m$ amostras $A_1$ é gerado amostrando com reposição $A$, neste caso, note que alguns exemplos do conjunto $A$ podem aparecer várias vezes, enquanto alguns elementos podem não aparecer. Aplicando este processo $l$ vezes são gerados $l$ conjuntos de amostras com $m$ elementos. Então, cada conjunto é utilizado no treinamento de um modelo de base, quando da aplicação do algoritmo de aprendizagem de base.
+
+A agregação é realizada utilizando procedimentos tradicionais, no caso da regressão se toma a média dos resultados gerados por cada preditor de base, no caso de classificação se toma a classe mais predita pelos preditores de base, em uma analogia com uma votação.
 
 \section{Extreme Gradient Boosting: XGBOOST}
 
