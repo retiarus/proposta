@@ -198,22 +198,30 @@ onde $i$ vária entre 1 e $n$, com este sendo o úmero de instâncias a serem pr
 
 \section{Algoritmo: Árvores}
 
-Métodos baseados em árvores particionam os espaço de atributos preditores em um conjunto de retângulos, e então aproxima cada um destes por uma simples função, por exemplo, uma constante. Existem diferentes algoritmos baseados em árvores, CART, C4.5, C4, neste texto discutir-se-á a CART.
+Métodos baseados em árvores particionam os espaço de atributos preditores em um conjunto de retângulos, e então aproxima cada um destes por uma simples função, por exemplo, uma constante. Existem diferentes algoritmos baseados em árvores, CART, C4.5, C4, neste texto discutir-se-á a CART. A Figura \ref{fig:tree} apresenta uma representação visual de uma estrutura de árvore ajustada para um dos conjunto de dados discutido no Capítulo \ref{ch:revisonrezende}.
+
+\begin{figure}[H]
+\centering
+\makebox[\textwidth][c]{\includegraphics[width=1.3\linewidth]{Figuras/tree.png}}
+\caption{Fonte: Próprio Autor.}
+\label{fig:tree}
+\end{figure}
+
 
 Considere um problema de regressão com duas variáveis preditoras $x_1$ e $x_2$ e uma resposta contínua $y$, cada um destes tomando valores entre $[0,1]$. Cada partição do espaço de atributos modela $y$ por uma constante diferente. Se as linhas de partições forem definidas definidas de maneira arbitrária, apesar de apresentarem simples descrições, tal como $x_2=c$, a região resultante pode apresentar uma descrição de difícil tratamento. Assim, é interessante restringir a maneira pela o qual as partições são criadas. A limitação mais natural a ser adotada é que as partições sejam definidas recursivamente dividindo o espaço em duas sub-regiões (recursão binária), em outras palavras, inicialmente o espaço de atributos é divido em duas regiões, neste caso, adota-se modelar a resposta $y$ pelo valor médio em cada região. Então, uma destas regiões ou ambas são divididas em mais duas regiões. Tal procedimento é aplicado até que alguma condição de parada seja alcançada. 
 
 A divisão do espaço é realizada segundo algum critério, tal que se deseja obter o melhor ajuste. Finalmente, o correspondente modelo de regressão para a variável $y$ fica definido por:
 
 \begin{equation}\label{eq:treeresponse}
-\hat{f}(x)=\sum_{m=1}^Mc_mI\{x\in{R_m}\}\mbox{,}~
+\hat{f}(x)=\sum_{m=1}^Mc_mI(x\in{R_m})\mbox{,}~
 \end{equation}
 
 onde $R_m$ indica a $m$-ésima região, $x$ é um elemento do espaço de atributos, $c_m$ é a constante que aproxima $y$ na $m$-ésima região, $M$ é o número de regiões, e $I$ é uma função identidade definida por
 
 \begin{equation}
 I(x\in{R_m})=\Big\{\begin{array}{cc}
-0&se x\in{R_m}\mbox{,}\\ 
-1&se x\in{R_m}\mbox{.}
+0,&\mbox{se}\, x\notin{R_m}\mbox{,}\\ 
+1,&\mbox{se}\, x\in{R_m}\mbox{.}
 \end{array}
 \end{equation}
 
@@ -234,16 +242,16 @@ O processo de construção de uma árvore depende se o problema a ser tratado é
 Admita que o conjunto de dados apresente $p$ atributos preditores e um atributo resposta, e um total de $N$ instâncias, ou seja, é da forma $(\bf{x}_i,y_i)|i\in\{1,...,N\}$, com $\bf{x}_i=(x_{i,1}, x_{i,2}, ..., x_{i,p})$. O papel do algoritmo é operar sobre este conjunto de dados e automaticamente decidir em qual variável dividir, qual o ponto (valor) para dividir, e a forma que a árvore deverá assumir. Considere inicialmente que o espaço esteja particionado em $M$ regiões $R_1,...,R_M$, e que a reposta seja ajustada por uma constante $c_m$ em cada região, \eqref{eq:treeresponse}. Ir-se-á adotar como critério para a divisão minimização do erro quadrático médio \eqref{eq:mse}, isto é, o mse em cada sub-região, traduzido na expressão
 
 \begin{equation}\label{eq:a}
-min\frac{1}{N}\sum_{i=1}^N(y_i-\hat{f}(x_i))^2\mbox{.}~
+\min\frac{1}{N}\sum_{i=1}^N(y_i-\hat{f}(x_i))^2\mbox{.}~
 \end{equation}
 
 Avaliando a expressão \eqref{eq:a} com relação aos parâmetros $c_m$, isto é, derivando a expressão com relação a $c_m$ e igualando a zero, obtém-se
 
 \begin{align}
-\sum_{i=1}^N(y_i-f(x_i))frac{\partial(f(x_i))}{\partial{c_l}}&=&0\\
-\sum_{i=1}^N(y_i-\sum_{m=1}^Mc_mI(x\in{R_m}))I(x\in{R_l})&=&0\\
-\sum_{i=1}^N(y_i)I(x\in{R_l}) - \sum_{i=1}^N\sum_{m=1}^Mc_mI(x\in{R_m})I(x\in{R_l})&=&0\\
-\sum_{i=1}^N(y_i)I(x\in{R_l}) - c_l \#R_l&=&0\mbox{,}~
+\sum_{i=1}^N(y_i-f(x_i))frac{\partial(f(x_i))}{\partial{c_l}}=&\,0 \nonumber \\
+\sum_{i=1}^N(y_i-\sum_{m=1}^Mc_mI(x\in{R_m}))I(x\in{R_l})=\,&0 \nonumber \\
+\sum_{i=1}^N(y_i)I(x\in{R_l}) - \sum_{i=1}^N\sum_{m=1}^Mc_mI(x\in{R_m})I(x\in{R_l})=\,&0 \nonumber\\
+\sum_{i=1}^N(y_i)I(x\in{R_l}) - c_l \#R_l=\,&0\mbox{,}~
 \end{align}
 
 ou
@@ -319,21 +327,21 @@ A escolha da medida de impureza depende do algoritmo, a CART utiliza o índice G
 
 \section{Técnicas de Conjunto}
 
-A grande maioria dos algoritmos de aprendizagem de máquina, usualmente, ajustam um único modelo para resolver um problema, em contraste, existe uma classe de métodos que adotam a abordagem de construir um conjunto de modelos e combiná-los de forma a tratar o problema. Essa classe é denominada de métodos de conjunto do inglês ``ensemble methods" ou métodos baseados em comitê.
+A grande maioria dos algoritmos de aprendizagem de máquina, usualmente, ajustam um único modelo para resolver um problema, em contraste, existe uma classe de métodos que adotam a abordagem de construir um conjunto de modelos e combiná-los de forma a tratar o problema. Essa classe é denominada de métodos de conjunto do inglês ``ensemble methods'' ou métodos baseados em comitê.
 
 Um conjunto contém um número de modelos de base, os quais são gerados a partir dos dados de treinamento por um algoritmo de aprendizagem de base. A maioria das técnicas de conjunto utilizam um único algoritmo de aprendizagem de base, e neste caso são denominados de conjuntos homogêneos. Todavia em princípio não existe nenhuma restrição para a utilização de diferentes algoritmos, neste caso, tem-se conjuntos heterogêneos.
 
-A capacidade de generalização de um conjunto é maior do que os modelos de base. Em geral, utiliza-se algoritmos de base denominados de aprendizes fracos que são aqueles cuja previsão é um pouco melhor do que um sorteio aleatório. Assim, o papel da técnica de conjuntos é melhor os aprendizes fracos, onde suas combinações o tornam um aprendiz forte, isto é, aquele que gera modelos capazes de predições bem acuradas. O cerne da técnica pode ser traduzido no ditado popular ``a união faz a força".
+A capacidade de generalização de um conjunto é maior do que os modelos de base. Em geral, utiliza-se algoritmos de base denominados de aprendizes fracos que são aqueles cuja previsão é um pouco melhor do que um sorteio aleatório. Assim, o papel da técnica de conjuntos é melhor os aprendizes fracos, onde suas combinações o tornam um aprendiz forte, isto é, aquele que gera modelos capazes de predições bem acuradas. O cerne da técnica pode ser traduzido no ditado popular ``a união faz a força''.
 
 Os métodos de conjunto se tornaram um importante paradigma depois da década de 90, com a publicação de dois trabalhos pioneiros \cite{HANSEN:1990} e \cite{SCHAPIRE:1990}. O primeiro destes mostrou empiricamente que a predição realizada pela combinação de um conjunto de classificadores é em geral mais acurada do que a feita por um único bom classificador. O segundo de caráter teórico mostra que aprendizes fracos podem ser combinados de forma a geral aprendizes fortes. 
 
 Em geral, estes conjuntos são construídos em dois passos, a geração dos modelos de base e, então, a combinação deles. Assim, para a obtenção de um bom conjunto se busca modelos de base tão acurados quanto possível, e tão diversos quanto possível. 
 
-Nas próximas duas subseções ir-se-á discutir dois métodos gerais a respeito de técnicas de conjunto o ``bagging" e o ``boosting".
+Nas próximas duas subseções ir-se-á discutir dois métodos gerais a respeito de técnicas de conjunto o ``bagging'' e o ``boosting''.
 
 \subsection{Boosting}
 
-O termo ``boosting" se refere a uma família de algoritmos que são capazes de converter um preditor fraco em um preditor forte. O procedimento geral é bem simples. Considere que um preditor fraco sobre uma distribuição qualquer, e considere um problema de classificação binária como exemplo, ou seja, deseja classificar as amostras em positivo ou negativo. O domínio $D$ é amostrado identicamente e independentemente da distribuição.
+O termo ``boosting'' se refere a uma família de algoritmos que são capazes de converter um preditor fraco em um preditor forte. O procedimento geral é bem simples. Considere que um preditor fraco sobre uma distribuição qualquer, e considere um problema de classificação binária como exemplo, ou seja, deseja classificar as amostras em positivo ou negativo. O domínio $D$ é amostrado identicamente e independentemente da distribuição.
 
 Admita agora que o domínio $D$ é divido em 3 regiões $D_1$, $D_2$ e $D_3$, onde cada uma compõem um terço de $D$ e que um preditor fraco tenha um erro de classificação da ordem de 50\%. O objetivo é ter uma acurácia alta, com um erro de classificação próximo de 100\%. Todavia inicialmente, tem-se apenas um preditor fraco $f_1$ que apenas realiza classificações corretas para as regiões $D_1$ e $D_2$ errando todas as classificações para a região $D_3$, neste caso ele tem um erro de classificação de ao menos um terço.
 
@@ -341,11 +349,11 @@ A ideia geral de boosting é corrigir os erros gerados pelo classificador $f_1$,
 
 Novamente, o mesmo procedimento é adotado, gera-se um novo domínio $D''$ que destaque os erros de classificação cometidos pela combinação de $f_1$ e $f_2$ e treinasse um classificador $f_3$ que produza boas classificações para a região $D_2$ e $D_3$.
 
-Resumidamente, a técnica de ``boosting" treina um conjunto de preditores sequencialmente e os combinando para gerar um predição, onde cada preditor é treinado focando nos erros dos preditores anteriores.
+Resumidamente, a técnica de ``boosting'' treina um conjunto de preditores sequencialmente e os combinando para gerar um predição, onde cada preditor é treinado focando nos erros dos preditores anteriores.
 
-\sbsection{Bagging}
+\subsection{Bagging}
 
-Existem basicamente dois paradigmas centrais nas técnicas de conjuntos. O primeiro é a técnica de conjuntos sequencias (boosting) onde os preditores base são gerados sequencialmente, e o segundo é a técnica de conjuntos paralelo, onde os preditores base são gerados em paralelo (``bagging") \cite{BREIMAN:1996}.
+Existem basicamente dois paradigmas centrais nas técnicas de conjuntos. O primeiro é a técnica de conjuntos sequencias (boosting) onde os preditores base são gerados sequencialmente, e o segundo é a técnica de conjuntos paralelo, onde os preditores base são gerados em paralelo (``bagging'') \cite{BREIMAN:1996}.
 
 A principal motivação por trás dos métodos sequencias é explorar a dependência entre os preditores base, uma vez que a performance pode ser melhorada por um processo análogo a redução de resido. Por sua, o cerne dos métodos paralelos é explorar a independência entre os preditores de base, uma vez que o erro pode ser reduzido combinando preditores de base independentes.
 
