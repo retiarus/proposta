@@ -14,13 +14,62 @@ A camada F se estende de 150 a mais de 500 km acima da superfície da Terra. Apr
 
 A subcamada F2 engloba toda a região superior da ionosfera, inclusive a região de pico da densidade de elétrons. Este máximo no perfil vertical de ionização decorre do balanço entre os processos de transporte de plasma e os processos físico-químicos. Acima deste pico, a ionosfera se encontra em equilíbrio difusivo, ou seja, o plasma se distribui com a sua própria escala de altura. A presença do campo magnético contribui para a distribuição da ionização.
 
+\section{Regiões e Índices}
+
 \subsection{Termosfera}
 
-A termosfera se inicia aproximadamente a 90 km de altitude e não apresenta um limite superior bem definido, mas que deve estar entre 500 e 600 km de altitude. Nesta surgem os fenômenos de aurora, e nela também estam localizadas as órbitas da estação espacial, do ônibus espacial, assim como de vários satélites. Assim, como todas as demais camadas da atmosfera, sua extensão varia conforme a latitude. A temperatura nesta camada podem alcançar valores superiores a 2000 graus Celsius.
+A termosfera se inicia aproximadamente a 90 km de altitude e não apresenta um limite superior bem definido, mas que deve estar entre 500 e 600 km de altitude. Nesta surgem os fenômenos de aurora, e nela também estão localizadas as órbitas da estação espacial, do ônibus espacial, assim como de vários satélites. Assim, como todas as demais camadas da atmosfera, sua extensão varia conforme a latitude. 
+
+A temperatura é uma variável termodinâmica calculada com a média da energia cinética das moléculas, ou átomos, que compõem o sistema físico em questão. Assim, a temperatura na termosfera pode alcançar valores superiores a 2000 graus Celsius. Entretanto, esta não pode ser medida por instrumentos convencionais, como por exemplo um termômetro, pois esta região é muito rarefeita, o que dificulta a transferência de energia térmica para o instrumento e, assim, sua quantificação.
+
+As altas temperatura se devem ao alta absorção de radiação solar pelo nitrogênio e o oxigênio e é avaliada por dados de satélites que alimentam expressões matemáticas.
+
+Assim como as demais camadas da atmosfera também sofre de processos convectivos que combinado com efeitos de gravidade e diferenças de pressão levam a formação de correntes, marés, análoga a dinâmica de outros fluidos como o oceano.
+
+A ionosfera esta majoritariamente situada na termosfera, logo sua dinâmica esta diretamente acoplada a esta.
 
 \subsection{Magnetosfera}
 
-\section{Anomalias na ionosfera}
+A magnetosfera é a uma região delimita pelo campo geomagnético. Pode ser tratada como um envoltório, recobrindo a Terra, e constitui a parte exterior da ionosfera, onde neste a eletrodinâmica dos processos do plasma é dada pelo acoplamento com o campo magnético.
+
+Por ser uma região mais externa apresenta interação direta com os ventos solares, e assim não apresenta uma distribuição regular, pois a região voltada diretamente ao Sol, sofre um processo de compressão devido a pressão de radiação, enquanto no lado oposto existe a formação de uma estrutura análoga a um arrasto.
+
+Devido a sua importante contribuição para a dinâmica ionosférica é interessante tratar e avaliar variáveis que apresentem informação sobre seu estado, como por exemplo, o Dst (Disturbance Storm Time) e o Kp (índice planetário).
+
+\subsection{Índices}
+
+O {\bf índice Dst} é uma medida da atividade geomagnética, geralmente utilizada para quantificar a intensidade de uma tempestade magnética. Apresenta resolução temporal de uma hora, e sua unidade de medida é o nanotesla (nT). É baseada no valor médio da componente horizontal do campo magnético, em quatro observatórios próximos ao equador magnético.
+
+Em termos do índice Dst pode-se considerar situações magnéticas perturbadas valores inferiores -30 nT. Finalmente, pode sintetizar os valores frente as situações da seguinte maneira, \cite{GONZALEZ:1994}: entre -30 nT e -50 nT tempestade geomagnética fraca; entre -50 nT -100 nT tempestade moderada; entre -100 nT e -250 nT tempestades muito intensas; abaixo de -250 nT supertempestades.
+
+O {\bf índice Sym-H} descreve distúrbios no campo geomagnético em médias latitudes em termos de de pertubações simétricas horizontal as linhas de campo magnético. Essencialmente é o mesmo que o índice DST, entretanto, apresenta uma resolução temporal de um minuto, sua medida é realizada por um conjunto diferente de seis estações em um sistema de coordenadas ligeiramente diferente. 
+
+No trabalho \cite{WANLISS:2006} foi mostrado que os índices DST e Sym-H são equivalentes, em um configurações geomagnéticas, confirmando que o Sym-H poderia ser utilizado como uma alternativa de alta resolução temporal ao Dst.
+
+O {\bf índice Kp} avalia as pertubações nas componentes horizontais do campo geomagnético global é baseado em medidas realizadas a cada 3 horas por magnetrômetros distribuídos ao redor do globo. Cada estação é calibrada segundo sua localização e reporta uma quantidade denominada de índice K dependendo da atividade geomagnética medida no local. Este índice K é uma medida quase-logaritmica com resolução temporal de três horas da atividade geográfica local com base em comparação com dias calmos. Cada estação mede o desvio máximo da componente horizontal. O índice Kp é gerado por uma combinação dos índices K e seu valor varia de 0 a 9 em intervalos discretos. 0 indica baixa atividade geomagnética, enquanto 9 indica tempestades geomagnéticas extremas, finalmente, fica associado os valores de 0 à 4 a períodos calmos, enquanto valores acima de 5 indicam tempestades magnéticas.
+
+O {\bf índice ap} que será utilizada neste trabalho, e semelhante ao índice Kp, e corresponde a uma transformação deste para uma escala linear. Varia entre 0 e 400 e sua relação com o Kp é dado na Tabela \ref{tab:kptoap}.
+
+\begin{table}[hhh]
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} \hline
+Kp & 0  & 0+ & 1- & 1  & 1+ & 2- & 2   & 2+  & 3-  & 3   & 3+  & 4-  & 4   & 4+  \\ \hline
+ap & 0  & 2  & 3  & 4  & 5  & 6  & 7   & 9   & 12  & 15  & 18  & 22  & 27  & 32  \\ \hline
+Kp & 5- & 5  & 5+ & 6- & 6  & 6+ & 7-  & 7   & 7+  & 8-  & 8   & 8+  & 9-  & 9   \\ \hline
+ap & 39 & 48 & 56 & 67 & 80 & 94 & 111 & 132 & 154 & 179 & 207 & 236 & 300 & 400 \\ \hline
+\end{tabular}
+\caption{Tabela de conversão entre os valores de Kp e ap. Fonte: https://www.ngdc.noaa.gov/stp/GEOMAG/kp\_ap.html.}
+\label{tab:kptoap}
+\end{table}
+
+\section{Acoplamentos no Sistema Magnetosfera-Ionosfera}
+
+\subsection{Dínamo Ionosférico}
+
+\subsection{Dínamo da Região E}
+
+\subsection{Dínamo da Região F}
+
+\section{Anomalia de Ionização Equatorial}
 
 A ionosfera apresenta várias anomalias, ou seja, várias irregularidades na distribuição de elétrons. Este trabalho tem interesse na anomalia equatorial. Esta aparece aproximadamente entre 15 e 20 graus de latitude magnética, tanto no hemisfério norte, quanto no hemisfério sul, na camada F2. Consiste na formação de uma região de alta densidade eletrônica, e é uma anomalia, pois a densidade de plasma deveria ser maior em regiões equatoriais, e não em latitudes magnéticas mais altas.
 
