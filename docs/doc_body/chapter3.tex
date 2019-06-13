@@ -132,42 +132,81 @@ Ausente           & $ S_4 \le 0,2 $ \\ \hline
 
 Neste caso, tem-se um problema com 5 classes não balanceado e uma abordagem de reasmotragem foi empregada de modo balancear o números de elementos tal que todos estejam próximos da cardinalidade da classe com o maior número de elementos. Esta etapa é realizada após a normalização, e o algoritmo empregado foi o ADASYN. Finalmente, adotou-se como métrica a precisão balanceada, e a ferramenta utilizada também foi o XGBOOST.
 
-\subsection{Resultados Regressão}
+\subsection{Metodologia}
+
+Para todos os modelos duas formas de avaliação dos modelos gerados foram empregadas: validação cruzada com 10 subconjuntos e validação com separação no tempo. A primeira consistiu em dividir o conjunto de dados de maneira aleatória (e tal que cada conjunto tivesse a mesma proporção em termos de classes, quando de um problema de classificação) em 10 subconjuntos, e então treinar 10 instâncias do modelo utilizando 9 destes conjuntos, enquanto o conjunto restante foi utilizado para avaliar o modelo. Note que para o $i$-ésimo modelo deve ser excluir o $i$-ésimo subconjunto. Os resultados obtidos então, por cada um dos modelos, são agrupados por uma operação de média aritmética. A segunda abordagem consistiu em particionar o conjunto de dados ordenados no tempo em um ponto $t$, tal que o primeira partição fosse empregada no treinamento de um modelo e a segunda para a avaliação do mesmo.
+
+No caso dos problemas tratados a primeira partição terá aproximadamente 65\% de todos os valores tratados, e consequentemente a segunda partição terá 45\%. O total de amostras é de 1742, das quais então, 958 correspondem a primeira partição e xxxxx correspondem a segunda partição.
+
+\subsection{Resultados: Regressão}
+
+A Tabela \ref{tab:results_reg} apresenta as métricas para os resultados obtidos para as duas abordagens de validação. Enquanto, a Figura \ref{fig:rego} apresenta a importância das variáveis segundo o XGBOOST.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Tipo de Validação & mse       & mae   \\ \hline
+Validação Cruzada                   & 0,018   & 0,753  \\ \hline
+Validação com Separação no Tempo    & 0,016   & 0,553  \\ \hline
+\end{tabular}
+\end{center}
+\vspace{12pt}
+\caption{Resultados para a regressão. Fonte: Próprio autor.}
+\label{tab:results_reg}
+\end{table}
 
 \begin{figure}[H]
 \center
 \makebox[\textwidth][c]{
-\subfigure[ref1][Validação cruzada com 10 subconjuntos.]{\includegraphics[width=9.5cm]{./Figuras/results-original/regression_kfold_original_958_1742_importance.eps}}
+\subfigure[fig:rego1][Validação cruzada com 10 subconjuntos.]{\includegraphics[width=9.5cm]{./Figuras/results-original/regression_kfold_original_958_1742_importance.eps}}
 \,\,
-\subfigure[ref2][Validação com separação no tempo.]{\includegraphics[width=9.5cm]{./Figuras/results-original/regression_intime_original_958_1742_importance.eps}}
+\subfigure[fig:rego2][Validação com separação no tempo.]{\includegraphics[width=9.5cm]{./Figuras/results-original/regression_intime_original_958_1742_importance.eps}}
 }
-\caption{Importância de cada atributo segundo XGBOOST. Fonte: próprio autor.}
+\caption{Importância de cada atributo segundo XGBOOST. Fonte: próprio autor.}\label{fig:rego}
 \end{figure}
 
 
-\subsection{Resultados Classificação}
+\subsection{Resultados: Classificação}
+
+A Tabela \ref{tab:results_class} apresenta as métricas para os resultados obtidos para as duas abordagens de validação. As Figuras \ref{fig:classomik} e \ref{fig:classomii} apresentam respectivamente a matriz de confusão e um gráfico de barras com a importância das variáveis segundo o XGBOOST, para a validação cruzada e a validação com separação no tempo.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Tipo de Validação & precisão balanceada   \\ \hline
+Validação Cruzada                   & 0,651    \\ \hline
+Validação com Separação no Tempo    & 0,363     \\ \hline
+\end{tabular}
+\end{center}
+\vspace{12pt}
+\caption{Resultados para a classificação. Fonte: Próprio autor.}
+\label{tab:results_class}
+\end{table}
 
 \begin{figure}[H]
 \center
 \makebox[\textwidth][c]
 {
-\subfigure[ref1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-original/classification_kfold_original_958_1742_confusion_matrix.eps}}
+\subfigure[fig:classomk1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-original/classification_kfold_original_958_1742_confusion_matrix.eps}}
 \,\,
-\subfigure[ref2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-original/classification_kfold_original_958_1742_importance.eps}}
+\subfigure[fig:classoik2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-original/classification_kfold_original_958_1742_importance.eps}}
 }
 \caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos. Fonte: próprio autor.}
+\label{fig:classomik}
 \end{figure}
-
 
 \begin{figure}[H]
 \center
 \makebox[\textwidth][c]
 {
-\subfigure[ref1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-original/classification_intime_original_958_1742_confusion_matrix.eps}}
+\subfigure[fig:classoii1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-original/classification_intime_original_958_1742_confusion_matrix.eps}}
 \,\,
-\subfigure[ref2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-original/classification_intime_original_958_1742_importance.eps}}
+\subfigure[fig:classoii2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-original/classification_intime_original_958_1742_importance.eps}}
 }
 \caption{Resultados para o problema de classificação utilizando de validação com separação no tempo. Fonte: próprio autor.}
+\label{fig:classomii}
 \end{figure}
 
 \section{Primeira Versão: revisando a definição de S4}
