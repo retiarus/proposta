@@ -4,23 +4,23 @@ A primeira parte deste capítulo discute o trabalho \cite{REZENDE:2009}.
 
 \section{Revisão do trabalho \cite{REZENDE:2009}}
 
-O trabalho \cite{REZENDE:2009} foi pioneiro na utilização de modelos direcionados por dados para a exploração do problema de cintilação ionosférica, entretanto este trabalho não apresenta uma abordagem completamente reprodutível, visto ausência dos códigos e da base de dados. O objetivo desta revisão é entender as dificuldades deste trabalho, assim como sua incompletude em relação a proposta a ser estabelecida nessa dissertação.
+O trabalho \cite{REZENDE:2009} foi pioneiro na utilização de modelos direcionados por dados para o tratamento do problema de previsão cintilação ionosférica, entretanto este trabalho não apresenta uma abordagem completamente reprodutível, visto ausência dos códigos e da base de dados. O objetivo desta revisão é entender as dificuldades deste trabalho, assim como sua incompletude em relação a proposta a ser estabelecida nessa monografia.
 
 \subsection{Principais Pontos}
 
-A previsão de cintilação de curto prazo (uma hora) foi realizada utilizando {\bf amostras com intervalos de 5 minutos}, entretanto alguns dos atributos, como já discutido, apresentam resolução inferior, sendo portanto interpolados, ou copiados de sua vizinhança, enquanto outros apresentam resolução mais altas, e neste caso precisaram ser agrupados, segundo algum critério, por exemplo, por uma operação de máximo.
+A previsão de cintilação de curto prazo (uma hora) foi realizada utilizando {\bf amostras com intervalos de 5 minutos}, entretanto alguns dos atributos apresentam resolução inferior, sendo portanto interpolados, ou copiados de sua vizinhança, enquanto outros apresentam resolução mais altas, e neste caso precisaram ser agrupados segundo algum critério, por exemplo, por uma operação de máximo.
 
 Os atributos foram:
 
 \begin{itemize}
 \item {\bf Hm\_Eq} representa a hora no equador (em São Luis), em intervalos de 5 minutos;
-\item {\bf Vel\_Der} é a velocidade máxima de deriva vertial do plasma medida no equador entre as 17LT e 19LT (20UT e 22UT), com resolução de um valor por dia;
+\item {\bf Vel\_Der} é a velocidade máxima de deriva vertical do plasma medida no equador entre as 17-19 LT (20-22 UT), com resolução de um valor por dia;
 \item {\bf Kp} é a média do índice Kp definido pela expressão:
 \begin{equation}
 \sum_{i=1}^{n}\sum_{j=1}^{i}\frac{Kp_{j}}{ni}\mbox{,}~
 \end{equation}
-onde $Kp_1$ corresponde ao Kp medido entre 14-17LT, $Kp_2$ entre 11-14LT, até o valor medido entre 5-8LT, o valor de $n$ é 4. Este valor apresenta resolução diária;
-\item {\bf F10.7} é o fluxo solar;
+onde $Kp_1$ corresponde ao Kp medido entre 14-17 LT, $Kp_2$ entre 11-14 LT, até o valor medido entre 5-8 LT, o valor de $n$ é 4. Este valor apresenta resolução diária;
+\item {\bf F10.7} é o fluxo solar, com resolução de uma medida por dia;
 \item {\bf S4\_Eq} é o maior valor do índice S4 medido no equador, em um período de 5 minutos;
 \item {\bf S4\_PA\_tempo\_real} é o maior valor do índice S4 medido no pico da anomalia (São José dos Campos), em um período de 5 minutos;
 \item {\bf S4\_PA} é o S4 estimado com uma hora de antecedência para o pico da anomalia, com resolução de 5 minutos.
@@ -30,43 +30,44 @@ As primeiras 5 variáveis correspondem aos atributos preditores, enquanto a vari
 
 \begin{itemize}
 \item {\bf S4}, antes da seleção, somente são utilizados os valores medidos para satélites com ângulo superior a 30 graus;
-\item {\bf S4}, depois da seleção, a grande variabilidade destes dados leva a adoção de um filtro passa baixa, realizado por meio de uma suavização com média móvel, com 15 pontos;
-\item {\bf Kp}, depois da seleção, somente mantidos amostras com valores de Kp inferiores a 3, pois valores maiores que este caracterizam forte pertubação magnética, associadas a eventos extremos como tempestades magnéticas, e nesta configuração a predição se torna inviável;
-\item {\bf Dados}, depois da seleção, devem compreender o período  entre as 18-23LT (21-01UT) de forma a predizer os valores no intervalo 19-24LT (22-02UT).
+\item {\bf S4}, depois da seleção, a grande variabilidade destes dados leva a adoção de um filtro passa baixa, realizado por meio de uma suavização com média móvel com janela 15 pontos;
+\item {\bf Kp}, depois da seleção, somente são mantidos amostras com valores de Kp inferiores a 3, pois valores maiores que este caracterizam forte pertubação magnética. Estas por sua vez estão associadas a eventos extremos como tempestades magnéticas, nesta configuração a predição se torna inviável.
 \end{itemize}
 
-Ao final, a base de dados deste trabalho apresentava um total de 80 dias de dados com 4680 amostras, coletadas entre 2000 e 2002. Este trabalho também realizou testes com predições com 1 dia de antecedência, entretanto não apresentaram um resultado tão significativo e, portanto, não serão discutidos.
+Os dados depois da seleção, devem compreender o período  entre as 18-23LT (21-01UT) de forma a predizer os valores no intervalo 19-24LT (22-02UT).
+
+Ao final, a base de dados deste trabalho apresentava um total de 80 dias de dados com 4680 amostras, coletadas entre 2000 e 2002. Este trabalho também realizou testes com predições com 1 dia de antecedência, entretanto não estes apresentaram um resultado tão significativo e, portanto, não serão discutidos.
 
 Restam definir dois elementos para que o problema fica completamente definido, as métricas, e os modelos. Uma vez que as métricas ficam restringidas segundo os modelos, ir-se-á estabelecer estes primeiros:
 
 \begin{itemize}
 \item agrupamento por expectation-maximization implementado no ambiente Weka;
 \item regras de associação utilizando o algoritmo apriori, onde neste caso os atributos foram discretizados;
-\item regressão, utilizando árvores CART com a estratégia de ensemble bagging, implementadas pelo autor, análogo à Floresta Randômica.
+\item regressão, utilizando árvores CART com a técnica de conjunto bagging, implementadas pelo autor. Algoritmo análogo à Floresta Randômica.
 \end{itemize}
 
-As métricas foram erro quadrático médio, e índice de correlação de Pearson para o problema de regressão, e inspeção para as demais. A aplicação de agrupamento permitiu concluir que se tratava de um problema altamente não linear, as regras de associação geram conclusões que já eram bem conhecidas da literatura do problema na área de aeronomia. Finalmente, os resultados mais interessantes foram estabelecidos pelo problema de regressão, com erro quadrático médio de 0.05 com correlação de Pearson de 0.985.
+As métricas adotadas foram o erro quadrático médio, e o índice de correlação de Pearson para o problema de regressão, e inspeção para as demais. A aplicação de agrupamento permitiu concluir que se tratava de um problema altamente não linear, as regras de associação geram conclusões que já eram bem conhecidas da literatura do problema em aeronomia. Finalmente, os resultados mais interessantes foram estabelecidos pelo problema de regressão, com erro quadrático médio de 0.05 com correlação de Pearson de 0.985.
 
-O trabalho concluí se apresentando como uma abordagem inédita para o problema da predição da cintilação ionosférica.
+O trabalho foi uma abordagem inédita para o problema da predição da cintilação ionosférica.
 
 \subsection{Análise}
 
-A análise consistiu em levantar e sintetizar alguns pontos que levam a uma definição parcialmente incompleta do problema, ou talvez errônea do problema:
+A análise consistiu em levantar e sintetizar alguns pontos que levam a uma definição parcialmente incompleta do problema, ou talvez errônea do mesmo:
 
 \begin{enumerate}
-\item uma vez que o código e a base de dados não é disponibilizada de maneira pública e nem devidamente documentada, a reprodução somente é possível em partes, visto que serão utilizados algoritmos que muito se assemelham, mas que devido a diferença devem levar a resultados diferentes;
-\item do ponto de vista de implementação não foi definido uma representação para a variável {\bf Hm\_Eq} que pode ser então representada em segundos, minutos, entre outras opções, observar entretanto que isto não deveria levar a diferença significativas no resultado final;
-\item a variável Kp é medida por padrão nos intervalos 00-03UT, 03-06UT, 06-09UT, 09-12UT, 12-15UT, 15-18UT, 18-21UT e 21-24UT, e não nos intervalos utilizados por, sendo portanto necessário definir como é feito este mapeamento, o que não está presente no texto;
+\item uma vez que o código e a base de dados não é disponibilizada de maneira pública e nem devidamente documentada, a reprodução somente é possível em partes. Visto que serão utilizados algoritmos que muito se assemelham se esperam resultados de mesma ordem, entretanto devido as diferenças resultados que divirjam podem ocorrer;
+\item do ponto de vista de implementação não foi definido uma representação para a variável {\bf Hm\_Eq}. Esta pode ser então representada em segundos, minutos, entre outras opções, entretanto note que isto não deveria levar a diferenças significativas no resultado final;
+\item a variável Kp é medida por padrão nos intervalos 00-03 UT, 03-06 UT, 06-09 UT, 09-12 UT, 12-15 UT, 15-18 UT, 18-21 UT e 21-24 UT, e não nos intervalos utilizados pelo autor, sendo portanto necessário definir como é feito este mapeamento, o que não está presente no texto;
 \item a definição de como a média móvel é aplicada na quantidade S4 está um tanto incompleta, isto é, dado o i-ésimo elemento de um vetor, com um tamanho de janela de 15 pontos, ela poderia ser aplicada levando-se em consideração: os 14 pontos anteriores, $\{i-14, i-13, ..., i-1, i\}$; ou os 7 pontos anteriores e 7 posteriores, $\{i-7,...,i-1,i,i+1,...,i+7\}$, denominada de forma central; entre outras combinações;
 \item levando em consideração que a forma centrada tenha sido adotada, a janela de 15 pontos exigirá que 7 pontos do futuro sejam conhecidos, neste caso, dado um instante $t$ seriam necessários 35 minutos de dados a frete deste para o cálculo da média e,  portanto, na verdade, o resultado não seria previsto com uma hora de antecedência, mas sim 25 minutos;
-\item a métrica, erro quadrático médio, pode não contemplar o problema. Para entender tal proposição, considere a adaptação deste problema para uma classificação, ficará evidente que eventos com altos valores de cintilação são mais raros e, portanto, ter-se iá, um problema de classificação não balanceado. Retornando, a regressão, pode-se ocorrer do modelo predizer muito bem valores baixos, que então irão mascarar os efeitos de erros em valores mais altos, visto que irão predominar no processo de cálculo de média.
+\item a métrica, erro quadrático médio, pode não contemplar o problema. Para entender tal proposição, considere a adaptação deste problema para uma classificação, ficará evidente que eventos com altos valores de cintilação são mais raros e, portanto, ter-se-á um problema de classificação não balanceado. Retornando, a regressão, pode-se ocorrer do modelo predizer muito bem valores baixos, que então irão mascarar os efeitos de erros em valores mais altos, visto que irão predominar no processo de cálculo de média.
 \end{enumerate}
 
 \section{Reprodução}
 
 \subsection{Original}
 
-O trabalho \cite{REZENDE:2009} foi parcialmente, reproduzido no contexto desta proposta, pois somente uma linha de pesquisa do trabalho original foi explorada: o problema de regressão, e cuidados adicionais foram necessários, devido a utilização de mais anos; entretanto o total de amostras com todos os atributos não nulos ficou reduzido devido a presença de grandes lacunas nos dados. As Figuras\ref{fig:distribution} e \ref{fig:nulltotal} mostram respectivamente a distribuição dos dados ao longo do conjunto de amostras, onde espaços em brancos representam valores ausentes e a razão e o total de dados não nulos.
+O trabalho \cite{REZENDE:2009} foi parcialmente, reproduzido no contexto desta proposta, pois somente uma linha de pesquisa do trabalho original foi explorada: o problema de regressão, e cuidados adicionais foram necessários, devido a utilização de mais anos, entretanto o total de amostras com todos os atributos não nulos ficou reduzido devido a presença de grandes lacunas nos dados. As Figuras \ref{fig:distribution} e \ref{fig:nulltotal} mostram respectivamente a distribuição dos dados ao longo do conjunto de amostras, onde espaços em brancos representam valores ausentes e a razão e o total de dados não nulos.
 
 \begin{figure}[H]
 \centering
@@ -87,35 +88,35 @@ As variáveis adotadas são:
 
 \begin{itemize}
 \item {\bf ut} representa a hora em São Luiz em minutos, em intervalos de 5 minutos;
-\item {\bf vhf} é a velocidade máxima de deriva vertical do plasma medida em São Luiz entre as 17LT e 18LT (20UT e 21UT), com resolução de um valor por dia;
+\item {\bf vhf} é a velocidade máxima de deriva vertical do plasma medida em São Luiz entre as 17-18 LT (20-21 UT), com resolução de um valor por dia;
 \item {\bf ap} é a média do índice ap definido por:
 \begin{equation}
 \sum_{i=1}^{n}\sum_{j=1}^{i}\frac{ap_{j}}{ni}\mbox{,}~
 \end{equation}
-onde $ap_1$ corresponde à ap15\_18ut, $ap_2$ à ap12\_15ut até ap00\_03ut, mais ap21\_00ut e ap18\_21ut do dia anterior, totalizando um intervalo de 24 horas, com $n=8$. Este valor apresenta resolução diária;,
-\item {\bf F10.7} é o fluxo solar;
+onde $ap_1$ corresponde à ap15\_18ut, $ap_2$ à ap12\_15ut até ap00\_03ut, mais ap21\_00ut e ap18\_21ut do dia anterior, totalizando um intervalo de 24 horas, com $n=8$. Este valor tem resolução diária;
+\item {\bf F10.7} é o fluxo solar, com resolução de uma medida por dia;
 \item {\bf s4\_sl} é o maior valor do índice S4 medido em São Luiz, em um período de 5 minutos;
 \item {\bf s4\_sj} é o maior valor do índice S4 medido em São José dos Campos, em um período de 5 minutos;
-\item {\bf s4\_sj\_shift\_1h} é o S4 estimado com uma hora de antecedência para o pico da anomalia, com resolução de 5 minutos.
+\item {\bf s4\_sj\_shift\_1h} é o S4 estimado com uma hora de antecedência para São José dos Campos, com resolução de 5 minutos.
 \end{itemize}
 
 E os cuidados, assim, como os pré-processamentos foram:
 
 \begin{itemize}
-\item A adoção do termo São Luis em relação a equador magnético foi preferida, pois esse esta em movimento, e ao longo do período coletado, assim como extensões deste período ele não estará no mesmo lugar, enquanto os dados são sempre coletados em uma estação fixa em São Luiz;
-\item A adoção do termo São José dos Campos em relação a pico da anomalia ocorre, pois a localização do pico depende da quantidade de radiação emitida pelo Sol em seu regime, ciclo solar. Nos anos de 2000, 2001, 2002, o pico da anomalia estava em São José dos Campos, porém nos anos de 2018 e 2019 se encontra em Presidente Prudente. Finalmente, os dados foram sempre coletados na estação em São José dos Campos;
-\item A altura hF não é amostrada em intervalos regulares ao longo do período de dados coletados, inicialmente, ela era amostrada em 15 min, e posteriormente passou a ser amostrado em 10 min, portanto neste trabalho se reamostrou toda a série para o intervalo de 10 min, que foi então interpolado por um spline de grau 3, até um máximo de x pontos ausentes na vizinhança do ponto a ser interpolado;
-\item Quanto a variável S4, primeiro, somente serão aceitas medidas cuja elevação entre a estação e o receptor sejam maiores que 30 graus; segundo, os dados de cintilação apresentam resolução temporal de 1 min, e são coletados para cada satélite acima do plano de horizonte da estação, portanto, existem vários dados por minuto, com objetivo de ficar-se somente com um dado, estes foram agrupados tomando-se o maior valor de cintilação; os dados com resolução de um minuto são interpolados por spline de ordem 3 com limite de quatro valores ausentes; quarto, os dados são suavizados por um filtro de Savitz-Goley de ordem 3 com janela de tamanho 5, o que levaria a necessidade de apenas, 2 amostras de dados futuros; finalmente, os dados são reamostrados para um intervalo de 5 minutos;
-\item A adoção de $ap$ em preferência a $kp$ se deve a esta apresentar uma escala linear e, portanto ser mais condizente com operações como média.
+\item A adoção do termo São Luiz em relação à equador magnético foi preferida, pois este está em movimento, e ao longo do período coletado, assim como em extensões deste período, não estará no mesmo lugar, enquanto os dados são sempre coletados em uma estação fixa em São Luiz;
+\item A adoção do termo São José dos Campos em relação a pico da anomalia ocorre, pois a localização do pico depende da quantidade de radiação emitida pelo Sol em seu regime, ciclo solar. Nos anos de 2000, 2001, 2002, o pico da anomalia estava em São José dos Campos, porém nos anos de 2018 e 2019 este se encontra em Presidente Prudente. Finalmente, os dados foram sempre coletados em uma estação em São José dos Campos;
+\item A altura hF não é amostrada em intervalos regulares ao longo do período de dados coletados, inicialmente, ela era amostrada em 15 min, e posteriormente passou a ser amostrado em 10 min, portanto neste trabalho se reamostrou toda a série para o intervalo de 10 min, que foi então interpolado por um spline de grau 3, até um máximo de 10 pontos ausentes na vizinhança do ponto a ser interpolado;
+\item Quanto a variável S4, primeiro, somente serão aceitas medidas cuja elevação entre a estação e o receptor sejam maiores que 30 graus; segundo todos os dados coletados em uma mesma cidade mas por diferente estações são combinados, de forma a reduzir as lacunas; terceiro, os dados de cintilação apresentam resolução temporal de 1 min, e são coletados para cada satélite acima do plano de horizonte da estação, portanto, existem vários dados por minuto, com objetivo de ficar-se somente com um dado, estes foram agrupados tomando-se o maior valor de cintilação; terceiro, os dados com resolução de um minuto são então interpolados por spline de ordem 3 com limite de quatro valores ausentes; quinto, os dados são suavizados por um filtro de Savitz-Goley de ordem 3 com janela de tamanho 5, o que levaria a necessidade de apenas, 2 amostras de dados futuros; finalmente, os dados são reamostrados para um intervalo de 5 minutos;
+\item A adoção de ap em preferência à Kp se deve a esta apresentar uma escala linear e, portanto ser mais condizente com operações como média. A escolha do novo intervalo é realizada, devido ao fato de que a definição original em \cite{REZENDE:2009} não é clara.
 \end{itemize}
 
-Uma abordagem de normalização para o intervalo $[0,05,\,0,95]$ é aplicado a todos os atributos preditores (uma para cada atributo) antes da utilização do algoritmo de aprendizagem de máquina. Este intervalo é adotado já prevendo a possibilidade de aplicação de redes neurais com função de ativação sigmoide, haja visto que esta sofre saturação para valores próximos de 0 e de 1.
+Uma abordagem de normalização para o intervalo $[0,05,\,0,95]$ é aplicado a todos os atributos preditores (uma para cada atributo) antes da utilização do algoritmo de aprendizagem de máquina. Este intervalo é adotado já considerando a possibilidade de aplicação de redes neurais com função de ativação sigmoide, haja visto que esta sofre saturação para valores próximos de 0 e 1.
 
-Resta definir dois elementos para a serem definidos, o tipo de problema tratado e por consequência os algoritmos e as métricas a serem utilizados. Uma que vez que se trata de uma reprodução parcial, o problema de regressão foi tratado, neste caso utilizando a ferramente XGBOOST, que também consiste da utilização de árvores de decisão e regressão com algoritmos de ensemble, neste caso o boosting; as métricas adotadas foram o erro quadrático médio e o erro absoluto máximo, este último sendo capaz de lidar melhor com o desbalanceamento das amostras.
+Resta novamente dois elementos a serem definidos, o tipo de problema tratado e por consequência os algoritmos e as métricas a serem utilizadas. Uma que vez que se trata de uma reprodução parcial, o problema de regressão foi considerado, neste caso utilizando a ferramente XGBOOST, que também emprega árvores de decisão e regressão em técnicas de conjunto, neste caso o boosting; as métricas adotadas foram o erro quadrático médio e o erro absoluto máximo, este último sendo capaz de lidar melhor com o desbalanceamento das amostras.
 
-O segundo problema tratado foi de classificação, e para tal a variável {\bf s4\_sj\_shift\_1h} foi discretizada utilizando a proposta estabelecida por \cite{MUELLA:2008}, mais a adição de uma classe ausente:
+O segundo problema tratado foi o de classificação, e para tal a variável {\bf s4\_sj\_shift\_1h} foi discretizada utilizando a proposta estabelecida por \cite{MUELLA:2008}, mais a adição de uma classe ausente:
 
-\begin{table}
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{|c|c|}
 \hline
@@ -129,7 +130,7 @@ Ausente           & $ S_4 \le 0,2 $ \\ \hline
 \end{center}
 \end{table}
 
-Neste caso, tem-se um problema com 5 classes como já mencionado não balanceado e uma abordagem de reasmotragem foi empregada de modo balancear o números de elementos tal que todos estejam próximos da cardinalidade da classe com o maior número de elementos. Esta etapa é realizada após a normalização e o algoritmo empregado foi o ADASYN. Finalmente, adotou-se como métrica a precisão balanceada, e a ferramenta utilizada também foi o XGBOOST.
+Neste caso, tem-se um problema com 5 classes não balanceado e uma abordagem de reasmotragem foi empregada de modo balancear o números de elementos tal que todos estejam próximos da cardinalidade da classe com o maior número de elementos. Esta etapa é realizada após a normalização, e o algoritmo empregado foi o ADASYN. Finalmente, adotou-se como métrica a precisão balanceada, e a ferramenta utilizada também foi o XGBOOST.
 
 \subsection{Resultados Regressão}
 
