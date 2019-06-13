@@ -1,6 +1,8 @@
-\chapter{REZENDE}\label{ch:revisonrezende}
+\chapter{Previsão de cintilação ionosférica em São José dos Campos com 1h de antecedência}\label{ch:revisonrezende}
 
-\section{Revisão}
+A primeira parte deste capítulo discute o trabalho \cite{REZENDE:2009}.
+
+\section{Revisão do trabalho \cite{REZENDE:2009}}
 
 O trabalho \cite{REZENDE:2009} foi pioneiro na utilização de modelos direcionados por dados para a exploração do problema de cintilação ionosférica, entretanto este trabalho não apresenta uma abordagem completamente reprodutível, visto ausência dos códigos e da base de dados. O objetivo desta revisão é entender as dificuldades deste trabalho, assim como sua incompletude em relação a proposta a ser estabelecida nessa dissertação.
 
@@ -33,7 +35,7 @@ As primeiras 5 variáveis correspondem aos atributos preditores, enquanto a vari
 \item {\bf Dados}, depois da seleção, devem compreender o período  entre as 18-23LT (21-01UT) de forma a predizer os valores no intervalo 19-24LT (22-02UT).
 \end{itemize}
 
-Ao final, a base de dados deste trabalho apresentava um total de 80 dias de dados com 4680 amostras, coletadas entre 2000 e 2002. Este trabalho também realizou testes com predições com 1 dia de antecedência, entretanto não apresentaramm um resultado tão significativo e, portanto, não serão discutidos.
+Ao final, a base de dados deste trabalho apresentava um total de 80 dias de dados com 4680 amostras, coletadas entre 2000 e 2002. Este trabalho também realizou testes com predições com 1 dia de antecedência, entretanto não apresentaram um resultado tão significativo e, portanto, não serão discutidos.
 
 Restam definir dois elementos para que o problema fica completamente definido, as métricas, e os modelos. Uma vez que as métricas ficam restringidas segundo os modelos, ir-se-á estabelecer estes primeiros:
 
@@ -64,7 +66,24 @@ A análise consistiu em levantar e sintetizar alguns pontos que levam a uma defi
 
 \subsection{Original}
 
-O trabalho \cite{REZENDE:2009} foi parcialmente, reproduzido no contexto desta proposta, pois somente uma linha de pesquisa do original foi explorado, o problema de regressão, e cuidados adicionais foram necessários, devido a utilização de mais anos. As variáveis adotadas são:
+O trabalho \cite{REZENDE:2009} foi parcialmente, reproduzido no contexto desta proposta, pois somente uma linha de pesquisa do trabalho original foi explorada: o problema de regressão, e cuidados adicionais foram necessários, devido a utilização de mais anos; entretanto o total de amostras com todos os atributos não nulos ficou reduzido devido a presença de grandes lacunas nos dados. As Figuras\ref{fig:distribution} e \ref{fig:nulltotal} mostram respectivamente a distribuição dos dados ao longo do conjunto de amostras, onde espaços em brancos representam valores ausentes e a razão e o total de dados não nulos.
+
+\begin{figure}[H]
+\centering
+\makebox[\textwidth][c]{\includegraphics[width=1.2\linewidth]{./Figuras/results-original/distribution.eps}}
+\caption{Distribuição dos dados ao longo do conjunto de amostras. Espaços em brancos representam valores ausentes. Fonte: próprio autor.}
+\label{fig:distribution}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\makebox[\textwidth][c]{\includegraphics[width=1.2\linewidth]{./Figuras/results-original/nulltotal.eps}}
+\caption{Razão e total de dados não nulos por atributo. Fonte: próprio autor.}
+\label{fig:nulltotal}
+\end{figure}
+
+
+As variáveis adotadas são:
 
 \begin{itemize}
 \item {\bf ut} representa a hora em São Luiz em minutos, em intervalos de 5 minutos;
@@ -112,4 +131,42 @@ Ausente           & $ S_4 \le 0,2 $ \\ \hline
 
 Neste caso, tem-se um problema com 5 classes como já mencionado não balanceado e uma abordagem de reasmotragem foi empregada de modo balancear o números de elementos tal que todos estejam próximos da cardinalidade da classe com o maior número de elementos. Esta etapa é realizada após a normalização e o algoritmo empregado foi o ADASYN. Finalmente, adotou-se como métrica a precisão balanceada, e a ferramenta utilizada também foi o XGBOOST.
 
-\subsection{Resultados}
+\subsection{Resultados Regressão}
+
+\begin{figure}[H]
+\center
+\makebox[\textwidth][c]{
+\subfigure[ref1][Validação cruzada com 10 subconjuntos.]{\includegraphics[width=9.5cm]{./Figuras/results-original/regression_kfold_original_958_1742_importance.eps}}
+\,\,
+\subfigure[ref2][Validação com separação no tempo.]{\includegraphics[width=9.5cm]{./Figuras/results-original/regression_intime_original_958_1742_importance.eps}}
+}
+\caption{Importância de cada atributo segundo XGBOOST. Fonte: próprio autor.}
+\end{figure}
+
+
+\subsection{Resultados Classificação}
+
+\begin{figure}[H]
+\center
+\makebox[\textwidth][c]
+{
+\subfigure[ref1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-original/classification_kfold_original_958_1742_confusion_matrix.eps}}
+\,\,
+\subfigure[ref2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-original/classification_kfold_original_958_1742_importance.eps}}
+}
+\caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos. Fonte: próprio autor.}
+\end{figure}
+
+
+\begin{figure}[H]
+\center
+\makebox[\textwidth][c]
+{
+\subfigure[ref1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-original/classification_intime_original_958_1742_confusion_matrix.eps}}
+\,\,
+\subfigure[ref2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-original/classification_intime_original_958_1742_importance.eps}}
+}
+\caption{Resultados para o problema de classificação utilizando de validação com separação no tempo. Fonte: próprio autor.}
+\end{figure}
+
+\section{Primeira Versão: revisando a definição de S4}
