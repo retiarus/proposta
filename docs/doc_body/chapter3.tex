@@ -63,9 +63,7 @@ A análise consistiu em levantar e sintetizar alguns pontos que levam a uma defi
 \item a métrica, erro quadrático médio, pode não contemplar o problema. Para entender tal proposição, considere a adaptação deste problema para uma classificação, ficará evidente que eventos com altos valores de cintilação são mais raros e, portanto, ter-se-á um problema de classificação não balanceado. Retornando, a regressão, pode-se ocorrer do modelo predizer muito bem valores baixos, que então irão mascarar os efeitos de erros em valores mais altos, visto que irão predominar no processo de cálculo de média.
 \end{enumerate}
 
-\section{Reprodução}
-
-\subsection{Original}
+\section{Reprodução}\label{se:rep}
 
 O trabalho \cite{REZENDE:2009} foi parcialmente, reproduzido no contexto desta proposta, pois somente uma linha de pesquisa do trabalho original foi explorada: o problema de regressão, e cuidados adicionais foram necessários, devido a utilização de mais anos, entretanto o total de amostras com todos os atributos não nulos ficou reduzido devido a presença de grandes lacunas nos dados. As Figuras \ref{fig:distribution} e \ref{fig:nulltotal} mostram respectivamente a distribuição dos dados ao longo do conjunto de amostras, onde espaços em brancos representam valores ausentes e a razão e o total de dados não nulos.
 
@@ -83,8 +81,7 @@ O trabalho \cite{REZENDE:2009} foi parcialmente, reproduzido no contexto desta p
 \label{fig:nulltotal}
 \end{figure}
 
-
-As variáveis adotadas são:
+As variáveis adotadas podem ser agrupados em um conjunto denominado de original, e elas são:
 
 \begin{itemize}
 \item {\bf ut} representa a hora em São Luiz em minutos, em intervalos de 5 minutos;
@@ -209,4 +206,89 @@ Validação com Separação no Tempo    & 0,363     \\ \hline
 \label{fig:classomii}
 \end{figure}
 
-\section{Primeira Versão: revisando a definição de S4}
+\section{Novos atributos}
+
+\subsection{Conjunto v1}
+
+A primeira versão após a reprodução foi gerada redefinindo variáveis e adicionando novas. Partindo do conjunto de variáveis original definido na seção \ref{se:rep} as seguintes alterações foram empregadas:
+
+\begin{itemize}
+\item Agora, somente serão aceitas variáveis de $S_4$ com valores de elevação acima de 45 graus. E, antes do processo de combinação das amostras para a geração de um único dado por minuto, o valor de S4 é projetado na vertical segundo seu angulo de elevação por:
+\begin{equation}
+{S_4}_{proj}=S_4[\sin\theta]^{0,9}\mbox{,}~
+\end{equation}
+onde $\theta$ denota o angulo de elevação;
+\item A variável {\bf vhf} utilizada passa a ter resolução temporal de 10 min e vai corresponder ao instante da amostra tal que valores para os minutos da forma 5, 15, 25 serão aproximados pelos valores no instante anterior, isto é, 0, 10, 20, por exemplo;
+\item É adicionada a variável {\bf hf} que também apresentará resolução temporal de 10 min análoga a definição para {\bf vhf}.
+\end{itemize}
+
+As demais variáveis, assim como os procedimentos de pré-processamento não serão alterados. A distribuição dos dados e a ordem de dados nulos para este conjunto é semelhante ao do conjunto original e, portanto, será omitida.
+
+A mesma metodologia é utilizada, ou seja, serão utilizadas de validação cruzada e validação com separação no tempo. Entretanto, para o conjunto v1 se tem 1635 amostras, dos quais 899 irão compor a primeira partição.
+
+Os mesmos tipos de modelos e ferramentas são empregadas. A Tabela \ref{tab:results_v1_reg} apresenta as métricas para os resultados obtidos para as duas abordagens de validação. Enquanto, a Figura \ref{fig:regv1} apresenta a importância das variáveis segundo o XGBOOST.
+
+xxxxxalterar
+%\begin{table}[H]
+%\begin{center}
+%\begin{tabular}{|c|c|c|}
+%\hline
+%Tipo de Validação & mse       & mae   \\ \hline
+%Validação Cruzada                   & 0,018   & 0,753  \\ \hline
+%Validação com Separação no Tempo    & 0,016   & 0,553  \\ \hline
+%\end{tabular}
+%\end{center}
+%\vspace{12pt}
+%\caption{Resultados para a regressão. Fonte: Próprio autor.}
+%\label{tab:results_v1_reg}
+%\end{table}
+
+\begin{figure}[H]
+\center
+\makebox[\textwidth][c]{
+\subfigure[fig:regv11][Validação cruzada com 10 subconjuntos.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/regression_kfold_v1_899_1635_importance.eps}}
+\,\,
+\subfigure[fig:regv12][Validação com separação no tempo.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/regression_intime_v1_899_1635_importance.eps}}
+}
+\caption{Importância de cada atributo segundo XGBOOST. Fonte: próprio autor.}\label{fig:regv1}
+\end{figure}
+
+A Tabela \ref{tab:results_v1_class} apresenta as métricas para os resultados obtidos para as duas abordagens de validação. As Figuras \ref{fig:classv1mik} e \ref{fig:classv1mii} apresentam respectivamente a matriz de confusão e um gráfico de barras com a importância das variáveis segundo o XGBOOST, para a validação cruzada e a validação com separação no tempo.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Tipo de Validação & precisão balanceada   \\ \hline
+Validação Cruzada                   & 0,651    \\ \hline
+Validação com Separação no Tempo    & 0,363     \\ \hline
+\end{tabular}
+\end{center}
+\vspace{12pt}
+\caption{Resultados para a classificação. Fonte: Próprio autor.}
+\label{tab:results_v1_class}
+\end{table}
+
+\begin{figure}[H]
+\center
+\makebox[\textwidth][c]
+{
+\subfigure[fig:classv1mk1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-v1/classification_kfold_v1_899_1635_confusion_matrix.eps}}
+\,\,
+\subfigure[fig:classv1ik2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_kfold_v1_899_1635_importance.eps}}
+}
+\caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos. Fonte: próprio autor.}
+\label{fig:classv1mik}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\makebox[\textwidth][c]
+{
+\subfigure[fig:classv1ii1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-v1/classification_intime_v1_899_1635_confusion_matrix.eps}}
+\,\,
+\subfigure[fig:classv1ii2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_intime_v1_899_1635_importance.eps}}
+}
+\caption{Resultados para o problema de classificação utilizando de validação com separação no tempo. Fonte: próprio autor.}
+\label{fig:classv1mii}
+\end{figure}
