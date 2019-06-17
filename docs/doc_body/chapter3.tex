@@ -208,7 +208,7 @@ Validação com Separação no Tempo    & 0,363     \\ \hline
 
 \section{Novos atributos}
 
-\subsection{Conjunto v1}
+\subsection{Conjunto v1}\label{sec:v1}
 
 A primeira versão após a reprodução foi gerada redefinindo variáveis e adicionando novas. Partindo do conjunto de variáveis original definido na seção \ref{se:rep} as seguintes alterações foram empregadas:
 
@@ -292,3 +292,61 @@ Validação com Separação no Tempo    & 0,363     \\ \hline
 \caption{Resultados para o problema de classificação utilizando de validação com separação no tempo. Fonte: próprio autor.}
 \label{fig:classv1mii}
 \end{figure}
+
+\subsection{Conjunto v1 sem dados de cintilação em São Luiz}
+
+O conjunto de atributos preditores usado aqui é inicialmente o mesmo empregado na seção \ref{sec:v1}, isto é, o conjunto v1, porém neste contexto se descarta a contribuição S4 referente a São Luiz.
+
+
+Tem uma tabela aqui !!!!
+
+\begin{figure}[H]
+\center
+\makebox[\textwidth][c]{
+\subfigure[fig:regv11][Validação cruzada com 10 subconjuntos.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/regression_kfold_v1-without-sl_2627_4778_importance.eps}}
+\,\,
+\subfigure[fig:regv12][Validação com separação no tempo.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/regression_intime_v1-without-sl_2627_4778_importance.eps}}
+}
+\caption{Importância de cada atributo segundo XGBOOST. Fonte: próprio autor.}\label{fig:regv1}
+\end{figure}
+
+A Tabela \ref{tab:results_v1_class} apresenta as métricas para os resultados obtidos para as duas abordagens de validação. As Figuras \ref{fig:classv1mik} e \ref{fig:classv1mii} apresentam respectivamente a matriz de confusão e um gráfico de barras com a importância das variáveis segundo o XGBOOST, para a validação cruzada e a validação com separação no tempo.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Tipo de Validação & precisão balanceada   \\ \hline
+Validação Cruzada                   & 0,651    \\ \hline
+Validação com Separação no Tempo    & 0,363     \\ \hline
+\end{tabular}
+\end{center}
+\vspace{12pt}
+\caption{Resultados para a classificação. Fonte: Próprio autor.}
+\label{tab:results_v1_class}
+\end{table}
+
+\begin{figure}[H]
+\center
+\makebox[\textwidth][c]
+{
+\subfigure[fig:classv1mk1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-v1/classification_kfold_v1-without-sl_2627_4778_confusion_matrix.eps}}
+\,\,
+\subfigure[fig:classv1ik2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_kfold_v1-without-sl_2627_4778_importance.eps}}
+}
+\caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos. Fonte: próprio autor.}
+\label{fig:classv1mik}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\makebox[\textwidth][c]
+{
+\subfigure[fig:classv1ii1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-v1/classification_intime_v1-without-sl_2627_4778_confusion_matrix.eps}}
+\,\,
+\subfigure[fig:classv1ii2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_intime_v1-without-sl_2627_4778_importance.eps}}
+}
+\caption{Resultados para o problema de classificação utilizando de validação com separação no tempo. Fonte: próprio autor.}
+\label{fig:classv1mii}
+\end{figure}
+
