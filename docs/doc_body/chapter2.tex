@@ -2,10 +2,9 @@
 
 A mineração de dados é uma área da ciência da computação que permite inferir conhecimento a partir de uma massa de dados específica de um fenômeno ou evento qualquer.
 
-
 Em particular, a mineração de dados contempla a inferência de modelos direcionados por dados, ou seja, modelos derivados unicamente a partir de conjuntos de dados de entrada e de saída específicos de um dado fenômeno ou evento. Utilizam tipicamente um enfoque denominado aprendizado de máquina (machine learning), que basicamente é uma forma de estatística aplicada com enfase no uso de computadores para estimar funções, em geral, complicadas em um conjunto de dados.
 
-A mineração de dados é frequentemente confundida com o processo mais amplo de descoberta de conhecimento em base de dados (KDD- Knowledge Discovery in Databases), a qual é definida como a extração de padrões e desenvolvimento de representações associados ao conhecimento de um processo ou fenômeno a partir de um conjunto de dados associados. A mineração de dados é apenas uma etapa deste processo, sendo definida como a extração de padrões em um conjunto de dados. As diferenças ficam mais claras as sumarizando as etapas contidas em um processo de KDD:
+A mineração de dados é frequentemente confundida com o processo mais amplo de descoberta de conhecimento em base de dados (KDD- Knowledge Discovery in Databases), a qual é definida como a extração de padrões e desenvolvimento de representações associados ao conhecimento de um processo ou fenômeno a partir de um conjunto de dados associados. A mineração de dados é apenas uma etapa deste processo, sendo definida como a extração de padrões em um conjunto de dados. As diferenças ficam mais claras sumarizando as etapas contidas em um processo de KDD:
 
 \begin{enumerate}
 \item {\bf Limpeza de dados}: remoção de dados com ruído, inconsistentes e incompletos;
@@ -46,23 +45,23 @@ O processo de KDD é iterativo, como pode ser visto na Figura \ref{fig:kdd} no s
 \draw [->, red] (aconh) to [out=45,in=0] (ldados);
 \draw [->, red] (aconh) to [out=45,in=0] (mdados);
 
-\draw [->] (midados) to [out=45,in=5] (tdados);
-\draw [->] (midados) to [out=45,in=5] (sdados);
-\draw [->] (midados) to [out=45,in=5] (idados);
-\draw [->] (midados) to [out=45,in=5] (ldados);
-\draw [->] (midados) to [out=45,in=5] (mdados);
+\draw [->, blue] (midados) to [out=45,in=5] (tdados);
+\draw [->, blue] (midados) to [out=45,in=5] (sdados);
+\draw [->, blue] (midados) to [out=45,in=5] (idados);
+\draw [->, blue] (midados) to [out=45,in=5] (ldados);
+\draw [->, blue] (midados) to [out=45,in=5] (mdados);
 
-\draw [->] (tdados) to [out=45,in=10] (sdados);
-\draw [->] (tdados) to [out=45,in=10] (idados);
-\draw [->] (tdados) to [out=45,in=10] (ldados);
-\draw [->] (tdados) to [out=45,in=10] (mdados);
+\draw [->, green] (tdados) to [out=45,in=10] (sdados);
+\draw [->, green] (tdados) to [out=45,in=10] (idados);
+\draw [->, green] (tdados) to [out=45,in=10] (ldados);
+\draw [->, green] (tdados) to [out=45,in=10] (mdados);
 
-\draw [->] (sdados) to [out=45,in=15] (idados);
-\draw [->] (sdados) to [out=45,in=15] (ldados);
-\draw [->] (sdados) to [out=45,in=15] (mdados);
+\draw [->, yellow] (sdados) to [out=45,in=15] (idados);
+\draw [->, yellow] (sdados) to [out=45,in=15] (ldados);
+\draw [->, yellow] (sdados) to [out=45,in=15] (mdados);
 
-\draw [->] (idados) to [out=45,in=20] (ldados);
-\draw [->] (idados) to [out=45,in=20] (mdados);
+\draw [->, purple] (idados) to [out=45,in=20] (ldados);
+\draw [->, purple] (idados) to [out=45,in=20] (mdados);
 
 \draw [->] (ldados) to [out=45,in=25] (mdados);
 \end{tikzpicture}
@@ -72,28 +71,28 @@ O processo de KDD é iterativo, como pode ser visto na Figura \ref{fig:kdd} no s
 
 \section{Aprendizagem de máquina}
 
-A aprendizagem de máquina faz uso de algoritmos que são capazes de aprender a partir dos dados, que são ainda agrupados pelo termo {\bf algoritmo de aprendizado de máquina}. Note que esta definição é incompleta, uma vez que não se definiu o que significa aprender a partir dos dados. Assim, considere uma tupla $(P, D, M)$ onde $T$ corresponde à tarefa, $D$ ao conjunto de dados (domínio) e $M$ a métrica, diz-se que um algoritmo aprende com relação ao problema $P$, ao conjunto de dados $D$ e a métrica $M$, se a sua performance no tratamento do problema $P$, avaliado segundo a métrica $M$ melhora conforme itera sobre os dados. 
+A aprendizagem de máquina faz uso de algoritmos que são capazes de aprender a partir dos dados, os quais podem ser denominados de {\bf algoritmos de aprendizado de máquina}. Note que esta definição é incompleta, uma vez que não se estabeleceu o que significa aprender a partir dos dados. Assim, considere uma tupla $(P, D, M)$ onde $P$ corresponde ao problema, $D$ ao conjunto de dados (domínio) e $M$ a métrica, diz-se que um algoritmo aprende com relação ao problema $P$, ao conjunto de dados $D$ e a métrica $M$, se a sua performance no tratamento do problema $P$, avaliado segundo a métrica $M$ melhora conforme itera sobre os dados no domínio $D$.
 
-Basicamente, pode ser visto como o processo de estimar (ajustar) uma função segundo algum objetivo (métrica) a um conjunto de dados. Também é adequado definir o termo função, portanto, sejam $X$ e $Y$ dois conjuntos não vazios, que podem ou não ser iguais, e uma regra, ou conjunto de regras, $f$ que assina cada elemento $x$ de $X$ a um único elemento $y$ em $Y$, um {\bf função} consiste de uma tupla formada por $(X, Y, f)$. Assim, termos como modelo, estimador, preditor são sinônimos do termo função, pois são entendidos como uma realização do algoritmo de aprendizagem para um conjunto de dados, ou seja, um conjunto de regras inferidas dos dados pelo algoritmo.
+Basicamente, pode ser visto como o processo de estimar (ajustar) uma função segundo algum objetivo (métrica) a um conjunto de dados.Logo é interessante definir o termo função, sejam $X$ e $Y$ dois conjuntos não vazios, que podem ou não ser iguais, e uma regra, ou conjunto de regras, $f$ que assina a cada elemento $x$ de $X$ um único elemento $y$ em $Y$, uma {\bf função} consiste do objeto matemático formado pela tupla $(X, Y, f)$. Assim, termos como modelo, estimador, preditor, regressor, classificador são todos sinônimos do termo função, pois são entendidos como uma realização do algoritmo de aprendizagem para um conjunto de dados, ou seja, um conjunto de regras inferidas dos dados pelo algoritmo.
 
-Um problema $P$ pode ser descrito pela maneira trata um amostra $({\bf x}, y)$ ou $({\bf x})$ do domínio $D$, isto é, o que ela faz ou como processa uma instância. Esta, por sua vez, corresponde a um conjunto de características, atributos ou variáveis que foram quantificadas de algum objeto ou evento que se deseja estudar. Quando uma amostra é da forma $({\bf x}, y)$, diz-se que a instância apresenta um rótulo ou resposta indicado por $y$, enquanto amostras da forma $({\bf x})$ são ditas não rotuladas. O termo ${\bf x}$ também pode ser denominado de atributos de informação, variáveis preditoras, entres outras, enquanto o termo $y$ como como atributo de decisão. Os dados também podem ser numéricos, quantitativos, ou qualitativos. Estes últimos são dados categóricos, que correspondem à atribuição de rótulos que os qualificam.
+Um problema $P$ pode ser descrito pela maneira como trata uma amostra $({\bf x}, y)$ ou $({\bf x})$ do domínio $D$, isto é, o que faz ou como processa uma instância. Esta, por sua vez, corresponde a um conjunto de características, atributos ou variáveis que foram quantificadas de algum objeto ou evento que se deseja estudar. Quando uma amostra é da forma $({\bf x}, y)$, diz-se que a instância apresenta um rótulo ou resposta indicado por $y$, enquanto amostras da forma $({\bf x})$ são ditas não rotuladas. O termo ${\bf x}$ também pode ser denominado de atributos de informação, variáveis preditoras, entres outras, enquanto o termo $y$ como como atributo de decisão. Os dados podem ser numéricos, quantitativos, ou qualitativos. Estes últimos são dados categóricos, que correspondem à atribuição de rótulos que os qualificam.
 
-Uma definição formal de um problema seria um tanto trabalhosa e foge do escopo deste trabalho, entretanto, é possível iniciar a construção uma imagem mental deste por meio de exemplos:
+Uma definição formal de um problema de aprendizagem seria um tanto trabalhosa e foge do escopo deste trabalho, entretanto, é possível iniciar a construção uma imagem mental deste por meio de exemplos:
 
 \begin{itemize}
 \item Um problema de classificação: neste tipo de problema o objetivo é determinar uma função $f$ que mapeia cada amostra $\bf x$ a uma categoria $j$, em um conjunto de $n$ categorias $\{0,..,n-1\}$;
 \item Um problema de regressão: neste tipo de problema o objetivo é determinar uma função $f$ que dado uma instância $\bf x$ prediga um valor numérico.
 \end{itemize}
 
-Um segundo aspecto com relação ao problema se refere a maneira pela qual os dados são tratados pelo algoritmos. Neste contexto, os algoritmos de aprendizado de máquina são agrupados basicamente em dois grandes grupos: os supervisionados e os não-supervisionados. Na última década apareceram variações, tais como, algoritmos auto-supervisionados, ou semi-supervisionados, que não são abordados aqui. No caso dos supervisionados, um algoritmo é ajustado na fase de treinamento a partir de instâncias conhecidas, ou seja, de atributos preditores e os correspondentes atributos respostas. Estes algoritmos são utilizados para tarefas como classificação, predição, regressão. Por outro lado, os algoritmos não-supervisionados buscam inferir conhecimento ao agrupar os dados em conjuntos distintos (sem o conhecimento prévio de seus rótulos) ou ao reduzir a dimensionalidade dos dados, ou ao apresentá-los numa forma distinta ou ao extrair padrões, de forma a permitir uma melhor análise do fenômeno ou evento de estudo.
+Um outro aspecto com relação ao problema se refere a maneira pela qual os dados são tratados pelo algoritmos. Neste contexto, os algoritmos de aprendizado de máquina são agrupados basicamente em dois grandes grupos: os supervisionados e os não-supervisionados. Na última década apareceram variações, tais como, algoritmos auto-supervisionados, ou semi-supervisionados, que não são abordados aqui. No caso dos supervisionados, um modelo é ajustado na fase de treinamento a partir de instâncias conhecidas, ou seja, de atributos preditores e os correspondentes atributos respostas. Estes algoritmos são utilizados para tarefas como classificação, predição, regressão. Por outro lado, os algoritmos não-supervisionados buscam inferir conhecimento ao agrupar os dados em conjuntos distintos ou ao reduzir a dimensionalidade dos dados, ou ao apresentá-los numa forma distinta ou ao extrair padrões, de forma a permitir uma melhor análise do fenômeno ou evento de estudo.
 
-O grande desafio das técnicas de aprendizagem de máquina é que estas precisam apresentar bom desempenho em amostras de dados diferentes das usadas no treinamento. Assim, define-se o conceito de generalização que é a capacidade de apresentar um bom desempenho em amostras de dados não observadas previamente. Usualmente, antes da fase de treinamento de um algoritmo de aprendizagem de máquina, o domínio $D$ é particionado em dois subconjuntos, um de treinamento e um de validação. O subconjunto de treinamento é utilizado na fase de ajuste do modelo, isto é, o treinamento, e a ele por meio de uma métrica, pode-se associar um erro de treinamento, que basicamente, mensura quão bens o modelo se ajusta aos dados deste subconjunto. Note que o erro de treinamento pode não fornecer um indicativo de quão bem o modelo se ajusta a dados não observados. Neste ponto, a aprendizagem de máquina começa a ser separar das abordagens usuais de ajuste de funções, pois define o erro de generalização, ou erro de validação, que deve fornecer informações sobre como o modelo se comportar para novas amostras.
+O grande desafio das técnicas de aprendizagem de máquina é apresentar bom desempenho em amostras de dados diferentes das usadas no treinamento. Assim, define-se o conceito de generalização que é a capacidade de apresentar um bom desempenho em amostras de dados não observadas previamente. Usualmente, antes da fase de treinamento de um modelo, o domínio $D$ é particionado em dois subconjuntos, um de treinamento e um de validação. O subconjunto de treinamento é utilizado na fase de ajuste, isto é, o treinamento, e a ele por meio de uma métrica, pode-se associar um erro de treinamento, que basicamente, mensura quão bem o modelo se ajusta aos dados deste subconjunto. Note que o erro de treinamento pode não fornecer um indicativo de quão bem o modelo se ajusta a dados não observados. Neste ponto, a aprendizagem de máquina começa a ser separar das abordagens usuais de ajuste de funções, pois define o erro de generalização, ou erro de validação, que deve fornecer informações sobre como o modelo se comportar para novas amostras.
 
-O erro de generalização é avaliado mensurando o desempenho do modelo no subconjunto de validação. Em um primeiro analise, não fica claro como é possível a performance no subconjunto de teste apenas observando os dados de treinamento. Assim, neste ponto, faz-se necessário adotar alguns pressupostos a respeito dos dados: as amostras são independentes entre si; o subconjunto de treinamento e o de teste são identicamente distribuídos, e amostrados da mesma distribuição de probabilidade. Logo, pode-se concluir que o valor estimado de ambos os erros devem ser iguais. Todavia, em um problema real de aprendizagem de máquina tais pressupostos não são completamente verdadeiros, e diversas abordagens são adotadas de forma a melhor se aproximar destes. Portanto, em geral, espera-se que o erro esperado de validação seja maior ou igual ao de treino.
+O erro de generalização é avaliado mensurando o desempenho do modelo no subconjunto de validação. Em um primeiro analise, não fica claro como é possível comparar a performance no subconjunto de validação apenas observando os dados de treinamento. Assim, neste ponto, faz-se necessário adotar alguns pressupostos a respeito dos dados: as amostras são independentes entre si; o subconjunto de treinamento e o de teste são identicamente distribuídos, e amostrados da mesma distribuição de probabilidade. Tais pressupostos permitem concluir que o valor estimado de ambos os erros devem ser iguais. Todavia, em um problema real de aprendizagem de máquina tais pressupostos não são completamente verdadeiros, e diversas abordagens são adotadas de forma a melhor se aproximar destes. Portanto, em geral, espera-se que o erro esperado de validação seja maior ou igual ao de treino.
 
-Finalmente, determina-se quão bem um algoritmo desempenha seu papel em relação a um conjunto de dados, avaliando sua habilidade de reduzir o erro de treinamento, mantendo a diferença entre o erro de treinamento e o de validação pequenos. Esta habilidade leva a duas dificuldades extremas opostas, o sobreajuste (overfitting) e sobajuste (underfitting). O primeiro ocorre quando a diferença entre os erros de treinamento e validação divergem; o segundo ocorre quando o modelo não é capaz de reduzir suficientemente o erro de treinamento.
+Finalmente, determina-se o quão bem um algoritmo desempenha seu papel em relação a um conjunto de dados, avaliando sua habilidade de reduzir o erro de treinamento, mantendo a diferença entre o erro de treinamento e o de validação pequenos. Esta habilidade leva a duas dificuldades extremas opostas, o sobreajuste (overfitting) e sobajuste (underfitting). O primeiro ocorre quando a diferença entre os erros de treinamento e validação divergem; o segundo ocorre quando o modelo não é capaz de reduzir suficientemente o erro de treinamento.
 
-A possibilidade de um modelo sofrer de sobreajuste ou sobajuste pode ser quantificada, teoricamente, em termos de sua capacidade, inclusive a tendência de um ou outro pode ser controlada modificando a capacidade do modelo. De uma maneira informal, pode-se dizer que a capacidade está associado ajustar a habilidade do modelo se ajustar a um grande número de funções. Dois pontos práticos podem ser obtidos dessa construção, modelos de baixa capacidade podem não se ajustar de maneira adequada ao subconjunto de treinamento, enquanto modelos com grande capacidade podem se ajustar de maneira excessiva memorizando o conjunto de treinamento, e assim, não generalizando. Estas colocações devem levantar a necessidade de uma escolha adequada de algoritmo e ajuste de seus parâmetros (ver-se-á alguns exemplos posteriormente) frente aos dados a serem tratados.
+A possibilidade de um modelo sofrer de sobreajuste ou sobajuste pode ser quantificada, teoricamente, em termos de sua capacidade, inclusive a tendência de um ou outro pode ser controlada modificando a capacidade do modelo. De uma maneira informal, pode-se dizer que a capacidade está associada a habilidade do modelo de se ajustar a um grande número de funções. Dois pontos práticos podem ser obtidos dessa afirmação, modelos de baixa capacidade podem não se ajustar de maneira adequada ao subconjunto de treinamento, enquanto modelos com grande capacidade podem se ajustar de maneira excessiva memorizando o conjunto de treinamento, e assim, não generalizando. Estas colocações devem levantar a necessidade de uma escolha adequada de algoritmo e ajuste de seus parâmetros (ver-se-á alguns exemplos posteriormente) frente aos dados a serem tratados.
 
 \section{Métricas}
 
@@ -101,9 +100,9 @@ As métricas podem ser agrupadas segundo a abordagem do problema, isto é, exist
 
 \subsection{Classificação}
 
-Primeiramente, é necessário definir o conceito de matriz de confusão, uma vez que a partir dela diversas outras métricas são mais facilmente definidas. 
+Primeiramente, é necessário definir o conceito de matriz de confusão, uma vez que a partir dela diversas outras métricas são mais facilmente definidas.
 
-Admita um problema de classificação com $n$ classes, então a matriz de confusão será uma tabela(matriz) onde cada linha representa instâncias em uma classe predita, enquanto cada coluna representa instâncias em uma classe verdadeira, ou inverso. Assim, dado a $i$-ésima linha e a $j$-ésima coluna com $x$ elementos, diz-se que $x$ elementos da $j$-ésima classe foram preditos como da $i$-ésima classe. A Tabela \ref{tab:mc1} ilustra esta configuração, e por exemplo, pode-se dizer que $h$ elementos da Classe 1 foram previstos como sendo da Classe 2, com a segunda coluna pela terceira linha.
+Admita um problema de classificação com $n$ categorias (classes), então a matriz de confusão será uma tabela (matriz) onde cada linha representa instâncias em uma classe predita, enquanto cada coluna representa instâncias em uma classe verdadeira, ou inverso. Assim, dado a $i$-ésima linha e a $j$-ésima coluna com $x$ elementos, diz-se que $x$ elementos da $j$-ésima classe foram preditos como da $i$-ésima classe. A Tabela \ref{tab:mc1} ilustra esta configuração, e por exemplo, pode-se dizer que $h$ elementos da Classe 1 foram previstos como sendo da Classe 2, com a segunda coluna pela terceira linha.
 
 \begin{table}[hhh]
 \begin{tabular}{l|l|c|c|c|c}
@@ -133,7 +132,7 @@ Enquanto na representação inversa (transposta) diz se que $x$ elementos da $i$
 \label{tab:mc2}
 \end{table}
 
-Uma vez que ambas as representações são equivalentes, isto é, vão fornecer a mesma informação, a escolha por uma ou outra, ficar a cargo do usuário quando responde peguntas como: qual tenho mais afinidade? Qual acho mais simples? Neste, trabalho adotar-se-á a matriz de confusão com o verdadeiro correspondendo as linhas, e o predito as colunas, \ref{tab:mc2}.
+Uma vez que ambas as representações são equivalentes, isto é, vão fornecer a mesma informação, a escolha por uma ou outra fica a cargo do usuário, quando responde peguntas como: qual tenho mais afinidade? Qual acho mais simples? A ferramenta que vou utilizar implementa qual? Neste, trabalho adotar-se-á a matriz de confusão com o verdadeiro correspondendo as linhas, e o predito as colunas, \ref{tab:mc2}.
 
 Em posse da matriz de confusão, pode-se definir:
 
@@ -144,37 +143,37 @@ VP_i = A_{ii}\mbox{;}
 \end{equation}
 \item {\bf Falso Positivo (FP):} é o número de elementos que não pertencem à classe $i$, mas que foram classificados como pertencendo à $i$. Para a Classe 0 é $FP_0=b+c$. Generalizando, para uma classe $i$ qualquer:
 \begin{equation}\label{eq:fp}
-FP_i = \sum_{j=0,j\ne{i}}^{n-1}A_{ji}\mbox{;}
+FP_i = \sum_{\substack{j=0,\\j\ne{i}}}^{n-1}A_{ji}\mbox{;}
 \end{equation}
 \item {\bf Verdadeiro Negativo (VN):} é o número de elementos que não pertencem à classe $i$ e foram classificados como não pertencendo à $i$. Para a Classe 0 é $VN_0=e+h+i+f$. Generalizando, para uma classe $i$ qualquer:
 \begin{equation}\label{eq:vn}
-VN_i = \sum_{j=l=0,j\ne{i}, l\ne{i}}^{n-1}A_{jl}\mbox{;}
+VN_i = \sum_{\substack{j=l=0,\\ j\ne{i},\\ l\ne{i}}}^{n-1}A_{jl}\mbox{;}
 \end{equation}
 \item {\bf Falso Negativo (FN):} é o número de elementos que pertencendo à classe $i$, foram erroneamente classificados como não pertencendo à $i$. Para a Classe 1 é $FN_0=d+g$. Generalizando, para uma classe $i$ qualquer:
 \begin{equation}\label{eq:fn}
-FN_i = \sum_{j=0,j\ne{i}}^{n-1}A_{ij}\mbox{;}~
+FN_i = \sum_{\substack{j=0,\\ j\ne{i}}}^{n-1}A_{ij}\mbox{;}~
 \end{equation}
 \end{enumerate}
 
-onde na expressões \eqref{eq:vp}-\eqref{eq:fn}, $A$ é a matriz de confusão, $n$ é o número de classes, $i,j,l\in{0,...,n-1}$, e os exemplos são dados com relação a Tabela \ref{tab:mc2}.
+onde na expressões \eqref{eq:vp}-\eqref{eq:fn}, $A$ é a matriz de confusão, $n$ é o número de classes, $i,j,l\in\{0,...,n-1\}$, e os exemplos são dados com relação a Tabela \ref{tab:mc2}.
 
-Utilizando as definições de Verdadeiro Positivo e suas correlatas é possível estabelecer um enorme conjunto de métricas, como por exemplo, acurácia, precisão, especificidade entre outras. Neste texto, apresentar-se-á a definição das duas primeiras, assim como o porquê da adoção de uma em relação a outra.
+Utilizando as definições de Verdadeiro Positivo e suas correlatas é possível estabelecer um enorme conjunto de métricas, como por exemplo, acurácia, precisão, especificidade, entre outras. Neste texto, apresentar-se-á a definição das duas primeiras, assim como o porquê da adoção de uma em relação a outra para este trabalho.
 
-A {\bf acurárcia} (acc) é uma das métricas mais tradicionais para o tratamento de problemas de classificação. E é definida como o número total de predições corretas sobre o número total de elementos. Seja $A$ uma matriz de confusão associada a um problema com $n$ classes, então a acurácia é dada por:
+A {\bf acurárcia} (acc) é uma das métricas mais tradicionais para o tratamento de problemas de classificação, é definida como o número total de predições corretas sobre o número total de elementos. Seja $A$ uma matriz de confusão associada a um problema com $n$ classes, então a acurácia é dada por:
 
 \begin{equation}
-acc=\frac{\sum_{i=0}^{n-1}A_{ii}}{\sum_{i=0,j=0}^{n-1}A_{ij}}\mbox{.}
+acc=\frac{\sum_{i=0}^{n-1}A_{ii}}{\sum_{\substack{i=0,\\j=0}}^{n-1}A_{ij}}\mbox{.}
 \end{equation}
 
-Agora, considere um problema com 3 classes, e que o número de elementos da Classe 1 e 2 combinados seja $x$. Admita ainda que o classificador acerte todos as instâncias da Classe 0, porém erre todas as demais duas classes, e que a Classe 0 sozinha tenha $x$ elementos, então a acurácia será $1/2$ ou 0,5. Considere agora que a Classe 0 tenha $2x$ instâncias, neste caso a acurácia será $2/3$ ou 0,6. Um aumento no número de elementos da Classe 0 leva um aumento da acurácia, entretanto as Classes 1 e 2 são erroneamente classificadas, portanto neste caso, a acurácia não é capaz de avaliar o classificador. 
+Agora, considere um problema com 3 classes, e que o número de elementos da Classe 1 e 2 combinados seja $x$. Admita ainda que o classificador acerte todos as instâncias da Classe 0, porém erre todas as demais duas classes, e que a Classe 0 sozinha tenha $x$ elementos, então a acurácia será $1/2$ ou 0,5. Considere, agora, que a Classe 0 tenha $2x$ instâncias, neste caso a acurácia será $2/3$ ou 0,6. Um aumento no número de elementos da Classe 0 leva um aumento da acurácia, entretanto as Classes 1 e 2 continuam sendo erroneamente classificadas, portanto neste caso, a acurácia não é capaz de avaliar o desempenho do classificador em relação as classes.
 
-Conjuntos de dados onde o número de elementos por classes são diferentes por ordens de grandezas, como o exemplo estabelecido no parágrafo anterior. são ditos não balanceados e acurácia como definida é incapaz de avaliar classificadores desenvolvido em cima destes dados. Portanto, é necessário definir uma nova métrica, neste caso a precisão, assim seja $A$ a matriz de confusão já apresentada anteriormente, a precisão por classe é dada por:
+Conjuntos de dados onde o número de elementos por classes são diferentes por ordens de grandezas, como o exemplo estabelecido no parágrafo anterior. são ditos não balanceados e acurácia como definida é incapaz de avaliar classificadores desenvolvido em cima destes dados. Portanto, é necessário definir uma nova métrica, neste caso a precisão, assim seja $A$ a matriz de confusão já apresentada anteriormente, a {\bf precisão} por classe é dada por:
 
 \begin{equation}
 precision_i=\frac{VP_i}{VP_i+FP_i}\mbox{.}
 \end{equation}
 
-A precisão para uma dada classe por ser entendida como a proporção de resultados verdadeiros que são definitivamente verdadeiros. E a precisão fica dada por uma média aritmética sobre a precisão de cada classe. Esta é a métrica adotada nos problemas de classificação discutidos nesta proposta.
+A precisão para uma dada classe por ser entendida como a proporção de resultados verdadeiros que são definitivamente verdadeiros. E a {\bf precisão balanceada} fica dada por uma média aritmética sobre a precisão de cada classe. Esta é a métrica adotada nos problemas de classificação discutidos nesta proposta.
 
 \subsection{Regressão}
 
@@ -186,15 +185,13 @@ mse=\frac{1}{n}\sum_{i=1}^n(y_i-\hat{y}_i)^2\mbox{,}~
 
 onde $n$ é o número de instâncias a serem preditas (avaliadas), $y_i$ a variável alvo para amostra $i$ e $\hat{y}_i$ o valor predito para a amostra $i$. Esta medida é uma das mais aplicadas, não somente no contexto, de problemas de regressão, mas também nos problemas de otimização em aprendizagem de máquina que necessitem de funções diferenciáveis. Por ser definida em termos de uma operação de média, existem distribuições dos dados a serem preditos para os quais essa métrica é incapaz de avaliar de maneira satisfatória o desempenho do regressor (distribuições altamente localizadas) em uma analogia com o problema de classificação com classes não balanceadas. 
 
-%Este fato pode ser melhor visualizado por um processo de discretização da regressão, o que basicamente é a associação de um histograma a distribuição alvo tal que cada elemento do histograma fique associado a uma classe diferente. 
-
 Deste modo faz necessário avaliar uma métrica que seja capaz de mensurar de maneira mais adequada erros em regiões menos localizadas da distribuição, para tal adotou-se o {\bf erro absoluto máximo} (mae) definido por:
 
 \begin{equation}
 mae=\mbox{max}|y_{i}-\hat{y}_i|\mbox{,}~
 \end{equation}
 
-onde $i$ vária entre 1 e $n$, com este sendo o úmero de instâncias a serem preditas e $y_i$ e $\hat{y}_i$ sendo respectivamente a variável alvo e o valor predito para a amostra $i$.
+onde $i$ vária entre 1 e $n$, com este sendo o número de instâncias a serem preditas e $y_i$ e $\hat{y}_i$ sendo respectivamente a variável alvo e o valor predito para a amostra $i$.
 
 \section{Algoritmo: Árvores}
 
