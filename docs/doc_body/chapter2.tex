@@ -13,7 +13,7 @@ A mineração de dados é frequentemente confundida com o processo mais amplo de
 \item {\bf Transformação de dados}: os dados são transformados e consolidados em uma forma mais apropriada para mineração, sendo por exemplo discretizados, normalizados, agrupados;
 \item {\bf Mineração de dados}: é a etapa do KDD associada com a aplicação de algoritmos estatísticos, de reconhecimento de padrões ou de inteligência computacional, como por exemplo, redes neurais, árvores de decisão, visando a extração de padrões, juntamente com a avaliação dos modelos desenvolvidos, por exemplo, medir o desempenho de um sistema de classificação;
 \item {\bf Apresentação do conhecimento}: técnicas de visualização e representação dos dados são usadas para exibir o conhecimento extraído aos usuários.
-\end{enumerate} 
+\end{enumerate}
 
 O processo de KDD é iterativo, como pode ser visto na Figura \ref{fig:kdd} no sentido em que etapas podem ser revistas e reexecutadas em função dos resultados obtidos.
 
@@ -177,13 +177,13 @@ A precisão para uma dada classe por ser entendida como a proporção de resulta
 
 \subsection{Regressão}
 
-O {\bf erro quadrático médio} (mse) é definido por 
+O {\bf erro quadrático médio} (mse) é definido por
 
 \begin{equation}\label{eq:mse}
 mse=\frac{1}{n}\sum_{i=1}^n(y_i-\hat{y}_i)^2\mbox{,}~
 \end{equation}
 
-onde $n$ é o número de instâncias a serem preditas (avaliadas), $y_i$ a variável alvo para amostra $i$ e $\hat{y}_i$ o valor predito para a amostra $i$. Esta medida é uma das mais aplicadas, não somente no contexto, de problemas de regressão, mas também nos problemas de otimização em aprendizagem de máquina que necessitem de funções diferenciáveis. Por ser definida em termos de uma operação de média, existem distribuições dos dados a serem preditos para os quais essa métrica é incapaz de avaliar de maneira satisfatória o desempenho do regressor (distribuições altamente localizadas) em uma analogia com o problema de classificação com classes não balanceadas. 
+onde $n$ é o número de instâncias a serem preditas (avaliadas), $y_i$ a variável alvo para amostra $i$ e $\hat{y}_i$ o valor predito para a amostra $i$. Esta medida é uma das mais aplicadas, não somente no contexto, de problemas de regressão, mas também nos problemas de otimização em aprendizagem de máquina que necessitem de funções diferenciáveis. Por ser definida em termos de uma operação de média, existem distribuições dos dados a serem preditos para os quais essa métrica é incapaz de avaliar de maneira satisfatória o desempenho do regressor (distribuições altamente localizadas) em uma analogia com o problema de classificação com classes não balanceadas.
 
 Deste modo faz necessário avaliar uma métrica que seja capaz de mensurar de maneira mais adequada erros em regiões menos localizadas da distribuição, para tal adotou-se o {\bf erro absoluto máximo} (mae) definido por:
 
@@ -195,17 +195,16 @@ onde $i$ vária entre 1 e $n$, com este sendo o número de instâncias a serem p
 
 \section{Algoritmo: Árvores}
 
-Métodos baseados em árvores particionam os espaço de atributos preditores em um conjunto de retângulos, e então aproxima cada um destes por uma simples função, por exemplo, uma constante. Existem diferentes algoritmos baseados em árvores, CART, C4.5, C4, neste texto discutir-se-á a CART. A Figura \ref{fig:tree} apresenta uma representação visual de uma estrutura de árvore ajustada para um dos conjunto de dados discutido no Capítulo \ref{ch:revisonrezende}.
+Métodos baseados em árvores particionam o espaço de atributos preditores em um conjunto de retângulos, e então aproximam cada um destes por uma simples função, por exemplo, uma constante. Existem diferentes algoritmos baseados em árvores: CART, C4.5, C4; neste texto discutir-se-á a CART. A Figura \ref{fig:tree} apresenta uma representação visual de uma estrutura de árvore ajustada para um dos conjunto de dados discutido no Capítulo \ref{ch:revisonrezende}.
 
 \begin{figure}[H]
 \centering
 \makebox[\textwidth][c]{\includegraphics[width=1.3\linewidth]{Figuras/tree.png}}
-\caption{Fonte: Próprio Autor.}
+\caption{Representação gráfica de uma árvore de regressão CART. As cores mais escuras indicam maior valor de $mse$. Cada retângulo representa um nó, os nós na parte inferior são folhas, pois nenhum nó deriva destes. Fonte: Próprio Autor.}
 \label{fig:tree}
 \end{figure}
 
-
-Considere um problema de regressão com duas variáveis preditoras $x_1$ e $x_2$ e uma resposta contínua $y$, cada um destes tomando valores entre $[0,1]$. Cada partição do espaço de atributos modela $y$ por uma constante diferente. Se as linhas de partições forem definidas definidas de maneira arbitrária, apesar de apresentarem simples descrições, tal como $x_2=c$, a região resultante pode apresentar uma descrição de difícil tratamento. Assim, é interessante restringir a maneira pela o qual as partições são criadas. A limitação mais natural a ser adotada é que as partições sejam definidas recursivamente dividindo o espaço em duas sub-regiões (recursão binária), em outras palavras, inicialmente o espaço de atributos é divido em duas regiões, neste caso, adota-se modelar a resposta $y$ pelo valor médio em cada região. Então, uma destas regiões ou ambas são divididas em mais duas regiões. Tal procedimento é aplicado até que alguma condição de parada seja alcançada. 
+Considere um problema de regressão com duas variáveis preditoras $x_1$ e $x_2$ e uma resposta contínua $y$, cada um destes tomando valores entre $[0,1]$. Cada partição do espaço de atributos modela $y$ por uma constante diferente. Se as linhas de partições forem definidas de maneira arbitrária, apesar de apresentarem simples descrições, tal como $x_2=c$, a região resultante pode apresentar uma descrição de difícil tratamento (regiões não retangulares). Assim, é interessante restringir a maneira pela o qual as partições são criadas. A limitação mais natural a ser adotada é que as partições sejam definidas recursivamente dividindo o espaço em duas sub-regiões (recursão binária), em outras palavras, inicialmente o espaço de atributos é divido em duas regiões, neste caso, adota-se modelar a resposta $y$ pelo valor médio em cada região. Então, uma destas regiões ou ambas são divididas em mais duas regiões. Tal procedimento é aplicado até que alguma condição de parada seja alcançada como u número mínimo de elementos por região.
 
 A divisão do espaço é realizada segundo algum critério, tal que se deseja obter o melhor ajuste. Finalmente, o correspondente modelo de regressão para a variável $y$ fica definido por:
 
@@ -217,15 +216,15 @@ onde $R_m$ indica a $m$-ésima região, $x$ é um elemento do espaço de atribut
 
 \begin{equation}
 I(x\in{R_m})=\Big\{\begin{array}{cc}
-0,&\mbox{se}\, x\notin{R_m}\mbox{,}\\ 
+0,&\mbox{se}\, x\notin{R_m}\mbox{,}\\
 1,&\mbox{se}\, x\in{R_m}\mbox{.}
 \end{array}
 \end{equation}
 
 \noindent
-para este exemplo, $M=2$ e $x$ é da forma $(x_1, x_2)$. Um importante ganho advindo da restrição em recursão binária, é que a representação da árvore passa a ter uma simples interpretação, onde uma simples condição em cada nó, define os subnós. 
+para o exemplo acima, $M=2$ e $x$ era da forma $(x_1, x_2)$. Um importante ganho advindo da restrição em recursão binária, é que a representação da árvore passa a ter uma simples interpretação, onde uma simples condição em cada nó, define os subnós (nós derivados de um nó).
 
-O processo de construção de uma árvore depende se o problema a ser tratado é de regressão ou classificação, o que será discutido nas próximas subseções. E alguns dos elementos da estrutura árvore binárias discutidas apresentam nomes, e condições sobre elas que são
+O processo de construção de uma árvore depende se o problema a ser tratado é de regressão ou classificação, o que será discutido nas próximas subseções. Alguns dos elementos em uma estrutura de árvore binária tem nomes, e condições sobre elas, que são
 
 \begin{itemize}
 \item um nó pode ser de dois tipos, {\bf decisão}, neste caso fica associado um subconjunto, e uma regra, que particiona esta em duas novas sub-regiões, ou {\bf folha};
@@ -233,10 +232,9 @@ O processo de construção de uma árvore depende se o problema a ser tratado é
 \item folha é um nó associado ao final da árvore, portanto o conjunto associado a ele não pode ser dividido, em outras palavras, ele não pode ter filhos, e assim, a cada folha fica associado uma partição e uma constante;
 \end{itemize}
 
-
 \subsection{Árvores de Regressão}
 
-Admita que o conjunto de dados apresente $p$ atributos preditores e um atributo resposta, e um total de $N$ instâncias, ou seja, é da forma $(\bf{x}_i,y_i)|i\in\{1,...,N\}$, com $\bf{x}_i=(x_{i,1}, x_{i,2}, ..., x_{i,p})$. O papel do algoritmo é operar sobre este conjunto de dados e automaticamente decidir em qual variável dividir, qual o ponto (valor) para dividir, e a forma que a árvore deverá assumir. Considere inicialmente que o espaço esteja particionado em $M$ regiões $R_1,...,R_M$, e que a reposta seja ajustada por uma constante $c_m$ em cada região, \eqref{eq:treeresponse}. Ir-se-á adotar como critério para a divisão minimização do erro quadrático médio \eqref{eq:mse}, isto é, o mse em cada sub-região, traduzido na expressão
+Admita que o conjunto de dados apresente $p$ atributos preditores e um atributo resposta, e um total de $N$ instâncias, ou seja, é da forma $({\bf x}_i,y_i)|i\in\{1,...,N\}$, com ${\bf x}_i=(x_{i,1}, x_{i,2}, ..., x_{i,p})$. O papel do algoritmo é operar sobre este conjunto de dados e automaticamente decidir em qual variável dividir, qual o ponto (valor) para dividir, e a forma que a árvore deverá assumir. Considere inicialmente que o espaço esteja particionado em $M$ regiões $R_1,...,R_M$, e que a reposta seja ajustada por uma constante $c_m$ em cada região, \eqref{eq:treeresponse}. Ir-se-á adotar como critério para a divisão a minimização do erro quadrático médio \eqref{eq:mse}, isto é, o mse em cada sub-região, traduzido na expressão
 
 \begin{equation}\label{eq:a}
 \min\frac{1}{N}\sum_{i=1}^N(y_i-\hat{f}(x_i))^2\mbox{.}~
@@ -245,8 +243,8 @@ Admita que o conjunto de dados apresente $p$ atributos preditores e um atributo 
 Avaliando a expressão \eqref{eq:a} com relação aos parâmetros $c_m$, isto é, derivando a expressão com relação a $c_m$ e igualando a zero, obtém-se
 
 \begin{align}
-\sum_{i=1}^N(y_i-f(x_i))frac{\partial(f(x_i))}{\partial{c_l}}=&\,0 \nonumber \\
-\sum_{i=1}^N(y_i-\sum_{m=1}^Mc_mI(x\in{R_m}))I(x\in{R_l})=\,&0 \nonumber \\
+\sum_{i=1}^N(y_i-f(x_i))\frac{\partial(f(x_i))}{\partial{c_l}}=&\,0 \nonumber \\
+\sum_{i=1}^N\left(y_i-\sum_{m=1}^Mc_mI(x\in{R_m})\right)I(x\in{R_l})=\,&0 \nonumber \\
 \sum_{i=1}^N(y_i)I(x\in{R_l}) - \sum_{i=1}^N\sum_{m=1}^Mc_mI(x\in{R_m})I(x\in{R_l})=\,&0 \nonumber\\
 \sum_{i=1}^N(y_i)I(x\in{R_l}) - c_l \#R_l=\,&0\mbox{,}~
 \end{align}
@@ -257,9 +255,9 @@ ou
 \hat{c}_l=\frac{1}{\#R_l}\sum_{i|x_i \in{R_l}}y_i\mbox{,}
 \end{equation}
 
-onde $\#R_l$ indica a cardinalidade da partição $R_l$, isto é, o número de elementos da região $R_l$, finalmente o lado direito da expressão \eqref{eq:b} corresponde a média sobre os valores de $y_i$ que estão na região $R_l$. Adotar-se-á a seguinte notação para simplificar a expressão \eqref{eq:b} $\hat{c}_m=\mu(y_i|x_i\in{R_l})$. 
+onde $\#R_l$ indica o número de elementos da partição $R_l$, finalmente o lado direito da expressão \eqref{eq:b} corresponde a média sobre os valores de $y_i$ que estão na região $R_l$. Adotar-se-á a seguinte notação para simplificar a expressão: \eqref{eq:b} $\hat{c}_m=\mu(y_i|x_i\in{R_l})$.
 
-Encontrar a melhor partição que minimiza o mse de maneira geral como definido acima é um problema quase intratável computacional, entretanto, é possível adotar-se uma abordagem gulosa, que lida com um problema semelhante. Comece com o conjunto de todos os dados, considere dividir este utilizando a variável $j$ das $p$ variáveis, em um ponto $s$ dos $N$ pontos, definindo-se assim duas regiões
+Encontrar a melhor partição que minimiza o $mse$ de maneira geral como definido acima é um problema quase intratável computacionalmente, entretanto, é possível adotar-se uma abordagem gulosa, que lida com um problema semelhante. Comece com o conjunto de todos os dados, considere dividir este utilizando a variável $j$ das $p$ variáveis, em um ponto $s$ dos $N$ pontos, definindo-se assim duas regiões
 
 \begin{align}
 R_1(j,s) = \{x\,|\,x_j\le{s}\}\\
@@ -269,7 +267,7 @@ R_2(j,s) = \{x\,|\,x_j>s\}\mbox{.}
 Então, procura-se a variável $j$ e ponto $s$ que resolvem o problema de minimização
 
 \begin{equation}
-\min_{j,s}\left[\min_{c_1}\sum_{x_i\in{R_1(j,s)}}(y_i-c_1)^2+\sum_{x_i\in{R_2(j,s)}}(y_i-c_2)^2\right]\mbox{.}
+\min_{j,s}\left[\min_{c_1}\sum_{x_i\in{R_1(j,s)}}(y_i-c_1)^2+\min_{c_2}\sum_{x_i\in{R_2(j,s)}}(y_i-c_2)^2\right]\mbox{.}
 \end{equation}
 
 Note entretanto que já foi resolvido um problema similar para a minimização da parte interna $(y_i-c_1)$ para qualquer que seja $j$ e $s$:
@@ -278,23 +276,22 @@ Note entretanto que já foi resolvido um problema similar para a minimização d
 \hat{c}_1=\mu(y_i|x_i\in{R_1(j,s)})\quad\mbox{e}\quad\hat{c}_2=\mu(y_i|x_i\in{R_2(j,s)})\mbox{.}
 \end{equation}
 
-Assim, para cada variável de divisão $j$, a determinação do ponto de divisão $s$ pode ser realizada rapidamente, varrendo todos os possíveis valores, por exemplo, tal que encontra o melhor par $(j,s)$ para cada região seja tratável. Uma vez encontrado este par, particionasse a região em duas sub-regiões, e aplica-se o processo para cada uma das duas sub-regiões. Este processo é repetido para cada nova sub-região até que algum critério de parada seja alcançado.
+Assim, para cada variável de divisão $j$, a determinação do ponto de divisão $s$ pode ser realizada rapidamente, varrendo todos os possíveis valores, por exemplo, tal que encontrar o melhor par $(j,s)$ para cada região seja tratável. Uma vez encontrado este par, particionasse a região em duas sub-regiões, e aplica-se o processo para cada uma das duas sub-regiões. Este processo é repetido para cada nova sub-região até que algum critério de parada seja alcançado.
 
-O tamanho da árvore governa a complexidade do modelo, e um valor ótimo deve ser escolhido segundo os dados. Assim, existem diferentes critérios para dividir ou não um nó, por exemplo, divida o nó somente se o decréscimo no mse foi maior que um determinado valor.
-
+O tamanho da árvore governa a complexidade do modelo, e um valor ótimo deve ser escolhido segundo os dados. Assim, existem diferentes critérios para dividir ou não um nó, por exemplo, divida o nó somente se o decréscimo no $mse$ foi maior que um determinado valor.
 
 \subsection{Árvores de Decisão}
 
-No caso da variável resposta estar associada a um problema de classificação, as modificações no algoritmo se resumem a modificação do critério de divisão do nó e os critérios de parada. Defini-se a medida de impureza de um nó $m$ com relação a uma árvore $T$, para um problema de regressão, por
+No caso da variável resposta estar associada a um problema de classificação, as modificações no algoritmo se resumem a uma alteração do critério de divisão dos nós e os critérios de parada. Define-se a medida de impureza de um nó $m$ com relação a uma árvore $T$, para um problema de regressão, por
 
-\begin{equation}
+\begin{equation}\label{eq:msein}
 Q_m(T)=\frac{1}{\#R_m}\sum_{x_i\in{R_m}}(y_i-\hat{c}_m)^2\mbox{,}~
 \end{equation}
 
-note que quanto mais $Q_m(T)$ tende a $0$, mais se diz que o nó é puro. Observando também a relação de impureza fica claro que ela apresenta relação fundamental com o critério de divisão de um nó, entretanto para um problema de classificação, tal relação não é adequada. Assim, é necessário definir ao menos uma medida para este tipo de problema. Seja $m$ um nó de um árvore em um problema de classificação, representando uma região $m$ com $N_m$ instâncias ($N_m=\#R_m$), define-se
+quando $Q_m(T)=0$ se diz que o nó é puro. Observando também a relação de impureza fica claro que ela tem uma relação fundamental com o critério de divisão de um nó, entretanto para um problema de classificação a relação \eqref{eq:msein} não é adequada. Assim, é necessário definir ao menos uma medida para este tipo de problema. Seja $m$ um nó de uma árvore em um problema de classificação, representando uma região $m$ com $N_m$ instâncias ($N_m=\#R_m$), define-se
 
 \begin{equation}
-\hat{p}_{mk}=\frac{1}{N_m}\sum_{x_i\in{R_m}I(y_i=k)}\mbox{,}~
+\hat{p}_{mk}=\frac{1}{N_m}\sum_{x_i\in{R_m}}I(y_i=k)\mbox{,}~
 \end{equation}
 
 a proporção de elementos da $k$-ésima classe no nó $m$. A classe associada ao nó $m$ denotada por $k(m)$ é $k(m)=\max_k\hat{p}_{mk}$, ou seja, a classe que apresenta o maior número de elementos neste nó. Assim, pode-se definir algumas medidas de impureza:
@@ -314,7 +311,7 @@ a proporção de elementos da $k$-ésima classe no nó $m$. A classe associada a
 \end{equation}
 \end{itemize}
 
-Finalmente, o critério de divisão fica definido como maximizar o nível de pureza ao dividir um nó. Considere um nó $m$ com $N_m$ elementos, tal que cada elemento tenha $p$ variáveis preditoras e um variável resposta que indica a classe da amostra. Assim, de maneira gulosa, busca-se uma variável $j$ e um ponto de divisão $s$ tal que a soma da medida de impureza de cada sub-região $Q_{x_j\le{s}}(T)$ e $Q_{x_j>{s}}(T)$ seja mínima, ou
+Finalmente, o critério de divisão fica definido como maximizar o nível de pureza ao dividir um nó. Considere um nó $m$ com $N_m$ elementos, tal que cada elemento tenha $p$ variáveis preditoras e uma variável resposta que indique a classe da amostra. Assim, de maneira gulosa, busca-se uma variável $j$ e um ponto de divisão $s$ tal que a soma da medida de impureza de cada sub-região $Q_{x_j\le{s}}(T)$ e $Q_{x_j>{s}}(T)$ seja mínima, ou
 
 \begin{equation}
 \min_{j,s}\left[Q_{x_j\le{s}}(T)+Q_{x_j>{s}}(T)\right]\mbox{.}
@@ -324,53 +321,59 @@ A escolha da medida de impureza depende do algoritmo, a CART utiliza o índice G
 
 \section{Técnicas de Conjunto}
 
-A grande maioria dos algoritmos de aprendizagem de máquina, usualmente, ajustam um único modelo para resolver um problema, em contraste, existe uma classe de métodos que adotam a abordagem de construir um conjunto de modelos e combiná-los de forma a tratar o problema. Essa classe é denominada de métodos de conjunto do inglês ``ensemble methods'' ou métodos baseados em comitê.
+A grande maioria dos algoritmos de aprendizagem de máquina, usualmente, ajusta um único modelo para resolver um problema, em contraste, existe uma classe de métodos que adotam a abordagem de construir um conjunto de modelos e combiná-los de forma a tratar o problema. Essa classe é denominada de métodos de conjunto do inglês ``ensemble methods'' ou métodos baseados em comitê.
 
-Um conjunto contém um número de modelos de base, os quais são gerados a partir dos dados de treinamento por um algoritmo de aprendizagem de base. A maioria das técnicas de conjunto utilizam um único algoritmo de aprendizagem de base, e neste caso são denominados de conjuntos homogêneos. Todavia em princípio não existe nenhuma restrição para a utilização de diferentes algoritmos, neste caso, tem-se conjuntos heterogêneos.
+Um conjunto contém um número de modelos de base, os quais são gerados a partir dos dados de treinamento por um algoritmo de aprendizagem de base. A maioria das técnicas de conjunto utilizam um único algoritmo de aprendizagem de base, e neste caso são denominadas de conjuntos homogêneos. Todavia em princípio não existe uma restrição para a utilização de diferentes algoritmos, neste caso, tem-se conjuntos heterogêneos.
 
-A capacidade de generalização de um conjunto é maior do que os modelos de base. Em geral, utiliza-se algoritmos de base denominados de aprendizes fracos que são aqueles cuja previsão é um pouco melhor do que um sorteio aleatório. Assim, o papel da técnica de conjuntos é melhor os aprendizes fracos, onde suas combinações o tornam um aprendiz forte, isto é, aquele que gera modelos capazes de predições bem acuradas. O cerne da técnica pode ser traduzido no ditado popular ``a união faz a força''.
+% o termo aprendiz fraco precisa ser melhorado
 
-Os métodos de conjunto se tornaram um importante paradigma depois da década de 90, com a publicação de dois trabalhos pioneiros \cite{HANSEN:1990} e \cite{SCHAPIRE:1990}. O primeiro destes mostrou empiricamente que a predição realizada pela combinação de um conjunto de classificadores é em geral mais acurada do que a feita por um único bom classificador. O segundo de caráter teórico mostra que aprendizes fracos podem ser combinados de forma a geral aprendizes fortes. 
+A capacidade de generalização de um conjunto é maior do que os modelos de base. Em geral, utiliza-se algoritmos de base denominados de preditores fracos que são aqueles cuja previsão é um pouco melhor do que um sorteio aleatório. Assim, o papel da técnica de conjunto é melhorar os aprendizes fracos, onde suas combinações o tornam um aprendiz forte, isto é, aquele que gera modelos capazes de predições bem acuradas. O cerne da técnica pode ser traduzido no ditado popular ``a união faz a força''.
 
-Em geral, estes conjuntos são construídos em dois passos, a geração dos modelos de base e, então, a combinação deles. Assim, para a obtenção de um bom conjunto se busca modelos de base tão acurados quanto possível, e tão diversos quanto possível. 
+Os métodos de conjunto se tornaram um importante paradigma depois da década de 90, com a publicação de dois trabalhos pioneiros \cite{HANSEN:1990} e \cite{SCHAPIRE:1990}. O primeiro destes mostrou empiricamente que a predição realizada pela combinação de um conjunto de classificadores é em geral mais acurada do que a feita por um único bom classificador. O segundo de caráter teórico mostra que aprendizes fracos podem ser combinados de forma a geral aprendizes fortes.
+
+Em geral, estes conjuntos são construídos em dois passos, a geração dos modelos de base e, então, a combinação deles. Assim, para a obtenção de um bom conjunto se busca modelos de base tão acurados quanto possível, e tão diversos quanto possível.
 
 Nas próximas duas subseções ir-se-á discutir dois métodos gerais a respeito de técnicas de conjunto o ``bagging'' e o ``boosting''.
 
 \subsection{Boosting}
 
-O termo ``boosting'' se refere a uma família de algoritmos que são capazes de converter um preditor fraco em um preditor forte. O procedimento geral é bem simples. Considere que um preditor fraco sobre uma distribuição qualquer, e considere um problema de classificação binária como exemplo, ou seja, deseja classificar as amostras em positivo ou negativo. O domínio $D$ é amostrado identicamente e independentemente da distribuição.
+O termo ``boosting'' se refere a uma família de algoritmos que são capazes de converter um preditor fraco em um preditor forte. O procedimento geral é bem simples, considere um preditor fraco sobre uma distribuição qualquer, e considere um problema de classificação binária como exemplo, ou seja, deseja-se classificar uma coleção de amostras em positivo ou negativo. O domínio $D$ é amostrado identicamente e independentemente da distribuição.
 
-Admita agora que o domínio $D$ é divido em 3 regiões $D_1$, $D_2$ e $D_3$, onde cada uma compõem um terço de $D$ e que um preditor fraco tenha um erro de classificação da ordem de 50\%. O objetivo é ter uma acurácia alta, com um erro de classificação próximo de 100\%. Todavia inicialmente, tem-se apenas um preditor fraco $f_1$ que apenas realiza classificações corretas para as regiões $D_1$ e $D_2$ errando todas as classificações para a região $D_3$, neste caso ele tem um erro de classificação de ao menos um terço.
+Admita agora que o domínio $D$ é divido em 3 regiões $D_1$, $D_2$ e $D_3$, onde cada uma compõem um terço de $D$ e que um preditor fraco tenha um erro de classificação da ordem de 50\%. O objetivo é ter uma acurácia alta, com um erro de classificação próximo de 0\%. Todavia inicialmente, tem-se apenas um preditor fraco $f_1$ que apenas realiza classificações corretas para as regiões $D_1$ e $D_2$ errando todas as classificações para a região $D_3$, neste caso ele tem um erro de classificação de ao menos um terço.
 
 A ideia geral de boosting é corrigir os erros gerados pelo classificador $f_1$, para tal gerasse um novo domínio $D'$ que realce os erros de $f_1$, em outras palavras, foque nas amostras em $D_3$. Então treinasse um novo classificador $f_2$  no domínio $D'$. Este novo classificador apresenta bons resultados para a subregiões $D_1$ e $D_3$, porém apresenta muitos erros para a região $D_2$. Combinando de maneira adequada os classificadores $f_1$ e $f_2$ ter-se-á classificações corretas para $D_1$ e alguns erros para $D_2$ e $D_3$.
 
 Novamente, o mesmo procedimento é adotado, gera-se um novo domínio $D''$ que destaque os erros de classificação cometidos pela combinação de $f_1$ e $f_2$ e treinasse um classificador $f_3$ que produza boas classificações para a região $D_2$ e $D_3$.
 
-Resumidamente, a técnica de ``boosting'' treina um conjunto de preditores sequencialmente e os combinando para gerar um predição, onde cada preditor é treinado focando nos erros dos preditores anteriores.
+Resumidamente, a técnica de ``boosting'' treina um conjunto de preditores sequencialmente, combinando os para gerar uma predição, onde cada preditor é treinado focando nos erros dos preditores anteriores.
 
 \subsection{Bagging}
 
-Existem basicamente dois paradigmas centrais nas técnicas de conjuntos. O primeiro é a técnica de conjuntos sequencias (boosting) onde os preditores base são gerados sequencialmente, e o segundo é a técnica de conjuntos paralelo, onde os preditores base são gerados em paralelo (``bagging'') \cite{BREIMAN:1996}.
+Existem basicamente dois paradigmas centrais nas técnicas de conjuntos. O primeiro é a técnica de conjuntos sequencias (boosting) onde os preditores base são gerados sequencialmente, e o segundo é a técnica de conjuntos paralelos, onde os preditores base são gerados em paralelo (``bagging'') \cite{BREIMAN:1996}.
 
-A principal motivação por trás dos métodos sequencias é explorar a dependência entre os preditores base, uma vez que a performance pode ser melhorada por um processo análogo a redução de resido. Por sua, o cerne dos métodos paralelos é explorar a independência entre os preditores de base, uma vez que o erro pode ser reduzido combinando preditores de base independentes.
+A principal motivação por trás dos métodos sequencias é explorar a dependência entre os preditores base, uma vez que a performance pode ser melhorada por um processo análogo a redução de resíduo. Por sua vez, o cerne dos métodos paralelos é explorar a independência entre os preditores de base, uma vez que o erro pode ser reduzido combinando preditores de base independentes.
 
 Todavia é praticamente impossível obter preditores de base independentes, haja visto que são gerados com base no mesmo conjunto de treinamento. Assim, uma maneira de reduzir a dependência dos preditores se dá pela introdução de aleatoriedade no processo de treinamento, incluindo aqui a própria geração do conjunto de treinamento.
 
-A estratégia de bagging introduz aleatoriedade pela adoção de amostras do subconjunto de treinamento. Os dois elementos principais são a agregação, isto é, a combinação do preditores de base e a amostragem com reposição.
+A estratégia de bagging introduz aleatoriedade pela adoção de amostras do subconjunto de treinamento. Os dois elementos principais nesta abordagem são a agregação, isto é, a combinação dos preditores de base e a amostragem com reposição.
 
-Considere um conjunto de treinamento contendo $m$ amostras $A$, um novo conjunto de $m$ amostras $A_1$ é gerado amostrando com reposição $A$, neste caso, note que alguns exemplos do conjunto $A$ podem aparecer várias vezes, enquanto alguns elementos podem não aparecer. Aplicando este processo $l$ vezes são gerados $l$ conjuntos de amostras com $m$ elementos. Então, cada conjunto é utilizado no treinamento de um modelo de base, quando da aplicação do algoritmo de aprendizagem de base.
+Considere um conjunto de treinamento contendo $m$ amostras $A$, um novo conjunto de $m$ amostras $A_1$ é gerado amostrando com reposição $A$, neste caso, note que alguns exemplos do conjunto $A$ podem aparecer várias vezes, enquanto alguns elementos podem não aparecer. Aplicando este processo $l$ vezes são gerados $l$ conjuntos com $m$ elementos. Então, cada conjunto é utilizado no treinamento de um modelo de base, quando da aplicação do algoritmo de aprendizagem de base.
 
 A agregação é realizada utilizando procedimentos tradicionais, no caso da regressão se toma a média dos resultados gerados por cada preditor de base, no caso de classificação se toma a classe mais predita pelos preditores de base, em uma analogia com uma votação.
 
+
+
+
+
 \section{Extreme Gradient Boosting: XGBOOST}
 
-A explicação aqui apresentada sobre o algoritmo XGBOOST é baseada no trabalho de \cite{CHEN:2016}. Considere um conjunto de dados com $N$ amostras e $p$ atributos $\mathcal{D}({\bf x}_i, y_i)$ onde $_{\bf X}\in\mathbb{R}^N$ e $y_i\in\mathbb{R}$, um modelo baseado em um conjunto de árvores utiliza $K$ funções aditivas (árvores) para predizer, estimar, a variável resposta:
+A explicação aqui apresentada sobre o algoritmo XGBOOST é baseada no trabalho \cite{CHEN:2016}. Considere um conjunto de dados com $N$ amostras e $p$ atributos $\mathcal{D}({\bf x}_i, y_i)$ onde ${\bf x}_i\in\mathbb{R}^N$ e $y_i\in\mathbb{R}$, um modelo baseado em um conjunto de árvores utiliza $K$ funções aditivas (árvores) para predizer, estimar, a variável resposta
 
 \begin{equation}\label{eq:xgboost}
 \hat{y}_i=\sum_{k=1}^{K}f_{k}({\bf x}_i)\mbox{,}\,f_{k}\in\mathcal{F}\mbox{,}~
 \end{equation}
 
-onde $\mathcal{F}=\{f({\bf x})=c_{q({\bf x})}\}(q:\mathbb{R}^N\to{M},c\in\mathbb{R}^{M})$ é o espaço de árvores de regressão (CART), $q$ representa a estrutura de cada árvore que mapeia uma amostra na correspondente folha, $M$ é o número de folhas na árvore. Cada função $f_k$ corresponde a uma estrutura de árvore completa e independente q e folhas com valor $c$. Assim, para uma dada amostra, utiliza-se as regras de decisões nas árvores dadas por $q$ para classificar em uma folha, e calcular o valor de predição final somando os valores nas correspondentes folhas, dadas por c. A Figura \ref{fig:tree_model}
+onde $\mathcal{F}=\{f({\bf x})=c_{q({\bf x})}\}(q:\mathbb{R}^N\to{M},c\in\mathbb{R}^{M})$ é o espaço de árvores de regressão (CART), $q$ representa a estrutura de cada árvore que mapeia uma amostra na correspondente folha, $M$ é o número de folhas na árvore. Cada função $f_k$ corresponde a uma estrutura de árvore completa e independente $q$ e folhas com valor $c$. Assim, para uma dada amostra, utiliza-se as regras de decisões dadas por $q$ para mapear a amostra em uma folha, e calcular o valor de predição final somando os valores nas correspondentes folhas, dadas por $c$. A Figura \ref{fig:tree_model}
 
 \begin{figure}[H]
 \centering
@@ -379,20 +382,20 @@ onde $\mathcal{F}=\{f({\bf x})=c_{q({\bf x})}\}(q:\mathbb{R}^N\to{M},c\in\mathbb
 \label{fig:tree_model}
 \end{figure}
 
-O processo de aprendizado deste algoritmo, consiste em determinar as funções $f_k$, para tal, minimiza-se a seguinte função objetivo regularizada:
+O processo de aprendizado deste algoritmo consiste em determinar as funções $f_k$, para tal, minimiza-se a seguinte função objetivo regularizada
 
 \begin{equation}\label{eq:xgboostmin}
 \mathcal{L}=\sum_{i}l(\hat{y}_i, y_i)+\sum_{k}\Omega{f_k}\mbox{,}~
 \end{equation}
 
 \noindent
-onde 
+onde
 
 \begin{equation}
 \Omega(f)=\lambda{T}+\frac{1}{2}\lambda||{\bf c}||^2\mbox{.}
 \end{equation}
 
-$l$ é uma função de erro convexa diferenciável que mede a diferença entre o valor predito $\hat{y}_i$ e o valor reposta $y_i$. O segundo termo penaliza a complexidade do modelo. Sua adição suaviza os coeficientes $c$ aprendidos, o que por sua vez reduz a probabilidade de sobreajuste. Note que quando $\gamma=0$, o algoritmo se torna boosting de árvores com gradiente tradicional.
+$l$ é uma função de erro convexa diferenciável que mede a diferença entre o valor predito $\hat{y}_i$ e o valor reposta $y_i$. O segundo termo penaliza a complexidade do modelo. Sua adição suaviza os coeficientes $c$ aprendidos, o que por sua vez reduz a probabilidade de sobreajuste. Note que quando $\gamma=0$, o algoritmo se torna um boosting de árvores com gradiente tradicional.
 
 O modelo de conjunto de árvores na equação \eqref{eq:xgboost} inclui funções não analíticas, e o problema de minimização \eqref{eq:xgboostmin} incluí funções com parâmetros e, portanto, não pode ser minimizado tradicionalmente utilizando técnicas de otimização em espaços Euclideanos. Assim, uma abordagem aditiva, análoga ao método guloso adotado na construção de árvores de regressão (CART), é utilizado. Seja, $\hat{y}_{i}^{(t)}$ a predição da $i$-ésima instância na $t$-ésima interação, adiciona-se $f_t$ de forma a minimizar o seguinte objetivo
 
@@ -431,7 +434,7 @@ trocando $i$ por $j$ e $j$ por $i$ no primeiro termo da expressão \eqref{eq:nob
 \mathcal{\tilde{L}}^{(t)}=\sum_{j=1}^{T}\left[c_j\sum_{i|{\bf x}_i\in R_j}g_i+\frac{1}{2}c_j^2\left(\sum_{i|{\bf x}_i\in R_j}h_i+\lambda\right)\right]+\gamma{T}\mbox{.}~
 \end{equation}
 
-Tomando a variação da equação \eqref{eq:nobj2} com relação a $c_j$, encontra-se que o valor ótimo de  $\hat{c}_j$ para a folha $j$ é dado porquê
+Tomando a variação da equação \eqref{eq:nobj2} com relação a $c_j$, encontra-se que o valor ótimo de  $\hat{c}_j$ para a folha $j$ é dado por
 
 \begin{equation}
 \hat{c}_j=-\frac{\sum_{i|{\bf x}_i\in R_j}g_i}{\lambda+\sum_{i|{\bf x}_i\in R_j}h_i}\mbox{,}~
@@ -440,16 +443,16 @@ Tomando a variação da equação \eqref{eq:nobj2} com relação a $c_j$, encont
 e o correspondente valor ótimo por
 
 \begin{equation}\label{eq:quality}
-\mathcal{\tilde{L}}^{(t)}==-\frac{1}{2}\sum_{j=1}^{T}\frac{\sum_{i|{\bf x}_i\in R_j}g_i}{\lambda+\sum_{i|{\bf x}_i\in R_j}h_i}+\gamma T\mbox{.}
+\mathcal{\tilde{L}}^{(t)}=-\frac{1}{2}\sum_{j=1}^{T}\frac{\sum_{i|{\bf x}_i\in R_j}g_i}{\lambda+\sum_{i|{\bf x}_i\in R_j}h_i}+\gamma T\mbox{.}
 \end{equation}
 
-A equação \eqref{eq:quality} pode ser utilizada para medir a qualidade de uma árvore. Seu valor é semelhante a uma medida de impureza, entretanto é derivada de um largo conjunto de funções objetivos. Assim, como aconteceu para a árvore de decisão, é impossível avaliar todas as possíveis árvores, por isso, um algoritmo guloso que inicia com uma única folha (se a árvore tiver apenas um único nó, o original, pela definição de nó folha, ele será uma folha) e adiciona ramos à árvore é utilizado. Considere que $R_E$ e $R_D$ sejam respectivamente o nó da esquerda e da direita após a divisão. Definindo $R=R_E\cup R_D$, a redução de erro (análoga à redução de impureza) após dividir os nós é dador por
+A equação \eqref{eq:quality} pode ser utilizada para medir a qualidade de uma árvore. Seu valor é semelhante a uma medida de impureza, entretanto é derivada de um largo conjunto de funções objetivos. Assim, como aconteceu para a árvore de decisão, é impossível avaliar todas as possíveis árvores, por isso, um algoritmo guloso que inicia com uma única folha e adiciona ramos à árvore é utilizado (se a árvore tiver apenas um único nó, o original, pela definição de nó folha, será uma folha), Considere que $R_E$ e $R_D$ sejam respectivamente o nó da esquerda e da direita após a divisão. Definindo $R=R_E\cup R_D$, a redução de erro (análoga à redução de impureza) após dividir os nós é dador por
 
 \begin{equation}\label{eq:split}
 \mathcal{\tilde{L}}_{split}=\frac{1}{2}\left[\frac{\sum_{i|{\bf x}_i\in R_E}g_i}{\lambda+\sum_{i|{\bf x}_i\in R_E}h_i}+\frac{\sum_{i|{\bf x}_i\in R_D}g_i}{\lambda+\sum_{i|{\bf x}_i\in R_D}h_i}-\frac{\sum_{i|{\bf x}_i\in R}g_i}{\lambda+\sum_{i|{\bf x}_i\in R}h_i}\right]-\gamma\mbox{.}
 \end{equation}
 
-A fórmula \eqref{eq:split} é usada na prática para avaliar os candidatos de divisão.O algoritmo de busca guloso é apresentado em \ref{al:greedyfind}. A Figura \ref{fig:structscore} apresenta a estrutura do processo de cálculo da divisão.
+A fórmula \eqref{eq:split} é usada na prática para avaliar os candidatos de divisão. O algoritmo de busca guloso é apresentado em \ref{al:greedyfind}. A Figura \ref{fig:structscore} apresenta a estrutura do processo de cálculo da divisão.
 
 \begin{algorithm}
 \caption{Algoritmo Guloso Exato de Busca de Divisão}\label{al:greedyfind}
@@ -479,18 +482,4 @@ A fórmula \eqref{eq:split} é usada na prática para avaliar os candidatos de d
 \label{fig:structscore}
 \end{figure}
 
-O algoritmo combina várias outras técnicas de forma a tratar o problema de sobreajuste e generalizar os resultados, entretanto foge do escopo desta proposta apresentar uma discussão sobre elas. Todavia, algumas destas serão utilizadas neste trabalho, e quando o feito, uma breve introdução a estas será realizada. Finalmente, os principais elementos do algoritmo XGBOOST foram discutidos nesta seção.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+O algoritmo combina várias outras técnicas de forma a tratar o problema de sobreajuste e generalizar os resultados, entretanto foge do escopo desta proposta apresentar uma discussão sobre elas. Todavia, algumas destas serão utilizadas neste trabalho. Finalmente, os principais elementos do algoritmo XGBOOST foram discutidos nesta seção.
