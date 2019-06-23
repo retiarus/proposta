@@ -10,7 +10,17 @@ A camada E é intermediária e está situada entre 90 e 150 km acima da superfí
 
 A camada F se estende de 150 a mais de 500 km acima da superfície da Terra. Apresenta a maior concentração de elétrons, portanto, sinais que são capazes de penetrar até esta subcamada são capazes de escapar para o espaço. Predominam, nesta, a ionização de átomos de oxigênio por meio de radiação solar no espectro do extremo ultravioleta. A camada é subdivida em duas regiões, a F2 que está presente durante o dia e a noite, e a F1 que aparece somente durante o dia. 
 
-A subcamada F2 engloba toda a região superior da ionosfera, inclusive a região de pico da densidade de elétrons. Este máximo no perfil vertical de ionização decorre do balanço entre os processos de transporte de plasma e os processos físico-químicos. Acima deste pico, a ionosfera se encontra em equilíbrio difusivo, ou seja, o plasma se distribui com a sua própria escala de altura. A presença do campo magnético contribui para a distribuição da ionização.
+A subcamada F2 engloba toda a região superior da ionosfera, inclusive a região de pico da densidade de elétrons. Este máximo no perfil vertical de ionização decorre do balanço entre os processos de transporte de plasma e os processos físico-químicos. Acima deste pico, a ionosfera se encontra em equilíbrio difusivo, ou seja, o plasma se distribui com a sua própria escala de altura. A presença do campo magnético contribui para a distribuição da ionização. A Figura \ref{fig:diagrama} apresenta as camadas D, E, F, assim como sua localização em relação à termosfera e magnetosfera.
+
+\begin{figure}[h]
+\center
+\makebox[\textwidth][c]{
+\subfigure[fig:ch11][Perfis verticais padronizados dos principais constituintes ionosféricos existentes acima de 90 km: $O_2^+$, $N_2^+$, $O^+$, $H^+$ e $N^+$. FONTE: Adaptado de Blelly e Alcaydé, \cite{KAMIDE:2007}]{\includegraphics[width=9.5cm]{./Figuras/densidade_eletronica.png}}
+\,\,
+\subfigure[fig:ch12][Perfil de densidade ionosférica (curva à esquerda) e perfil de temperatura atmosférica (curva à direita). A Figura também mostra altitudes tipicas de vôos de aeronaves e órbitas baixas de satélites. FONTE: Adaptado de \cite{LASTOVICKA:2006}]{\includegraphics[width=9.5cm]{./Figuras/ionosfera_camadas.png}}
+}
+\caption{Diagramas apresentando a estrutura da ionosfera.}\label{fig:diagrama}
+\end{figure}
 
 \section{Regiões e Índices}
 
@@ -158,17 +168,15 @@ pós sua formação podem evoluir para altas altitudes (centenas de quilômetros
 
 A cintilação ionosférica é uma variação rápida de amplitude e fase em sinais de radio frequência quando estes atravessam irregularidades no plasma ionosférico, como uma bolha de plasma, que é de particular interesse para este trabalho. Neste trabalho se realiza um estudo sobre algumas variáveis relacionadas com o efeito de cintilação ionosférica e com a estrutura de bolha no plasma.
 
-\section{Algumas variáveis importantes para o estudo da cintilação ionosférica}
+\section{Variáveis para o estudo da cintilação ionosférica}
 
-Existem várias quantidades que são necessárias para um estudo completo da dinâmica ionosférica como, por exemplo, medidas do fluxo de radiação solar, do campo magnético da Terra, da composição da atmosfera. 
+Existem várias quantidades que são necessárias para um estudo completo da dinâmica ionosférica como, por exemplo, medidas do fluxo de radiação solar, do campo magnético da Terra, da composição da atmosfera, nesta seção apresentar-se-á mais alguns destes índices.
 
-
-
-
-Contudo, este trabalho foca em duas quantidades principais o VTEC e o índice S4, pois são as que fornecem mais informação à respeito do fenômeno de cintilação ionosférica, e as anomalias que a causam.
+O {\bf índice F10.7} é uma medida do fluxo solar na frequencia de 2800 MHz, ou em termos do comprimento de onda 10.7 cm. É um excelente indicador da atividade solar, uma vez que as emissões de rádio nesta frequencia se originam na alta cromosfera e nas regiões mais baixas da corona solar. Apresenta boa correlação com o número de manchas solares, assim como o número de irrandiância de ultravioleta e radiação solar visível. Tem um dos maiores históricos de dados coletados, iniciando em 1947. É reportada em unidades de fluxo solar (s.f.u), alcançado valores inferiores a 50 s.f.u e superiores a 300 s.f.u ao longo dos ciclos solares. Uma vez que a grande maioria da radiação ultravioleta que produz ionização na atmosfera terrestre tem origem na cromosfera solar, o índice F10.7 é um importante fator para avaliar a dinâmica da ionosfera.
 
 
-O índice S4 é utilizado para medir, avaliar, a cintilação ionosférica. Corresponde ao desvio padrão da intensidade do sinal de GPS de um minuto de dados, coletados com 50 amostras por segundo:
+
+O {\bf índice $S_4$} é utilizado para medir, avaliar, a cintilação ionosférica. Corresponde ao desvio padrão da intensidade do sinal de GPS de um minuto de dados, coletados com 50 amostras por segundo:
 
 \begin{equation}
     S_4^2=\frac{\braket{I^2}-\braket{I}^2}{\braket{I}^2}\mbox{.}
