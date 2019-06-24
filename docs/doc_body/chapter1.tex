@@ -174,10 +174,14 @@ Existem várias quantidades que são necessárias para um estudo completo da din
 
 O {\bf índice F10.7} é uma medida do fluxo solar na frequencia de 2800 MHz, ou em termos do comprimento de onda 10.7 cm. É um excelente indicador da atividade solar, uma vez que as emissões de rádio nesta frequencia se originam na alta cromosfera e nas regiões mais baixas da corona solar. Apresenta boa correlação com o número de manchas solares, assim como o número de irrandiância de ultravioleta e radiação solar visível. Tem um dos maiores históricos de dados coletados, iniciando em 1947. É reportada em unidades de fluxo solar (s.f.u), alcançado valores inferiores a 50 s.f.u e superiores a 300 s.f.u ao longo dos ciclos solares. Uma vez que a grande maioria da radiação ultravioleta que produz ionização na atmosfera terrestre tem origem na cromosfera solar, o índice F10.7 é um importante fator para avaliar a dinâmica da ionosfera.
 
-
-
-O {\bf índice $S_4$} é utilizado para medir, avaliar, a cintilação ionosférica. Corresponde ao desvio padrão da intensidade do sinal de GPS de um minuto de dados, coletados com 50 amostras por segundo:
+O {\bf índice hF} corresponde a medida da altura virtual da base da camada F. Ela é realizada por instrumento chamado de digisonda que realiza um levantamento do perfil de densidade eletrônica da ionosfera em função da frequência de sondagem, \cite{BERTONI:1998}. A resolução dessa medida era inicialmente de 15 min, porém após o ano XXXX a resolução temporal passou para 10 min, assim uma técnica de interpolação foi empregada para reamostrar a primeira parte do sinal para um intervalo de 10 min. A {\bf velocidade de deriva vertical do plasma} é determinada segundo a variação temporal de hF, calculada pela expreção
 
 \begin{equation}
-    S_4^2=\frac{\braket{I^2}-\braket{I}^2}{\braket{I}^2}\mbox{.}
+vhf=\frac{hF_i-hF_{i-1}}{\Delta t}\mbox{.}
+\end{equation}
+
+O {\bf índice $S_4$} é utilizado para avaliar a cintilação ionosférica. Corresponde ao desvio padrão da intensidade do sinal de GPS de um minuto de dados, coletados com 50 amostras por segundo:
+
+\begin{equation}
+S_4^2=\frac{\braket{I^2}-\braket{I}^2}{\braket{I}^2}\mbox{.}
 \end{equation}
