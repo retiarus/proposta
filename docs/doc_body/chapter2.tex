@@ -4,15 +4,17 @@ A mineração de dados é uma área da ciência da computação que permite infe
 
 Em particular, a mineração de dados contempla a inferência de modelos direcionados por dados, ou seja, modelos derivados unicamente a partir de conjuntos de dados de entrada e de saída específicos de um dado fenômeno ou evento. Utilizam tipicamente um enfoque denominado aprendizado de máquina (machine learning), que basicamente é uma forma de estatística aplicada com enfase no uso de computadores para estimar funções, em geral, complicadas em um conjunto de dados.
 
-A mineração de dados é frequentemente confundida com o processo mais amplo de descoberta de conhecimento em base de dados (KDD- Knowledge Discovery in Databases), a qual é definida como a extração de padrões e desenvolvimento de representações associados ao conhecimento de um processo ou fenômeno a partir de um conjunto de dados associados. A mineração de dados é apenas uma etapa deste processo, sendo definida como a extração de padrões em um conjunto de dados. As diferenças ficam mais claras sumarizando as etapas contidas em um processo de KDD:
+A mineração de dados é frequentemente confundida com o processo mais amplo de descoberta de conhecimento em base de dados (KDD- Knowledge Discovery in Databases), a qual é definida como a extração de padrões e desenvolvimento de representações associados ao conhecimento de um processo ou fenômeno a partir de um conjunto de dados associados. A mineração de dados é apenas uma etapa deste processo, sendo definida como a extração de padrões em um conjunto de dados. Conhecimento em um processo KDD pode ser entendido como o conjunto de objetos, úteis ao especialista, gerados a partir dos dados brutos de interesse. Os objetos incluem, por exemplo, tabelas contendo correlações, métricas de desempenho de classificação ou regressão, regras de associação, indicadores categóricos decorrentes de agrupamento entre outros.
+
+As diferenças entre o processo de KDD e a etapa de mineração de dados ficam mais claras sumarizando as etapas contidas no primeiro:
 
 \begin{enumerate}
-\item {\bf Limpeza de dados}: remoção de dados com ruído, inconsistentes e incompletos;
+\item {\bf Sanitização dos dados}: remoção de dados com ruído, inconsistentes e incompletos;
 \item {\bf Integração de dados}: combinação de múltiplas fontes de dados, por meio de operações como união e intersecção de tabelas;
 \item {\bf Seleção de dados}: os dados considerados relevantes ao processo são extraídos do banco de dados;
 \item {\bf Transformação de dados}: os dados são transformados e consolidados em uma forma mais apropriada para mineração, sendo por exemplo discretizados, normalizados, agrupados;
 \item {\bf Mineração de dados}: é a etapa do KDD associada com a aplicação de algoritmos estatísticos, de reconhecimento de padrões ou de inteligência computacional, como por exemplo, redes neurais, árvores de decisão, visando a extração de padrões, juntamente com a avaliação dos modelos desenvolvidos, por exemplo, medir o desempenho de um sistema de classificação;
-\item {\bf Apresentação do conhecimento}: técnicas de visualização e representação dos dados são usadas para exibir o conhecimento extraído aos usuários.
+\item {\bf Análise do conhecimento gerado}: técnicas como visualização de dados são utilizadas para analisar o conhecimento gerado.
 \end{enumerate}
 
 O processo de KDD é iterativo, como pode ser visto na Figura \ref{fig:kdd} no sentido em que etapas podem ser revistas e reexecutadas em função dos resultados obtidos.
@@ -23,13 +25,13 @@ O processo de KDD é iterativo, como pode ser visto na Figura \ref{fig:kdd} no s
 \tikzstyle{arrow} = [thick,->,>=stealth]
 \tikzstyle{edges} = [->, bend left]
 \begin{tikzpicture}[node distance=2cm]
-\node (mdados) [block] at (0,0) {Massa de Dados};
-\node (ldados) [block] at (2, -1.5) {Limpeza de Dados};
+\node (mdados) [block] at (0,0) {Dados Brutos};
+\node (ldados) [block] at (2, -1.5) {Sanitização dos Dados};
 \node (idados) [block] at (4, -3) {Integração de Dados};
 \node (sdados) [block] at (6, -4.5) {Seleção de Dados};
 \node (tdados) [block] at (8, -6) {Transformação de Dados};
 \node (midados) [block] at (10, -7.5) {Mineração de Dados};
-\node (aconh)  [block] at (12, -9){Apresentação de Conhecimento};
+\node (aconh)  [block] at (12, -9){Análise do Conhecimento Gerado};
 
 \draw [arrow] (mdados) -- (ldados);
 \draw [arrow] (ldados) -- (idados);
@@ -73,7 +75,7 @@ O processo de KDD é iterativo, como pode ser visto na Figura \ref{fig:kdd} no s
 
 A aprendizagem de máquina faz uso de algoritmos que são capazes de aprender a partir dos dados, os quais podem ser denominados de {\bf algoritmos de aprendizado de máquina}. Note que esta definição é incompleta, uma vez que não se estabeleceu o que significa aprender a partir dos dados. Assim, considere uma tupla $(P, D, M)$ onde $P$ corresponde ao problema, $D$ ao conjunto de dados (domínio) e $M$ a métrica, diz-se que um algoritmo aprende com relação ao problema $P$, ao conjunto de dados $D$ e a métrica $M$, se a sua performance no tratamento do problema $P$, avaliado segundo a métrica $M$ melhora conforme itera sobre os dados no domínio $D$.
 
-Basicamente, pode ser visto como o processo de estimar (ajustar) uma função segundo algum objetivo (métrica) a um conjunto de dados.Logo é interessante definir o termo função, sejam $X$ e $Y$ dois conjuntos não vazios, que podem ou não ser iguais, e uma regra, ou conjunto de regras, $f$ que assina a cada elemento $x$ de $X$ um único elemento $y$ em $Y$, uma {\bf função} consiste do objeto matemático formado pela tupla $(X, Y, f)$. Assim, termos como modelo, estimador, preditor, regressor, classificador são todos sinônimos do termo função, pois são entendidos como uma realização do algoritmo de aprendizagem para um conjunto de dados, ou seja, um conjunto de regras inferidas dos dados pelo algoritmo.
+Basicamente, pode ser visto como o processo de estimar (ajustar) uma função segundo algum objetivo (métrica) a um conjunto de dados. Logo é interessante definir o termo função, sejam $X$ e $Y$ dois conjuntos não vazios, que podem ou não ser iguais, e uma regra, ou conjunto de regras, $f$ que assina a cada elemento $x$ de $X$ um único elemento $y$ em $Y$, uma {\bf função} consiste do objeto matemático formado pela tupla $(X, Y, f)$. Assim, termos como modelo, estimador, preditor, regressor, classificador são todos sinônimos do termo função, pois são entendidos como uma realização do algoritmo de aprendizagem para um conjunto de dados, ou seja, um conjunto de regras inferidas dos dados pelo algoritmo.
 
 Um problema $P$ pode ser descrito pela maneira como trata uma amostra $({\bf x}, y)$ ou $({\bf x})$ do domínio $D$, isto é, o que faz ou como processa uma instância. Esta, por sua vez, corresponde a um conjunto de características, atributos ou variáveis que foram quantificadas de algum objeto ou evento que se deseja estudar. Quando uma amostra é da forma $({\bf x}, y)$, diz-se que a instância apresenta um rótulo ou resposta indicado por $y$, enquanto amostras da forma $({\bf x})$ são ditas não rotuladas. O termo ${\bf x}$ também pode ser denominado de atributos de informação, variáveis preditoras, entres outras, enquanto o termo $y$ como como atributo de decisão. Os dados podem ser numéricos, quantitativos, ou qualitativos. Estes últimos são dados categóricos, que correspondem à atribuição de rótulos que os qualificam.
 
@@ -100,7 +102,7 @@ As métricas podem ser agrupadas segundo a abordagem do problema, isto é, exist
 
 \subsection{Classificação}
 
-Primeiramente, é necessário definir o conceito de matriz de confusão, uma vez que a partir dela diversas outras métricas são mais facilmente definidas.
+Em problemas de classificação, todas as métricas de desempenho são baseadas na chamada matriz de confusão, a qual sintetiza o número de acertos e erros na classificação.
 
 Admita um problema de classificação com $n$ categorias (classes), então a matriz de confusão será uma tabela (matriz) onde cada linha representa instâncias em uma classe predita, enquanto cada coluna representa instâncias em uma classe verdadeira, ou inverso. Assim, dado a $i$-ésima linha e a $j$-ésima coluna com $x$ elementos, diz-se que $x$ elementos da $j$-ésima classe foram preditos como da $i$-ésima classe. A Tabela \ref{tab:mc1} ilustra esta configuração, e por exemplo, pode-se dizer que $h$ elementos da Classe 1 foram previstos como sendo da Classe 2, com a segunda coluna pela terceira linha.
 
@@ -177,13 +179,13 @@ A precisão para uma dada classe por ser entendida como a proporção de resulta
 
 \subsection{Regressão}
 
-O {\bf erro quadrático médio} (mse) é definido por
+O {\bf erro quadrático médio} (mse) definido por
 
 \begin{equation}\label{eq:mse}
 mse=\frac{1}{n}\sum_{i=1}^n(y_i-\hat{y}_i)^2\mbox{,}~
 \end{equation}
 
-onde $n$ é o número de instâncias a serem preditas (avaliadas), $y_i$ a variável alvo para amostra $i$ e $\hat{y}_i$ o valor predito para a amostra $i$. Esta medida é uma das mais aplicadas, não somente no contexto, de problemas de regressão, mas também nos problemas de otimização em aprendizagem de máquina que necessitem de funções diferenciáveis. Por ser definida em termos de uma operação de média, existem distribuições dos dados a serem preditos para os quais essa métrica é incapaz de avaliar de maneira satisfatória o desempenho do regressor (distribuições altamente localizadas) em uma analogia com o problema de classificação com classes não balanceadas.
+onde $n$ é o número de instâncias a serem preditas (avaliadas), $y_i$ a variável alvo para amostra $i$ e $\hat{y}_i$ o valor predito para a amostra $i$ é uma das métricas mais aplicadas, não somente no contexto de problemas de regressão, mas também nos problemas de otimização em aprendizagem de máquina que necessitem de funções diferenciáveis. Por ser definida em termos de uma operação de média, existem distribuições dos dados a serem preditos para os quais essa métrica é incapaz de avaliar de maneira satisfatória o desempenho do regressor (distribuições altamente localizadas) em uma analogia com o problema de classificação com classes não balanceadas.
 
 Deste modo faz necessário avaliar uma métrica que seja capaz de mensurar de maneira mais adequada erros em regiões menos localizadas da distribuição, para tal adotou-se o {\bf erro absoluto máximo} (mae) definido por:
 
@@ -193,7 +195,7 @@ mae=\mbox{max}|y_{i}-\hat{y}_i|\mbox{,}~
 
 onde $i$ vária entre 1 e $n$, com este sendo o número de instâncias a serem preditas e $y_i$ e $\hat{y}_i$ sendo respectivamente a variável alvo e o valor predito para a amostra $i$.
 
-\section{Algoritmo: Árvores}
+\section{Algoritmo: Árvores CART}
 
 Métodos baseados em árvores particionam o espaço de atributos preditores em um conjunto de retângulos, e então aproximam cada um destes por uma simples função, por exemplo, uma constante. Existem diferentes algoritmos baseados em árvores: CART, C4.5, C4; neste texto discutir-se-á a CART. A Figura \ref{fig:tree} apresenta uma representação visual de uma estrutura de árvore ajustada para um dos conjunto de dados discutido no Capítulo \ref{ch:revisonrezende}.
 
@@ -319,21 +321,19 @@ Finalmente, o critério de divisão fica definido como maximizar o nível de pur
 
 A escolha da medida de impureza depende do algoritmo, a CART utiliza o índice Gini.
 
-\section{Técnicas de Conjunto}
+\section{Técnicas de ensemble}
 
-A grande maioria dos algoritmos de aprendizagem de máquina, usualmente, ajusta um único modelo para resolver um problema, em contraste, existe uma classe de métodos que adotam a abordagem de construir um conjunto de modelos e combiná-los de forma a tratar o problema. Essa classe é denominada de métodos de conjunto do inglês ``ensemble methods'' ou métodos baseados em comitê.
+A grande maioria dos algoritmos de aprendizagem de máquina, usualmente, ajusta um único modelo para resolver um problema, em contraste, existe uma classe de métodos que adotam a abordagem de construir um conjunto de modelos e combiná-los de forma a tratar o problema. Essa classe é denominada de métodos de ensemble (``ensemble methods'') ou métodos baseados em comitê.
 
 Um conjunto contém um número de modelos de base, os quais são gerados a partir dos dados de treinamento por um algoritmo de aprendizagem de base. A maioria das técnicas de conjunto utilizam um único algoritmo de aprendizagem de base, e neste caso são denominadas de conjuntos homogêneos. Todavia em princípio não existe uma restrição para a utilização de diferentes algoritmos, neste caso, tem-se conjuntos heterogêneos.
 
-% o termo aprendiz fraco precisa ser melhorado
+A capacidade de generalização de um conjunto é maior do que os modelos de base. Em geral, utiliza-se algoritmos de base denominados de preditores fracos que são aqueles cuja previsão é um pouco melhor do que um sorteio aleatório. Assim, o papel da técnica de ensemble é melhorar os preditores fracos, onde suas combinações o tornam um preditor forte, isto é, aquele que gera modelos capazes de predições bem acuradas. O cerne da técnica pode ser traduzido no ditado popular ``a união faz a força''.
 
-A capacidade de generalização de um conjunto é maior do que os modelos de base. Em geral, utiliza-se algoritmos de base denominados de preditores fracos que são aqueles cuja previsão é um pouco melhor do que um sorteio aleatório. Assim, o papel da técnica de conjunto é melhorar os aprendizes fracos, onde suas combinações o tornam um aprendiz forte, isto é, aquele que gera modelos capazes de predições bem acuradas. O cerne da técnica pode ser traduzido no ditado popular ``a união faz a força''.
-
-Os métodos de conjunto se tornaram um importante paradigma depois da década de 90, com a publicação de dois trabalhos pioneiros \cite{HANSEN:1990} e \cite{SCHAPIRE:1990}. O primeiro destes mostrou empiricamente que a predição realizada pela combinação de um conjunto de classificadores é em geral mais acurada do que a feita por um único bom classificador. O segundo de caráter teórico mostra que aprendizes fracos podem ser combinados de forma a geral aprendizes fortes.
+Os métodos de ensemble se tornaram um importante paradigma depois da década de 90, com a publicação de dois trabalhos pioneiros \cite{HANSEN:1990} e \cite{SCHAPIRE:1990}. O primeiro destes mostrou empiricamente que a predição realizada pela combinação de um conjunto de classificadores é em geral mais acurada do que a feita por um único bom classificador. O segundo de caráter teórico mostra que preditores fracos podem ser combinados de forma a gerar preditores fortes.
 
 Em geral, estes conjuntos são construídos em dois passos, a geração dos modelos de base e, então, a combinação deles. Assim, para a obtenção de um bom conjunto se busca modelos de base tão acurados quanto possível, e tão diversos quanto possível.
 
-Nas próximas duas subseções ir-se-á discutir dois métodos gerais a respeito de técnicas de conjunto o ``bagging'' e o ``boosting''.
+Nas próximas duas subseções ir-se-á discutir dois métodos gerais a respeito de técnicas de ensemble o ``bagging'' e o ``boosting''.
 
 \subsection{Boosting}
 
@@ -360,10 +360,6 @@ A estratégia de bagging introduz aleatoriedade pela adoção de amostras do sub
 Considere um conjunto de treinamento contendo $m$ amostras $A$, um novo conjunto de $m$ amostras $A_1$ é gerado amostrando com reposição $A$, neste caso, note que alguns exemplos do conjunto $A$ podem aparecer várias vezes, enquanto alguns elementos podem não aparecer. Aplicando este processo $l$ vezes são gerados $l$ conjuntos com $m$ elementos. Então, cada conjunto é utilizado no treinamento de um modelo de base, quando da aplicação do algoritmo de aprendizagem de base.
 
 A agregação é realizada utilizando procedimentos tradicionais, no caso da regressão se toma a média dos resultados gerados por cada preditor de base, no caso de classificação se toma a classe mais predita pelos preditores de base, em uma analogia com uma votação.
-
-
-
-
 
 \section{Extreme Gradient Boosting: XGBOOST}
 
