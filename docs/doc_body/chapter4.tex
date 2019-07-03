@@ -1,1 +1,129 @@
-\chapter{Revisão Qualificação}
+\chapter{CONTEÚDO TOTAL ELETRÔNICO}
+
+O índice $S_4$ somente fornece informação indireta sobre uma bolha de plasma. Logo, outras medidas quantitativas a respeito da estrutura da ionosfera são desejáveis para observar, rastrear e monitorar bolhas ionosféricas. Uma destas é o Total Eletronic Content (TEC), ou conteúdo total de elétrons em português, é uma quantidade descritiva utilizada para avaliar a densidade de elétrons no plasma ionosférico. Corresponde ao número total de elétrons integrado ao longo da trajetória entre um transmissor, no espaço, e um receptor, na Terra, em uma seção unitária \cite{HOFMANN:2013}. Por sua definição o TEC é uma quantidade que depende da trajetória, seu cálculo fica mais claro, ao dizer que é a integral de um densidade de elétrons dependente de posição ao longo de uma trajetória que atravessa a ionosfera:
+
+\begin{equation}
+    \mbox{TEC}=\int{n_{e}(s)}ds\mbox{,}~
+\end{equation}
+
+onde $ds$ especifica o elemento de integração na trajetória. Geralmente é reportada em unidades de TEC (TECU), definido por 1 TECU$=10^{16}$ elétrons/m$^2$. É importante para determinar a cintilação e os atrasos de fase e de grupo em ondas de rádio no meio. O VTEC (Vertical Total Electronic Content), ou conteúdo total de elétrons vertical é projeção do TEC, ao longo de uma linha normal a superfície da Terra, em outras palavras, ela fornece o conteúdo de elétrons ao longo da normal para cada ponto da superfície da Terra. Segundo \cite{TAKAHASHI:2006} as bolhas apresentam valores de VTEC de 30 a 50 TECU inferiores à sua vizinhança.
+
+Considerando um escopo mais ambicioso de predição da ocorrência de cintilação em São José dos Campos a partir de dados observacionais coletados por estações de monitoramento no território brasileiro, o objetivo da qualificação se restringiu à utilização de técnicas de mineração e visualização de dados históricos da ionosfera, de forma a analisar a dinâmica espaço-temporal das bolhas causadoras da cintilação, ao longo de um meridiano magnético que passe por São José dos Campos. Tal analise foi realizada buscando um conjunto de atributos que permitisse estimar os valores de $S_4$ com base no VTEC. A estimativa de $S_4$ por meio do VTEC é uma das maneiras de buscar e observar correlações entre essas variáveis.
+
+O trabalho de qualificação complementava pesquisas relacionados à predição da ocorrência de cintilação \cite{REZENDE:2009, GLAUSTON:2014, GLAUSTON:2015}, assim como levantava novas possibilidades para o tratamento do problema em questão. Além disso buscava aplicar ideias como correlação entre o gradiente do TEC e a cintilação \cite{RAGHAVARAO:1998, RAY:2006}, ou então a correlação entre a derivada temporal do TEC e a cintilação \cite{RAGHUNATH:2016} para o território brasileiro, mais particularmente São José dos Campos. Estes dois últimos trabalhos sugeriam possíveis indicações de variáveis que poderiam ser utilizadas para mapear o VTEC no $S_4$. O primeiro levou a definição da diferença espacial entre o VTEC de São José dos Campos e Pirassununga, e o VTEC de São José dos Campos e Brasília, enquanto o segundo levou a definição da diferença no tempo para o VTEC e para as diferenças espaciais, juntamente do próprio VTEC, que foram os atributos analisados em relação ao $S_4$.
+
+\section{Metodologia}
+
+O trabalho adotava a ideia de pesquisa reprodutível, para tal se fazia uso da tecnologia de ``notebooks'' em Python, \cite{PEREZ:2007}. Essa consiste de um ambiente computacional interativo de código aberto, onde pode-se combinar execução de código, com textos e expressões matemáticas em HTML e LaTex, gráficos, imagens, vídeos, entre diversos outros objetos. O projeto inicial evolui para o Jupyter notebook que apresenta as mesmas ideias, porém apresenta suporte para várias linguagens de programação, tal como R, Julia e Scala. Os notebooks desenvolvidas para a qualificação podem ser acessados no seguinte link \url{https://github.com/retiarus/tese}.
+
+A etapa inicial consistiu em armazenar e organizar os diversos dados, tal como $S_4$ e VTEC, em um banco de dados, pois então, técnicas como filtragem permitem uma rápida seleção inicial dos dados por estação e elevação. Também foi adicionado ao banco de dados uma tabela com informações sobre as estações. Neste trabalho, foi adotado o PostgreSQL.
+
+Uma vez que o objetivo era analisar a correlação entre o $S_4$ e o VTEC em São José dos Campos, selecionou-se apenas dados nesta localização mais algumas que compartilhavam o mesmo meridiano magnético. Os dados de $S_4$, para uma dada estação, são inicialmente agrupadas se tomando o valor médio das medidas realizadas no intervalo de um minuto, descartando-se elevações inferiores a 30 graus. Em seguida, foi realizado um processo de interpolação spline de ordem 4 para reduzir o número de instantes sem amostras. Então, os dados eram reamostrados para intervalos de 10 minutos e suavizados por um filtro de média móvel gaussiano centrado com uma janela de nove pontos.
+
+Os dados de VTEC passam por um procedimento de interpolação  spline de ordem 4 para reduzir o número de amostras ausentes, e em seguida por um filtro de média móvel gaussiano centrado com uma janela de nove pontos.
+
+O problema tratado constitui de uma regressão, onde o procedimento de validação cruzada com 10 subconjuntos, foi empregado, em um total 12000 amostras. A métrica inicialmente adotada fora o erro quadrático médio, porém utilizando o problema de regressão tratado foi desenvolvido uma matriz de confusão, para tal se considerou que quando para cada amostra no tempo, se o valor real e o estimado forem menores que um limiar tem-se verdadeiros negativos (TN); se o valor e o estimado forem maiores que o limiar tem-se um verdadeiro positivo (TV); se o valor real for maior que o do limiar e o estimado for menor, tem-se um falso negativo (FN); se o valor real for menor que o limiar enquanto o estimado maior, tem-se um falso positivo (FV). Na literatura, o limiar do índice S4 para ocorrência de cintilação é 0.2, isto é, todos os valores abaixo deste são tratados com ruídos e somente valores acima serão identificados como cintilação, portanto este valor foi adotado como limiar. Utilizando-se a matriz de confusão resultante, pode-se calcular a probabilidade de detecção (POD), a razão de falsos alarmes (FAR) e acurácia (ACC), cujas fórmulas são:
+
+\begin{eqnarray}
+\mbox{POD}&=&\mbox{TP}/(\mbox{TP}+\mbox{FN})\mbox{,}\\
+\mbox{FAR}&=&\mbox{FP}/(\mbox{TP}+\mbox{FP})\mbox{,}\\ 
+\mbox{ACC}&=&(\mbox{TN}+\mbox{TP})/(\mbox{TN}+\mbox{TP}+\mbox{FN}+\mbox{FP})\mbox{.}
+\end{eqnarray}
+
+\subsection{Variáveis}
+
+As variáveis definidas foram
+
+\begin{itemize}
+\item Conjunto original:
+\begin{itemize}
+\item {\bf vtec} - conteúdo eletrônico total vertical em São José dos Campos;
+\item {\bf vtec\_dt} - diferença finita de primeira ordem no tempo do VTEC, calculada por $vtec_i-vtec_{i-1}$;
+\item {\bf vtec\_dt2} - diferença finita de segunda ordem no tempo do VTEC, calculada por $vtec_{i+1}-2vtec_i+vtec_{i-1}$;
+\item {\bf gvtec1} - diferença entre o VTEC de São José dos Campos e Pirassununga;
+\item {\bf gvtec1\_dt} - diferença finita de primeira ordem no tempo do gvtec1, calculada por $gvtec1_i-gvtec1_{i-1}$;
+\item {\bf gvtec2} - diferença entre o VTEC de São José dos Campos e Brasília;
+\item {\bf gvtec2\_dt} - diferença finita de primeira ordem no tempo do gvtec2, calculada por $gvtec2_i-gvtec2_{i-1}$;
+\end{itemize}
+\item Conjunto lag:
+\begin{itemize}
+\item {\bf gvtec1\_dt\_lag\_9} - diferença finita de primeira ordem no tempo do {\bf gvtec1} (diferença de VTEC entre São José dos Campos e Pirassununga) com passo 9 , calculada por $gvtec1_i-gvtec1_{i-9}$;
+\item {\bf gvtec2\_dt\_lag\_20} - diferença finita de primeira ordem no tempo do {\bf gvtec2} (diferença de VTEC entre São José dos Campos e Brasília) com passo 20 , calculada por $gvtec2_i-gvtec2_{i-20}$;
+\end{itemize}
+\item Conjunto tempo:
+\begin{itemize}
+\item {\bf state\_day} - indica que uma amostra está entre o nascer do sol e o por do sol;
+\item {\bf state\_night} - indica que uma amostra está entre o por do sol e 00:00 UT;
+\item {\bf state\_dawn} - indica que uma amostra está entre as 00:00 UT e o nascer do sol;
+\end{itemize}
+\item Conjunto mdv1:
+\begin{itemize}
+\item {\bf vm1} - valor médio do VTEC calculado entre o nascer e o por do sol;
+\item {\bf vd1} - desvio padrão do VTEC calculado entre o nascer e o por do sol;
+\end{itemize}
+\item Conjunto mdv2:
+\begin{itemize}
+\item {\bf vm2} - valor médio do VTEC calculado entre o nascer e o por do sol mais uma hora;
+\item {\bf vd2} - desvio padrão do VTEC calculado entre o nascer e o por do sol mais uma hora;
+\end{itemize}
+\item {\bf S4} - índice de cintilação ionosférico em São José dos Campos. É a variável resposta para o problema.
+\end{itemize}
+
+Nas definições utilizando diferenças finitas se descartou o termo de variação em relação ao tempo $\Delta t$, pois estão são constantes, uma vez que a diferenças é calculada em um intervalo fixo, e como constantes são descartadas pelo processo de normalização aplicado.
+
+\section{Resultados}
+
+Os resultados obtidos nesta fase são apresentados pela Tabela \ref{tab:final_result}. O operador $-$ indica que dado um conjunto uma variável foi removida, o operador $+$ indica a união dos subconjuntos, ou combinação de variáveis. Variáveis individuais são denotadas por negrito, enquanto os subconjuntos adotam letras normais.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|} 
+\hline
+ 
+	                          & Erro médio relativo	& POD	& FAR	& ACC  \\ \hline
+original	                               & 14.34\%	& 0.88	& 0.55	& 0.84 \\ \hline
+original - {\bf vtec}	                       & 17.78\%	& 0.85	& 0.63	& 0.79 \\ \hline
+original - {\bf vtec\_dt}	               & 14.81\%	& 0.93	& 0.50	& 0.87 \\ \hline
+original - {\bf vtec\_dt2}	               & 14.97\%	& 0.83	& 0.57	& 0.83 \\ \hline 
+original - {\bf gvtec1}	                       & 16.22\%	& 0.80	& 0.64	& 0.79 \\ \hline
+original - {\bf gvtec1\_dt}	               & 13.84\%	& 0.83	& 0.50	& 0.87 \\ \hline
+original - {\bf gvtec2}	                       & 16.09\%	& 0.92	& 0.60	& 0.82 \\ \hline
+original - {\bf gvtec2\_dt}	               & 14.81\%	& 0.94	& 0.49	& 0.88 \\ \hline
+original - {\bf gvtec2} - {\bf gvtec2\_dt}     & 15.81\%        & 0.81  & 0.64  & 0.80 \\ \hline
+original + tempo	                       & 13.54\%	& 0.88	& 0.59	& 0.83 \\ \hline
+original + {\bf gvtec1\_dt\_lag\_9}            & 14.78\%	& 0.90	& 0.62	& 0.81 \\ \hline
+original + {\bf gvtec2\_dt\_lag\_20}           & 14.34\%	& 0.81	& 0.63	& 0.81 \\ \hline
+original + lag	                               & 15.53\%	& 0.86	& 0.63	& 0.81 \\ \hline
+original + mdv1	                               & 13.69\%	& 0.69	& 0.60	& 0.84 \\ \hline
+original + mdv2	                               & 15.40\%	& 0.69	& 0.66	& 0.80 \\ \hline
+original + tempo + lag	                       & 15.00\%	& 0.85	& 0.64	& 0.80 \\ \hline
+original + tempo + mdv2	                       & 13.62\%	& 0.76	& 0.62	& 0.82 \\ \hline
+original + tempo + mdv2 + lag 	               & 12.20\%	& 0.77	& 0.54	& 0.85 \\ \hline
+original + tempo + lag + mdv1 + mdv2	       & 12.23\%	& 0.77	& 0.54	& 0.86 \\ \hline
+{\bf vtec}	                               & 15.43\%	& 0.29	& 0.70	& 0.82 \\ \hline
+{\bf vtec} + {\bf gvtec1\_dt\_lag\_9}          & 16.43\%        & 0.67  & 0.67  & 0.79 \\ \hline
+{\bf vtec} + {\bf gvtec2\_dt\_lag\_20}         & 14.81\%        & 0.56  & 0.64  & 0.82 \\ \hline
+{\bf vtec} + {\bf vtec\_dt} + {\bf vtec\_dt2}  & 16.65\%	& 0.71	& 0.63	& 0.81 \\ \hline
+{\bf vtec} + {\bf gvtec1} + {\bf gvtec2}       & 15.35\%	& 0.67	& 0.54	& 0.86 \\ \hline
+{\bf vtec} + tempo	                       & 15.73\%	& 0.75	& 0.54	& 0.86 \\ \hline
+{\bf vtec} + tempo + mdv1	               & 13.73\%	& 0.41	& 0.58	& 0.86 \\ \hline
+{\bf vtec} + tempo + lag	               & 13.54\%	& 0.79	& 0.52	& 0.86 \\ \hline
+{\bf vtec} + tempo + lag + mdv1	               & 12.21\%	& 0.71	& 0.48	& 0.88 \\ \hline
+{\bf vtec} + tempo + lag + mdv2	               & 13.58\%	& 0.61	& 0.52	& 0.87 \\ \hline
+{\bf vtec} + tempo + lag + mdv1 + mdv2	       & 11.95\%	& 0.52	& 0.54	& 0.86 \\ \hline
+\end{tabular}
+\end{center}
+\vspace{12pt}
+\caption{Desempenho da regressão para a estimação do índice S4, para diferentes conjuntos de atributos, considerando-se o limiar de cintilação de S4$=0.2$. Fonte: próprio autor.}
+\label{tab:final_result}
+\end{table}
+
+Observando a Tabela \ref{tab:final_result} se notou que a presença de baixos valores de POD e FAR com altos valores de ACC é um forte indicativo da predominância de verdadeiros negativos (TN) que neste caso correspondem a valores com S4 $<0.2$.
+
+A variável {\bf vtec\_dt} que correspondem à diferença finita no tempo da variável{\bf vtec} não apresentou a influência e contribuição esperadas. Esta expectativa vinha da observação de uma tendência de diminuição do VTEC ao longo do tempo precedendo ou acompanhando a cintilação. 
+
+O gradiente espacial foi avaliado apenas em relação a duas localizações, Pirassununga e Brasília, resultando, respectivamente, nas variáveis  {\bf gvtec1} e {\bf gvtec2}. Observou-se que a contribuição destas varáveis foi bem diferente, sendo a definida por Brasília a que apresenta menor impacto, o que pode decorrer do fato de Brasília estar em meridiano magnético ligeiramente distinto de São José dos Campos quando comparado a Pirassununga. Entretanto, deve-se considerar que a evolução espaço-temporal das bolhas ionosféricas, bem como sua forma e extensão, podem variar muito, o que implica em diferentes influências do VTEC medido em diferentes estações de medição. Assim, embora seja desejável utilizar dados de diversas estações, não se pode esperar que sua contribuição seja a mesma.
+
+Finalmente ficou claro que o processo de engenharia de atributos para o tratamento dados dados de VTEC não é uma tarefa trivial e uma abordagem automática deve ser empregada tais como filtros convolutivos, indo em direção a redes convolucionais.
+
+
