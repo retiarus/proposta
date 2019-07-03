@@ -1,14 +1,16 @@
-\chapter{Previsão de cintilação ionosférica com 1h de antecedência}\label{ch:revisonrezende}
+\chapter{PREDIÇÃO DE CINTILAÇÃO IONOSFÉRICA COM ANTECEDÊNCIA HORÁRIA}\label{ch:revisonrezende}
 
-A primeira parte deste capítulo discute o trabalho \cite{REZENDE:2009}. A segunda expande e generaliza os problemas discutidos por este.
+A seção \ref{sec:revision} deste capítulo discute o trabalho \cite{REZENDE:2009}. As seções \ref{sec:new} e \ref{sec:bra} expandem e generalizam os problemas discutidos por este.
 
-\section{Revisão do trabalho \cite{REZENDE:2009}}
+\section{Revisão do trabalho \cite{REZENDE:2009}}\label{sec:revision}
 
-O trabalho \cite{REZENDE:2009} foi pioneiro na utilização de modelos direcionados por dados para o tratamento do problema de previsão cintilação ionosférica, entretanto este trabalho não apresenta uma abordagem completamente reprodutível, visto ausência dos códigos e da base de dados. O objetivo desta revisão é entender as dificuldades deste trabalho, assim como sua incompletude em relação a proposta a ser estabelecida nessa monografia.
+Um trabalho anterior do grupo de pesquisa \cite{REZENDE:2009} foi pioneiro na proposta de utilização de modelos direcionados por dados para a predição da cintilação ionosférica. Houve dificuldades inerentes à obtenção de todos os dados utilizados nesse trabalho anterior, mas buscou-se reproduzir parte dos testes realizados, uma vez que a presente pesquisa tem objetivo similar. Ainda nesse trabalho anterior, utilizou-se uma estratégia de ``bagging" com árvores CART como algoritmo de aprendizado de máquina.
 
-\subsection{Principais Pontos}
+Nesta proposta, buscou-se reproduzir esses resultados, mas realizando uma sanitização de todos os dados e analisando os atributos selecionados, conforme exposto a seguir. Nessa reprodução foi tomado um período mais extenso (2000-2013 em oposição a 2000-2003), mas sempre selecionando sub-períodos de atividade magnética calma. O período de um ciclo solar é de aproximadamente 11 anos, e no período tratado houve o máximo de 2 ciclos solares, enquanto para o trabalho anterior apenas um máximo do ciclo solar máximo foi utilizado.
 
-A previsão de cintilação de curto prazo (uma hora) foi realizada utilizando {\bf amostras com intervalos de 5 minutos}, entretanto alguns dos atributos apresentam resolução inferior, sendo portanto interpolados, ou copiados de sua vizinhança, enquanto outros apresentam resolução mais altas, e neste caso precisaram ser agrupados segundo algum critério, por exemplo, por uma operação de máximo.
+\subsection{Principais Pontos do trabalho anterior}
+
+No trabalho anterior \cite{REZENDE:2009} a previsão de cintilação de curto prazo (uma hora) foi realizada utilizando {\bf amostras com intervalos de 5 minutos}, entretanto alguns dos atributos apresentam resolução inferior, sendo portanto interpolados, ou copiados de sua vizinhança, enquanto outros apresentam resolução mais altas, e neste caso precisaram ser agrupados segundo algum critério, por exemplo, por uma operação de máximo.
 
 Os atributos foram:
 
@@ -50,9 +52,9 @@ As métricas adotadas foram o erro quadrático médio, e o índice de correlaç�
 
 O trabalho foi uma abordagem inédita para o problema da predição da cintilação ionosférica.
 
-\subsection{Análise}
+\subsection{Análise do trabalho anterior}
 
-A análise consistiu em levantar e sintetizar alguns pontos que levam a uma definição parcialmente incompleta do problema, ou talvez errônea do mesmo:
+A análise do trabalho anterior \cite{REZENDE:2009} consistiu em levantar e sintetizar alguns pontos que levam a uma definição parcialmente incompleta do problema, ou talvez errônea do mesmo:
 
 \begin{enumerate}
 \item uma vez que o código e a base de dados não é disponibilizada de maneira pública e nem devidamente documentada, a reprodução somente é possível em partes. Visto que serão utilizados algoritmos que muito se assemelham, esperam-se resultados de mesma ordem, entretanto devido as diferenças resultados que divirjam podem ocorrer;
@@ -63,9 +65,9 @@ A análise consistiu em levantar e sintetizar alguns pontos que levam a uma defi
 \item a métrica, erro quadrático médio, pode não contemplar o problema. Para entender tal proposição, considere a adaptação deste problema para uma classificação, ficará evidente que eventos com altos valores de cintilação são mais raros e, portanto, ter-se-á um problema de classificação não balanceado. Retornando, a regressão, pode-se ocorrer do modelo predizer muito bem valores baixos, que então irão mascarar os efeitos de erros em valores mais altos, visto que irão predominar no processo de cálculo de média.
 \end{enumerate}
 
-\section{Reprodução}\label{se:rep}
+\section{Reprodução do trabalho anterior}\label{se:rep}
 
-O trabalho \cite{REZENDE:2009} foi parcialmente, reproduzido no contexto desta proposta, pois somente uma linha de pesquisa do trabalho original foi explorada: o problema de regressão, e cuidados adicionais foram necessários, devido a utilização de mais anos, entretanto o total de amostras com todos os atributos não nulos ficou reduzido devido a presença de grandes lacunas nos dados. As Figuras \ref{fig:distribution} e \ref{fig:nulltotal} mostram respectivamente a distribuição dos dados ao longo do conjunto de amostras, onde espaços em brancos representam valores ausentes e a razão e o total de dados não nulos.
+O trabalho anterior \cite{REZENDE:2009} foi parcialmente, reproduzido no contexto desta proposta, pois somente uma linha de pesquisa do trabalho original foi explorada: o problema de regressão, e cuidados adicionais foram necessários, devido a utilização de mais anos, entretanto o total de amostras com todos os atributos não nulos ficou reduzido devido a presença de grandes lacunas nos dados. As Figuras \ref{fig:distribution} e \ref{fig:nulltotal} mostram respectivamente a distribuição dos dados ao longo do conjunto de amostras, onde espaços em brancos representam valores ausentes e a razão e o total de dados não nulos.
 
 \begin{figure}[H]
 \centering
@@ -111,7 +113,7 @@ Uma abordagem de normalização para o intervalo $[0,05,\,0,95]$ é aplicado a t
 
 Resta novamente dois elementos a serem definidos, o tipo de problema tratado e por consequência os algoritmos e as métricas a serem utilizadas. Uma que vez que se trata de uma reprodução parcial, o problema de regressão foi considerado, neste caso utilizando a ferramente XGBOOST, que também emprega árvores de decisão e regressão em técnicas de conjunto, neste caso o boosting; as métricas adotadas foram o erro quadrático médio e o erro absoluto máximo, este último sendo capaz de lidar melhor com o desbalanceamento das amostras.
 
-O segundo problema tratado foi o de classificação, e para tal a variável {\bf s4\_sj\_shift\_1h} foi discretizada utilizando a proposta estabelecida por \cite{MUELLA:2008}, mais a adição de uma classe ausente:
+O segundo e novo problema tratado foi o de classificação, e para tal a variável {\bf s4\_sj\_shift\_1h} foi discretizada utilizando a proposta estabelecida por \cite{MUELLA:2008}, mais a adição de uma classe ausente:
 
 \begin{table}[H]
 \begin{center}
@@ -125,22 +127,24 @@ Fraco             & $0,2 \le S_4 \le 0,4$ \\ \hline
 Ausente           & $ S_4 \le 0,2 $ \\ \hline
 \end{tabular}
 \end{center}
+\caption{Tabela de categorias para as intensidades de cintilação ionosférica. Fonte: \cite{MUELLA:2008}.}
+\label{tab:class4}
 \end{table}
 
 Neste caso, tem-se um problema com 5 classes não balanceado e uma abordagem de reasmotragem foi empregada de modo balancear o números de elementos tal que todos estejam próximos da cardinalidade da classe com o maior número de elementos. Esta etapa é realizada após a normalização, e o algoritmo empregado foi o ADASYN. Finalmente, adotou-se como métrica a precisão balanceada, e a ferramenta utilizada também foi o XGBOOST.
 
-\subsection{Metodologia}
+\subsection{Metodologia para a reprodução do trabalho anterior}
 
-Para todos os modelos duas formas de avaliação dos modelos gerados foram empregadas: validação cruzada com 10 subconjuntos e validação com separação no tempo. A primeira consistiu em dividir o conjunto de dados de maneira aleatória (e tal que cada conjunto tivesse a mesma proporção em termos de classes, quando de um problema de classificação) em 10 subconjuntos, e então treinar 10 instâncias do modelo utilizando 9 destes conjuntos, enquanto o conjunto restante foi utilizado para avaliar o modelo. Note que para o $i$-ésimo modelo deve ser excluir o $i$-ésimo subconjunto. Os resultados obtidos então, por cada um dos modelos, são agrupados por uma operação de média aritmética. A segunda abordagem consistiu em particionar o conjunto de dados ordenados no tempo em um ponto $t$, tal que o primeira partição fosse empregada no treinamento de um modelo e a segunda para a avaliação do mesmo.
+Para os modelos reproduzidos do trabalho anterior \cite{REZENDE:2009}, assim como os desenvolvidos nesta proposta, em geral, duas formas de avaliação dos modelos gerados foram empregadas: validação cruzada com 10 subconjuntos e validação com separação no tempo. A primeira consistiu em dividir o conjunto de dados de maneira aleatória (e tal que cada conjunto tivesse a mesma proporção em termos de classes, quando de um problema de classificação) em 10 subconjuntos, e então treinar 10 instâncias do modelo utilizando 9 destes conjuntos, enquanto o conjunto restante foi utilizado para avaliar o modelo. Note que para o $i$-ésimo modelo deve ser excluir o $i$-ésimo subconjunto. Os resultados obtidos então, por cada um dos modelos, são agrupados por uma operação de média aritmética. A segunda abordagem consistiu em particionar o conjunto de dados ordenados no tempo em um ponto $t$, tal que o primeira partição fosse empregada no treinamento de um modelo e a segunda para a avaliação do mesmo.
 
 No caso dos problemas tratados, considerando a validação com separação no tempo, a primeira partição terá aproximadamente 65\% de todos os valores tratados, e consequentemente a segunda partição terá 45\%. O total de amostras é de 1742, das quais então, 958 correspondem a primeira partição e 784 correspondem a segunda partição.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Resultados: Regressão}
+\subsection{Resultado da reprodução da regressão para o trabalho anterior}
 
-A Tabela \ref{tab:results_reg} apresenta as métricas para os resultados obtidos para as duas abordagens de validação. Enquanto, a Figura \ref{fig:rego} apresenta a importância das variáveis segundo o XGBOOST.
+A Tabela \ref{tab:results_reg} apresenta as métricas para os resultados obtidos para as duas abordagens de validação. Enquanto, a Figura \ref{fig:rego} apresenta a importância das variáveis segundo o XGBOOST. Dado o pequeno volume de dados utilizado aqui (1742 instâncias/amostras para 13 anos) na reprodução do trabalho anterior (4680 instâncias/amostras para 3 anos), fica difícil comparar o desempenho de regressão obtido naquele trabalho e na presente reprodução, um dos melhores valores de $mse$ encontrado no trabalho \cite{REZENDE:2009} foi de 0,05. Entretanto, como a diferença entre os valores de $mse$ não são diferentes por ordem de grandeza, pode-se concluir que os resultados são equivalentes, ou seja, que a reprodução proposta é tão boa quanto a implementação original.
 
 \begin{table}[h]
 \begin{center}
@@ -152,7 +156,7 @@ Validação com Separação no Tempo    & 0,016   & 0,553  \\ \hline
 \end{tabular}
 \end{center}
 \vspace{12pt}
-\caption{Resultados para a regressão. Fonte: Próprio autor.}
+\caption{Resultados para a regressão do trabalho anterior \cite{REZENDE:2009}. Fonte: Próprio autor.}
 \label{tab:results_reg}
 \end{table}
 
@@ -163,13 +167,12 @@ Validação com Separação no Tempo    & 0,016   & 0,553  \\ \hline
 \,\,
 \subfigure[fig:rego2][Validação com separação no tempo.]{\includegraphics[width=9.5cm]{./Figuras/results-original/regression_intime_original_958_1742_importance.eps}}
 }
-\caption{Importância de cada atributo segundo XGBOOST. Fonte: próprio autor.}\label{fig:rego}
+\caption{Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost para o trabalho anterior \cite{REZENDE:2009}. Fonte: próprio autor.}\label{fig:rego}
 \end{figure}
 
+\subsection{Resultados da classificação para o trabalho anterior}
 
-\subsection{Resultados: Classificação}
-
-A Tabela \ref{tab:results_class} apresenta as métricas para os resultados obtidos para as duas abordagens de validação. As Figuras \ref{fig:classomik} e \ref{fig:classomii} apresentam respectivamente a matriz de confusão e um gráfico de barras com a importância das variáveis segundo o XGBOOST, para a validação cruzada e a validação com separação no tempo.
+Estes resultados referem-se à abordagem de classificação aplicada ao problema de predição do trabalho anterior, o qual somente utilizou a abordagem de regressão, conforme exposto na anteriormente. A Tabela \ref{tab:results_class} apresenta as métricas para os resultados obtidos para as duas abordagens de validação. As Figuras \ref{fig:classomik} e \ref{fig:classomii} apresentam respectivamente a matriz de confusão e um gráfico de barras com a importância das variáveis segundo o XGBOOST, para a validação cruzada e a validação com separação no tempo.
 
 \begin{table}[h]
 \begin{center}
@@ -181,7 +184,7 @@ Validação com Separação no Tempo    & 0,363     \\ \hline
 \end{tabular}
 \end{center}
 \vspace{12pt}
-\caption{Resultados para a classificação. Fonte: Próprio autor.}
+\caption{Resultados para a classificação do trabalho anterior \cite{REZENDE:2009}. Fonte: Próprio autor.}
 \label{tab:results_class}
 \end{table}
 
@@ -191,9 +194,9 @@ Validação com Separação no Tempo    & 0,363     \\ \hline
 {
 \subfigure[fig:classomk1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-original/classification_kfold_original_958_1742_confusion_matrix.eps}}
 \,\,
-\subfigure[fig:classoik2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-original/classification_kfold_original_958_1742_importance.eps}}
+\subfigure[fig:classoik2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost.]{\includegraphics[width=9.5cm]{./Figuras/results-original/classification_kfold_original_958_1742_importance.eps}}
 }
-\caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos. Fonte: próprio autor.}
+\caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos para o trabalho anterior. Fonte: próprio autor.}
 \label{fig:classomik}
 \end{figure}
 
@@ -203,23 +206,23 @@ Validação com Separação no Tempo    & 0,363     \\ \hline
 {
 \subfigure[fig:classoii1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-original/classification_intime_original_958_1742_confusion_matrix.eps}}
 \,\,
-\subfigure[fig:classoii2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-original/classification_intime_original_958_1742_importance.eps}}
+\subfigure[fig:classoii2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost.]{\includegraphics[width=9.5cm]{./Figuras/results-original/classification_intime_original_958_1742_importance.eps}}
 }
-\caption{Resultados para o problema de classificação utilizando de validação com separação no tempo. Fonte: próprio autor.}
+\caption{Resultados para o problema de classificação utilizando de validação com separação no tempo para o trabalho anterior. Fonte: próprio autor.}
 \label{fig:classomii}
 \end{figure}
 
-\section{Novos atributos}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Conjunto v1}\label{sec:v1}
+\section{Testes com o novo conjunto de atributos para a predição de cintilação ionosférica com antecedência horária}\label{sec:new}
 
-A primeira versão após a reprodução foi gerada redefinindo variáveis e adicionando novas. Partindo do conjunto de variáveis original definido na seção \ref{se:rep} as seguintes alterações foram empregadas:
+\subsection{Novos atributos}\label{sec:v1}
+
+A seguir, a predição proposta no trabalho anterior foi refeita, mas utilizando-se novas variáveis e redefinindo algumas das variáveis existentes. Partindo do conjunto de variáveis original definido na seção \ref{se:rep} as seguintes alterações foram empregadas:
 
 \begin{itemize}
-\item Agora, somente serão aceitas variáveis de $S_4$ com valores de elevação acima de 45 graus. E, antes do processo de combinação das amostras para a geração de um único dado por minuto, o valor de S4 é projetado na vertical segundo seu angulo de elevação por:
+\item Agora, somente serão aceitas variáveis de $S_4$ com valores de elevação acima de 45 graus. E, antes do processo de combinação das amostras para a geração de um único dado por minuto, o valor de $S_4$ é projetado na vertical segundo seu angulo de elevação por:
 \begin{equation}
 {S_4}_{proj}=S_4[\sin\theta]^{0,9}\mbox{,}~
 \end{equation}
@@ -231,25 +234,26 @@ onde $\theta$ denota o angulo de elevação;
 
 As demais variáveis, assim como os procedimentos de pré-processamento não serão alterados. A distribuição dos dados e a ordem de dados nulos para este conjunto é semelhante ao do conjunto original e, portanto, será omitida.
 
-\subsection{Resultados para o conjunto v1}
+\subsection{Resultados para os novos atributos}
 
-A mesma metodologia é utilizada, ou seja, serão utilizadas de validação cruzada e validação com separação no tempo. Entretanto, para o conjunto v1 se tem 1635 amostras, dos quais 899 irão compor a primeira partição.
+A mesma metodologia é utilizada, ou seja, serão utilizadas de validação cruzada e validação com separação no tempo. Entretanto, para os novos atributos se tem 1635 amostras, dos quais 899 irão compor a primeira partição.
 
 Os mesmos tipos de modelos e ferramentas são empregadas. A Tabela \ref{tab:results_v1_reg} apresenta as métricas para os resultados obtidos para as duas abordagens de validação. Enquanto, a Figura \ref{fig:regv1} apresenta a importância das variáveis segundo o XGBOOST.
 
-Fica evidente comparando as Tabelas \ref{tab:results_v1_reg} e \ref{tab:results_reg} a melhora dos resultados de regressão quando da nova abordagem de preprocessamento para o $S_4$ e o hF e, portanto, para as suas variáveis associadas, assim como da nova resolução temporal para {\bf vhf} e a adição da variável {\bf hf}.
+Os resultados obtidos aqui com o novo conjunto de atributos acima descrito mostram que foi possível a predição da cintilação pela abordagem de regressão com $mse$ menor para o índice $S_4$. isso está demonstrado na Tabela \ref{tab:results_reg} que inclui também os resultados já mostrados na Tabela \ref{tab:results_v1_reg} para o conjunto original de atributos.
 
 \begin{table}[h]
 \begin{center}
-\begin{tabular}{|c|c|c|}
-\hline
-Tipo de Validação & mse       & mae   \\ \hline
-Validação Cruzada                   & 0,013   & 0,706  \\ \hline
-Validação com Separação no Tempo    & 0,011   & 0,250  \\ \hline
+\begin{tabular}{|l|c|c|c|c|}
+\cline{2-5}
+\multicolumn{1}{l}{}&\multicolumn{2}{|c|}{mse}&\multicolumn{2}{c|}{mae} \\ \hline
+Tipo de Validação & Novos & Originais & Novos   & Originais \\ \hline
+Validação Cruzada                   & 0,013 & 0,018  & 0,706      & 0,753  \\ \hline
+Validação com Separação no Tempo    & 0,011  & 0,016  & 0,250     & 0,553  \\ \hline
 \end{tabular}
 \end{center}
 \vspace{12pt}
-\caption{Resultados para a regressão. Fonte: Próprio autor.}
+\caption{Resultados para a regressão para os novos atributos e atributos originais. Fonte: Próprio autor.}
 \label{tab:results_v1_reg}
 \end{table}
 
@@ -260,26 +264,27 @@ Validação com Separação no Tempo    & 0,011   & 0,250  \\ \hline
 \,\,
 \subfigure[fig:regv12][Validação com separação no tempo.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/regression_intime_v1_899_1635_importance.eps}}
 }
-\caption{Importância de cada atributo segundo XGBOOST. Fonte: próprio autor.}\label{fig:regv1}
+\caption{Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost para os novos atributos. Fonte: próprio autor.}\label{fig:regv1}
 \end{figure}
 
 A Tabela \ref{tab:results_v1_class} apresenta as métricas para os resultados obtidos para as duas abordagens de validação. As Figuras \ref{fig:classv1mik} e \ref{fig:classv1mii} apresentam respectivamente a matriz de confusão e um gráfico de barras com a importância das variáveis segundo o XGBOOST, para a validação cruzada e a validação com separação no tempo.
 
 \begin{table}[h]
 \begin{center}
-\begin{tabular}{|c|c|}
-\hline
-Tipo de Validação & precisão balanceada   \\ \hline
-Validação Cruzada                   & 0,571    \\ \hline
-Validação com Separação no Tempo    & 0,472     \\ \hline
+\begin{tabular}{|l|c|c|}
+\cline{2-3}
+\multicolumn{1}{l}{}&\multicolumn{2}{|c|}{precisão balanceada}\\ \hline
+Tipo de Validação                   &  Novos    & Originais \\ \hline
+Validação Cruzada                   & 0,571     & 0,651 \\ \hline
+Validação com Separação no Tempo    & 0,472     & 0,363 \\ \hline
 \end{tabular}
 \end{center}
 \vspace{12pt}
-\caption{Resultados para a classificação. Fonte: Próprio autor.}
+\caption{Resultados para a classificação para os novos atributos. Fonte: Próprio autor.}
 \label{tab:results_v1_class}
 \end{table}
 
-Quando comparando as Tabelas \ref{tab:results_v1_class} e \ref{tab:results_class} que fornecem respectivamente os resultados para o conjunto de atributos v1 e o conjunto original, tem-se que para o problema de classificação houve uma piora dos resultados quando considerado validação cruzada, e uma melhora quando considerado validação com separação no tempo. Todavia, fica claro que o número de amostras não é suficiente para modelar corretamente as distribuições e, assim, resultados melhores ou piores de mesma ordem não permitem concluir se um resultado é ou não melhor. Tal fato irá se manifestar em todos os resultados obtidos nesta proposta. Note também, que a comparação entre os conjuntos original e v1 devem ser feitas com olhar rigoroso e indireto, pois as variáveis respostas são ligeiramente diferentes, devido ao preprocessamento. Contudo é clara a necessidade da redefinição da variável reposta haja visto o conhecimento especialista \cite{MUELLA:2008}.
+Quando comparando as Tabelas \ref{tab:results_v1_class} e \ref{tab:results_class} que fornecem respectivamente os resultados para o conjunto de atributos v1 e o conjunto original, tem-se que para o problema de classificação houve uma piora dos resultados quando considerado validação cruzada, e uma melhora quando considerado validação com separação no tempo. Todavia, fica claro que o número de amostras não é suficiente para modelar corretamente as distribuições e, assim, resultados melhores ou piores de mesma ordem não permitem concluir se um resultado é ou não melhor. Tal fato irá se manifestar em todos os resultados obtidos nesta proposta. Note também, que a comparação entre os conjuntos original e os novos atributos devem ser feitas com olhar rigoroso e indireto, pois as variáveis respostas são ligeiramente diferentes, devido ao preprocessamento. Contudo é clara a necessidade da redefinição da variável reposta haja visto o conhecimento especialista \cite{MUELLA:2008}.
 
 \begin{figure}[h]
 \center
@@ -287,9 +292,9 @@ Quando comparando as Tabelas \ref{tab:results_v1_class} e \ref{tab:results_class
 {
 \subfigure[fig:classv1mk1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-v1/classification_kfold_v1_899_1635_confusion_matrix.eps}}
 \,\,
-\subfigure[fig:classv1ik2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_kfold_v1_899_1635_importance.eps}}
+\subfigure[fig:classv1ik2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_kfold_v1_899_1635_importance.eps}}
 }
-\caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos. Fonte: próprio autor.}
+\caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos para os novos atributos. Fonte: próprio autor.}
 \label{fig:classv1mik}
 \end{figure}
 
@@ -299,18 +304,18 @@ Quando comparando as Tabelas \ref{tab:results_v1_class} e \ref{tab:results_class
 {
 \subfigure[fig:classv1ii1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-v1/classification_intime_v1_899_1635_confusion_matrix.eps}}
 \,\,
-\subfigure[fig:classv1ii2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_intime_v1_899_1635_importance.eps}}
+\subfigure[fig:classv1ii2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_intime_v1_899_1635_importance.eps}}
 }
-\caption{Resultados para o problema de classificação utilizando de validação com separação no tempo. Fonte: próprio autor.}
+\caption{Resultados para o problema de classificação utilizando de validação com separação no tempo para os novos atributos. Fonte: próprio autor.}
 \label{fig:classv1mii}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Conjunto v1 sem dados de cintilação em São Luiz: resultados}
+\subsection{Testes com o novo conjunto de atributos excluindo dados de cintilação em São Luís}
 
-O conjunto de atributos preditores usado aqui é inicialmente o mesmo empregado na seção \ref{sec:v1}, isto é, o conjunto v1, porém neste contexto se descarta a contribuição $S_4$ referente a São Luiz, ou seja, a variável {\bf s4\_smooth\_sv\_sl}. O número total de amostras para esta abordagem é de 4778, onde no processo de validação com separação no tempo 2627 amostras são utilizadas para a fase de treinamento, enquanto 2151 amostras foram utilizadas para validação. A Tabela \ref{tab:results_v1_w_reg} apresenta os resultados obtidos para a regressão.
+O conjunto de atributos preditores usado aqui é inicialmente o mesmo empregado na seção \ref{sec:v1}, isto é, o novo conjunto de atributos, porém neste contexto se descarta a contribuição $S_4$ referente a São Luiz, ou seja, a variável {\bf s4\_smooth\_sv\_sl}. O número total de amostras para esta abordagem é de 4778, onde no processo de validação com separação no tempo 2627 amostras são utilizadas para a fase de treinamento, enquanto 2151 amostras foram utilizadas para validação. A Tabela \ref{tab:results_v1_w_reg} apresenta os resultados obtidos para a regressão. O atributo removido tem uma importância relativa menor (XGBoost) quando dos atributos originais e maior quando dos novos atributos, porém sua remoção permitiu adicionar mais instâncias/amostras o que permite investigar modelos em configurações mais diversas.
 
 \begin{table}[h]
 \begin{center}
@@ -322,7 +327,7 @@ Validação com Separação no Tempo    & 0,026   & 0,974  \\ \hline
 \end{tabular}
 \end{center}
 \vspace{12pt}
-\caption{Resultados para a regressão. Fonte: Próprio autor.}
+\caption{Resultados para a regressão para os novos atributos excluindo São Luis. Fonte: Próprio autor.}
 \label{tab:results_v1_w_reg}
 \end{table}
 
@@ -335,7 +340,7 @@ Comparando às Tabelas \ref{tab:results_v1_w_reg} e \ref{tab:results_v1_reg} fic
 \,\,
 \subfigure[fig:regv1w2][Validação com separação no tempo.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/regression_intime_v1-without-sl_2627_4778_importance.eps}}
 }
-\caption{Importância de cada atributo segundo XGBOOST. Fonte: próprio autor.}\label{fig:regv1w}
+\caption{Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost para os novos atributos excluindo São Luis. Fonte: próprio autor.}\label{fig:regv1w}
 \end{figure}
 
 A Tabela \ref{tab:results_v1_w_class} apresenta as métricas para as duas abordagens de validação no contexto do problema de classificação. As Figuras \ref{fig:classv1wmik} e \ref{fig:classv1wmii} apresentam respectivamente a matriz de confusão e um gráfico de barras com a importância das variáveis segundo o XGBOOST, para a validação cruzada e a validação com separação no tempo.
@@ -350,7 +355,7 @@ Validação com Separação no Tempo    & 0,248     \\ \hline
 \end{tabular}
 \end{center}
 \vspace{12pt}
-\caption{Resultados para a classificação. Fonte: Próprio autor.}
+\caption{Resultados para a classificação  para os novos atributos excluindo São Luis. Fonte: Próprio autor.}
 \label{tab:results_v1_w_class}
 \end{table}
 
@@ -360,9 +365,9 @@ Validação com Separação no Tempo    & 0,248     \\ \hline
 {
 \subfigure[fig:classv1wmk1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-v1/classification_kfold_v1-without-sl_2627_4778_confusion_matrix.eps}}
 \,\,
-\subfigure[fig:classv1wik2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_kfold_v1-without-sl_2627_4778_importance.eps}}
+\subfigure[fig:classv1wik2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_kfold_v1-without-sl_2627_4778_importance.eps}}
 }
-\caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos. Fonte: próprio autor.}
+\caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos para os novos atributos excluindo São Luis. Fonte: próprio autor.}
 \label{fig:classv1wmik}
 \end{figure}
 
@@ -372,9 +377,9 @@ Validação com Separação no Tempo    & 0,248     \\ \hline
 {
 \subfigure[fig:classv1wii1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-v1/classification_intime_v1-without-sl_2627_4778_confusion_matrix.eps}}
 \,\,
-\subfigure[fig:classv1wii2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_intime_v1-without-sl_2627_4778_importance.eps}}
+\subfigure[fig:classv1wii2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_intime_v1-without-sl_2627_4778_importance.eps}}
 }
-\caption{Resultados para o problema de classificação utilizando de validação com separação no tempo. Fonte: próprio autor.}
+\caption{Resultados para o problema de classificação utilizando de validação com separação no tempo para os novos atributos excluindo São Luis. Fonte: próprio autor.}
 \label{fig:classv1wmii}
 \end{figure}
 
@@ -383,7 +388,7 @@ De forma geral, os resultados obtidos descartando os dados de $S_4$ de São Luiz
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Previsão de de cintilação ionosférica com 1 h de antecedência ao longo do território brasileiro}
+\section{Previsão de de cintilação ionosférica com antecedência horária ao longo do território brasileiro}\label{sec:bra}
 
 Uma vez descarta a contribuição do índice $S_4$ da estação de São Luiz, na variável {\bf s4\_smooth\_sv\_sl}, tem-se que o modelo só apresenta dependência local no índice $S_4$, o que leva a uma possibilidade de generalização imediata: a previsão de cintilação ionosférica para múltiplas localizações ao longo do território brasileiro. Nesta configuração fica associada uma localização para cada cidade na base de dados, em outras palavras, cidades com múltiplas estações de medida do índice $S_4$ tem suas medidas agrupadas por uma única tupla de localização da forma (longitude, latitude, altura) medidas respectivamente em graus e metros. Este agrupamento é feito de forma a reduzir lacunas no tempo, ou seja, tratar situações onde uma estação funciona para um dado período, enquanto a outra não, e descartar estruturas na cintilação de pequenas escalas. As anomalias na ionosfera se apresentam em múltiplos tamanhos, o que por sua vez produz pertubações em múltiplas escalas, porém atualmente a rede de coleta de dados não apresenta resolução uniforme ao longo do território brasileiro para o tratamento de de pequenas interferências, assim essas devem ser descartadas.
 
@@ -453,14 +458,14 @@ As Figuras \ref{fig:distributionall} e \ref{fig:nulltotalall} mostram respectiva
 \begin{figure}[H]
 \centering
 \makebox[\textwidth][c]{\includegraphics[width=1.2\linewidth]{./Figuras/results-all-stations/distribution.eps}}
-\caption{Distribuição dos dados ao longo do conjunto de amostras. Espaços em brancos representam valores ausentes. Fonte: próprio autor.}
+\caption{Distribuição dos dados ao longo do conjunto de amostras no território brasileiro. Espaços em brancos representam valores ausentes. Fonte: próprio autor.}
 \label{fig:distributionall}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \makebox[\textwidth][c]{\includegraphics[width=1.2\linewidth]{./Figuras/results-all-stations/nulltotal.eps}}
-\caption{Razão e total de dados não nulos por atributo. Fonte: próprio autor.}
+\caption{Razão e total de dados não nulos por atributo no território brasileiro. Fonte: próprio autor.}
 \label{fig:nulltotalall}
 \end{figure}
 
@@ -475,7 +480,7 @@ Validação Cruzada                   & 0,009   & 0,556  \\ \hline
 \end{tabular}
 \end{center}
 \vspace{12pt}
-\caption{Resultados para a regressão. Fonte: Próprio autor.}
+\caption{Resultados para a regressão no território brasileiro. Fonte: Próprio autor.}
 \label{tab:results_all_reg}
 \end{table}
 
@@ -484,7 +489,7 @@ Validação Cruzada                   & 0,009   & 0,556  \\ \hline
 \makebox[\textwidth][c]{
 \subfigure[fig:regall1][Validação cruzada com 10 subconjuntos.]{\includegraphics[width=9.5cm]{./Figuras/results-all-stations/regression_kfold_all_2203_4007_importance.eps}}
 }
-\caption{Importância de cada atributo segundo XGBOOST. Fonte: próprio autor.}\label{fig:regall}
+\caption{Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost no território brasileiro. Fonte: próprio autor.}\label{fig:regall}
 \end{figure}
 
 A Tabela \ref{tab:results_all_class} apresenta a métrica para o resultado obtido com validação cruzada. A Figura\ \ref{fig:classallmik} apresenta a matriz de confusão e um gráfico de barras com a importância das variáveis segundo o XGBOOST.
@@ -498,7 +503,7 @@ Validação Cruzada                   & 0,499   \\ \hline
 \end{tabular}
 \end{center}
 \vspace{12pt}
-\caption{Resultados para a classificação. Fonte: Próprio autor.}
+\caption{Resultados para a classificação no território brasileiro. Fonte: Próprio autor.}
 \label{tab:results_all_class}
 \end{table}
 
@@ -508,12 +513,10 @@ Validação Cruzada                   & 0,499   \\ \hline
 {
 \subfigure[fig:classallmk1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-all-stations/classification_kfold_all_2203_4007_confusion_matrix.eps}}
 \,\,
-\subfigure[fig:classallik2][Importância dos atributos segundo XGBOOST.]{\includegraphics[width=9.5cm]{./Figuras/results-all-stations/classification_kfold_all_2203_4007_importance.eps}}
+\subfigure[fig:classallik2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost.]{\includegraphics[width=9.5cm]{./Figuras/results-all-stations/classification_kfold_all_2203_4007_importance.eps}}
 }
-\caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos. Fonte: próprio autor.}
+\caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos no território brasileiro. Fonte: próprio autor.}
 \label{fig:classallmik}
 \end{figure}
 
 A busca pela melhoria dos resultados obtidos deve passar por uma etapa natural de expansão horizontal e vertical, isto é, deve-se aumentar o número de atributos preditores, assim como aumentar o número de amostras não nulas. Quanto a questão do número de amostras os objetivos imediatos são a criação de uma base de dados de 2000 à 2018 e a implementação de algoritmo de regressão para expandir o número de amostras de dados de hF. Os objetivos apresentados também se aplicam aos demais modelos explorados nesta proposta.
-
-%Esta última, hF, levanta uma interrogação natural, a disponibilidade de dados aparenta ser melhor em \ref{fig:distributionall} do que em \ref{fig:distribution}. A causa é bem simples, primeiro a base de dados construída apresenta mais dados para o período de 2012 e 2013 em comparação com os demais anos, segundo é feito um processo de descarte de variáveis invalidas para hF em \ref{fig:distributionall} antes da fusão com os dados de $S_4$ o que reduziu drasticamente o número de amostras nulas.
