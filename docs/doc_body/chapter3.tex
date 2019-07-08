@@ -1,16 +1,16 @@
 \chapter{PREDIÇÃO DE CINTILAÇÃO IONOSFÉRICA COM ANTECEDÊNCIA HORÁRIA}\label{ch:revisonrezende}
 
-A seção \ref{sec:revision} deste capítulo discute o trabalho \cite{REZENDE:2009}. As seções \ref{sec:new} e \ref{sec:bra} expandem e generalizam os problemas discutidos por este.
+A seção \ref{sec:revision} deste capítulo discute o trabalho \cite{REZENDE:2009, REZENDE:2010}, que aplicou alguns algoritmos de aprendizagem de máquina ao problema de predição de cintilação ionosférica. As seções \ref{sec:new} e \ref{sec:bra} expandem e generalizam os problemas discutidos por este, por meio de uma extensão do período de dados coletados, introduzindo um problema de classificação, e buscando tratar múltiplas localizações no território brasileiro.
 
-\section{Revisão do trabalho \cite{REZENDE:2009}}\label{sec:revision}
+\section{Revisão do trabalho anterior}\label{sec:revision}
 
-Um trabalho anterior do grupo de pesquisa \cite{REZENDE:2009} foi pioneiro na proposta de utilização de modelos direcionados por dados para a predição da cintilação ionosférica. Houve dificuldades inerentes à obtenção de todos os dados utilizados nesse trabalho anterior, mas buscou-se reproduzir parte dos testes realizados, uma vez que a presente pesquisa tem objetivo similar. Ainda nesse trabalho anterior, utilizou-se uma estratégia de ``bagging" com árvores CART como algoritmo de aprendizado de máquina.
+Um trabalho anterior do grupo de pesquisa \cite{REZENDE:2009, REZENDE:2010} foi pioneiro na proposta de utilização de modelos direcionados por dados para a predição da cintilação ionosférica. Houve dificuldades inerentes à obtenção de todos os dados utilizados nesse trabalho anterior, mas buscou-se reproduzir parte dos testes realizados, uma vez que a presente pesquisa tem objetivo similar. Ainda nesse trabalho anterior, utilizou-se uma estratégia de ``bagging'' com árvores CART como algoritmo de aprendizado de máquina.
 
 Nesta proposta, buscou-se reproduzir esses resultados, mas realizando uma sanitização de todos os dados e analisando os atributos selecionados, conforme exposto a seguir. Nessa reprodução foi tomado um período mais extenso (2000-2013 em oposição a 2000-2003), mas sempre selecionando sub-períodos de atividade magnética calma. O período de um ciclo solar é de aproximadamente 11 anos, e no período tratado houve o máximo de 2 ciclos solares, enquanto para o trabalho anterior apenas um máximo do ciclo solar máximo foi utilizado.
 
 \subsection{Principais Pontos do trabalho anterior}
 
-No trabalho anterior \cite{REZENDE:2009} a previsão de cintilação de curto prazo (uma hora) foi realizada utilizando {\bf amostras com intervalos de 5 minutos}, entretanto alguns dos atributos apresentam resolução inferior, sendo portanto interpolados, ou copiados de sua vizinhança, enquanto outros apresentam resolução mais altas, e neste caso precisaram ser agrupados segundo algum critério, por exemplo, por uma operação de máximo.
+No trabalho anterior \cite{REZENDE:2009, REZENDE:2010} a previsão de cintilação de curto prazo (uma hora) foi realizada utilizando {\bf amostras com intervalos de 5 minutos}, entretanto alguns dos atributos apresentam resolução inferior, sendo portanto interpolados, ou copiados de sua vizinhança, enquanto outros apresentam resolução mais altas, e neste caso precisaram ser agrupados segundo algum critério, por exemplo, por uma operação de máximo.
 
 Os atributos foram:
 
@@ -54,7 +54,7 @@ O trabalho foi uma abordagem inédita para o problema da predição da cintilaç
 
 \subsection{Análise do trabalho anterior}
 
-A análise do trabalho anterior \cite{REZENDE:2009} consistiu em levantar e sintetizar alguns pontos que levam a uma definição parcialmente incompleta do problema, ou talvez errônea do mesmo:
+A análise do trabalho anterior \cite{REZENDE:2009, REZENDE:2010} consistiu em levantar e sintetizar alguns pontos que levam a uma definição parcialmente incompleta do problema, ou talvez errônea do mesmo:
 
 \begin{enumerate}
 \item uma vez que o código e a base de dados não é disponibilizada de maneira pública e nem devidamente documentada, a reprodução somente é possível em partes. Visto que serão utilizados algoritmos que muito se assemelham, esperam-se resultados de mesma ordem, entretanto devido as diferenças resultados que divirjam podem ocorrer;
@@ -67,11 +67,11 @@ A análise do trabalho anterior \cite{REZENDE:2009} consistiu em levantar e sint
 
 \section{Reprodução do trabalho anterior}\label{se:rep}
 
-O trabalho anterior \cite{REZENDE:2009} foi parcialmente, reproduzido no contexto desta proposta, pois somente uma linha de pesquisa do trabalho original foi explorada: o problema de regressão, e cuidados adicionais foram necessários, devido a utilização de mais anos, entretanto o total de amostras com todos os atributos não nulos ficou reduzido devido a presença de grandes lacunas nos dados. As Figuras \ref{fig:distribution} e \ref{fig:nulltotal} mostram respectivamente a distribuição dos dados ao longo do conjunto de amostras, onde espaços em brancos representam valores ausentes e a razão e o total de dados não nulos.
+O trabalho anterior \cite{REZENDE:2009, REZENDE:2010} foi parcialmente, reproduzido no contexto desta proposta, pois somente uma linha de pesquisa do trabalho original foi explorada: o problema de regressão, e cuidados adicionais foram necessários, devido a utilização de mais anos, entretanto o total de amostras com todos os atributos não nulos ficou reduzido devido a presença de grandes lacunas nos dados. As Figuras \ref{fig:distribution} e \ref{fig:nulltotal} mostram respectivamente a distribuição dos dados ao longo do conjunto de amostras, onde espaços em brancos representam valores ausentes e a razão e o total de dados não nulos.
 
 \begin{figure}[H]
 \centering
-\makebox[\textwidth][c]{\includegraphics[width=1.2\linewidth]{./Figuras/results-original/distribution.eps}}
+\makebox[\textwidth][c]{\includegraphics[width=1.2\linewidth]{./Figuras/results-original/distribution.png}}
 \caption{Distribuição dos dados ao longo do conjunto de amostras. Espaços em brancos representam valores ausentes. Fonte: próprio autor.}
 \label{fig:distribution}
 \end{figure}
@@ -105,8 +105,8 @@ E os cuidados, assim, como os pré-processamentos foram:
 \item A adoção do termo São Luiz em relação à equador magnético foi preferida, pois este está em movimento, e ao longo do período coletado, assim como em extensões deste período, não estará no mesmo lugar, enquanto os dados são sempre coletados em uma estação fixa em São Luiz;
 \item A adoção do termo São José dos Campos em relação a pico da anomalia ocorre, pois a localização do pico depende da quantidade de radiação emitida pelo Sol em seu regime, ciclo solar. Nos anos de 2000, 2001, 2002, o pico da anomalia estava em São José dos Campos, porém nos anos de 2018 e 2019 este se encontra em Presidente Prudente. Finalmente, os dados foram sempre coletados em uma estação fixa em São José dos Campos;
 \item A altura hF não é amostrada em intervalos regulares ao longo do período de dados coletados, inicialmente, ela era amostrada em 15 min, e posteriormente passou a ser amostrado em 10 min, portanto neste trabalho se reamostrou toda a série para o intervalo de 10 min, que foi então interpolado por um spline de grau 3, até um máximo de 10 pontos ausentes na vizinhança do ponto a ser interpolado. Finalmente {\bf vhf} é calculada utilizando a versão de hF preprocessada;
-\item Quanto as variáveis definidas em temos do índice $S_4$, primeiro, somente serão aceitas medidas cuja elevação entre a estação e o receptor sejam maiores que 30 graus; segundo todos os dados coletados em uma mesma cidade mas por diferente estações são combinados, de forma a reduzir as lacunas; terceiro, os dados de cintilação apresentam resolução temporal de 1 min, e são coletados para cada satélite acima do plano de horizonte da estação, portanto, existem vários dados por minuto, com objetivo de ficar-se somente com um dado, estes foram agrupados tomando-se o maior valor de cintilação; terceiro, os dados com resolução de um minuto são então interpolados por spline de ordem 3 com limite de quatro valores ausentes; quinto, os dados são suavizados por um filtro de Savitz-Goley centrado de ordem 3 com janela de tamanho 5, o que levaria a necessidade de apenas, 2 amostras de dados futuros; finalmente, os dados são reamostrados para um intervalo de 5 minutos;
-\item A adoção de ap em preferência à Kp se deve a esta apresentar uma escala linear e, portanto ser mais condizente com operações como média. A escolha do novo intervalo é realizada, devido ao fato de que a definição original em \cite{REZENDE:2009} não ser clara.
+\item Quanto as variáveis definidas em termos do índice $S_4$, primeiro, somente serão aceitas medidas cuja elevação entre a estação e o receptor sejam maiores que 30 graus; segundo todos os dados coletados em uma mesma cidade mas por diferente estações são combinados, de forma a reduzir as lacunas; terceiro, os dados de cintilação apresentam resolução temporal de 1 min, e são coletados para cada satélite acima do plano de horizonte da estação, portanto, existem vários dados por minuto, com objetivo de ficar-se somente com um dado, estes foram agrupados tomando-se o maior valor de cintilação; quarto, os dados com resolução de um minuto são então interpolados por spline de ordem 3 com limite de quatro valores ausentes; quinto, os dados são suavizados por um filtro de Savitz-Goley centrado de ordem 3 com janela de tamanho 5, o que levaria a necessidade de apenas, 2 amostras de dados futuros; finalmente, os dados são reamostrados para um intervalo de 5 minutos;
+\item A adoção de ap em preferência à Kp se deve a esta apresentar uma escala linear e, portanto ser mais condizente com operações como média. A escolha do novo intervalo é realizada, devido ao fato de que a definição original em \cite{REZENDE:2009, REZENDE:2010} não ser clara.
 \end{itemize}
 
 Uma abordagem de normalização para o intervalo $[0,05,\,0,95]$ é aplicado a todos os atributos preditores (uma para cada atributo) antes da utilização do algoritmo de aprendizagem de máquina. Este intervalo é adotado já considerando a possibilidade de aplicação de redes neurais com função de ativação sigmoide, haja visto que esta sofre saturação para valores próximos de 0 e 1.
@@ -131,11 +131,11 @@ Ausente           & $ S_4 \le 0,2 $ \\ \hline
 \label{tab:class4}
 \end{table}
 
-Neste caso, tem-se um problema com 5 classes não balanceado e uma abordagem de reasmotragem foi empregada de modo balancear o números de elementos tal que todos estejam próximos da cardinalidade da classe com o maior número de elementos. Esta etapa é realizada após a normalização, e o algoritmo empregado foi o ADASYN. Finalmente, adotou-se como métrica a precisão balanceada, e a ferramenta utilizada também foi o XGBOOST.
+Neste caso, tem-se um problema com 5 classes não balanceado e uma abordagem de reasmotragem foi empregada de modo balancear o números de elementos tal que todos estejam próximos da cardinalidade da classe com o maior número de elementos. Esta etapa é realizada após a normalização. Finalmente, adotou-se como métrica a precisão balanceada, e a ferramenta utilizada também foi o XGBOOST.
 
 \subsection{Metodologia para a reprodução do trabalho anterior}
 
-Para os modelos reproduzidos do trabalho anterior \cite{REZENDE:2009}, assim como os desenvolvidos nesta proposta, em geral, duas formas de avaliação dos modelos gerados foram empregadas: validação cruzada com 10 subconjuntos e validação com separação no tempo. A primeira consistiu em dividir o conjunto de dados de maneira aleatória (e tal que cada conjunto tivesse a mesma proporção em termos de classes, quando de um problema de classificação) em 10 subconjuntos, e então treinar 10 instâncias do modelo utilizando 9 destes conjuntos, enquanto o conjunto restante foi utilizado para avaliar o modelo. Note que para o $i$-ésimo modelo deve ser excluir o $i$-ésimo subconjunto. Os resultados obtidos então, por cada um dos modelos, são agrupados por uma operação de média aritmética. A segunda abordagem consistiu em particionar o conjunto de dados ordenados no tempo em um ponto $t$, tal que o primeira partição fosse empregada no treinamento de um modelo e a segunda para a avaliação do mesmo.
+Para os modelos reproduzidos do trabalho anterior \cite{REZENDE:2009, REZENDE:2010}, assim como os desenvolvidos nesta proposta, em geral, duas formas de avaliação dos modelos gerados foram empregadas: validação cruzada com 10 subconjuntos e validação com separação no tempo. A primeira consistiu em dividir o conjunto de dados de maneira aleatória (e tal que cada conjunto tivesse a mesma proporção em termos de classes, quando de um problema de classificação) em 10 subconjuntos, e então treinar 10 instâncias do modelo utilizando 9 destes conjuntos, enquanto o conjunto restante foi utilizado para avaliar o modelo. Note que para o $i$-ésimo modelo deve ser excluir o $i$-ésimo subconjunto. Os resultados obtidos então, por cada um dos modelos, são agrupados por uma operação de média aritmética. A segunda abordagem consistiu em particionar o conjunto de dados ordenados no tempo em um ponto $t$, tal que o primeira partição fosse empregada no treinamento de um modelo e a segunda para a avaliação do mesmo.
 
 No caso dos problemas tratados, considerando a validação com separação no tempo, a primeira partição terá aproximadamente 65\% de todos os valores tratados, e consequentemente a segunda partição terá 45\%. O total de amostras é de 1742, das quais então, 958 correspondem a primeira partição e 784 correspondem a segunda partição.
 
@@ -144,7 +144,7 @@ No caso dos problemas tratados, considerando a validação com separação no te
 
 \subsection{Resultado da reprodução da regressão para o trabalho anterior}
 
-A Tabela \ref{tab:results_reg} apresenta as métricas para os resultados obtidos para as duas abordagens de validação. Enquanto, a Figura \ref{fig:rego} apresenta a importância das variáveis segundo o XGBOOST. Dado o pequeno volume de dados utilizado aqui (1742 instâncias/amostras para 13 anos) na reprodução do trabalho anterior (4680 instâncias/amostras para 3 anos), fica difícil comparar o desempenho de regressão obtido naquele trabalho e na presente reprodução, um dos melhores valores de $mse$ encontrado no trabalho \cite{REZENDE:2009} foi de 0,05. Entretanto, como a diferença entre os valores de $mse$ não são diferentes por ordem de grandeza, pode-se concluir que os resultados são equivalentes, ou seja, que a reprodução proposta é tão boa quanto a implementação original.
+A Tabela \ref{tab:results_reg} apresenta as métricas para os resultados obtidos para as duas abordagens de validação. Enquanto, a Figura \ref{fig:rego} apresenta a importância das variáveis segundo o XGBOOST. Dado o pequeno volume de dados utilizado aqui (1742 instâncias/amostras para 13 anos) na reprodução do trabalho anterior (4680 instâncias/amostras para 3 anos), fica difícil comparar o desempenho de regressão obtido naquele trabalho e na presente reprodução, um dos melhores valores de $mse$ encontrado no trabalho \cite{REZENDE:2009, REZENDE:2010} foi de 0,05. Entretanto, como a diferença entre os valores de $mse$ não são diferentes por ordem de grandeza, pode-se concluir que os resultados são equivalentes, ou seja, que a reprodução proposta é tão boa quanto a implementação original.
 
 \begin{table}[h]
 \begin{center}
@@ -156,7 +156,7 @@ Validação com Separação no Tempo    & 0,016   & 0,553  \\ \hline
 \end{tabular}
 \end{center}
 \vspace{12pt}
-\caption{Resultados para a regressão do trabalho anterior \cite{REZENDE:2009}. Fonte: Próprio autor.}
+\caption{Resultados para a regressão do trabalho anterior \cite{REZENDE:2009, REZENDE:2010}. Fonte: Próprio autor.}
 \label{tab:results_reg}
 \end{table}
 
@@ -164,10 +164,9 @@ Validação com Separação no Tempo    & 0,016   & 0,553  \\ \hline
 \center
 \makebox[\textwidth][c]{
 \subfigure[fig:rego1][Validação cruzada com 10 subconjuntos.]{\includegraphics[width=9.5cm]{./Figuras/results-original/regression_kfold_original_958_1742_importance.eps}}
-\,\,
 \subfigure[fig:rego2][Validação com separação no tempo.]{\includegraphics[width=9.5cm]{./Figuras/results-original/regression_intime_original_958_1742_importance.eps}}
 }
-\caption{Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost para o trabalho anterior \cite{REZENDE:2009}. Fonte: próprio autor.}\label{fig:rego}
+\caption{Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost para o trabalho anterior \cite{REZENDE:2009, REZENDE:2010}. Fonte: próprio autor.}\label{fig:rego}
 \end{figure}
 
 \subsection{Resultados da classificação para o trabalho anterior}
@@ -190,10 +189,10 @@ Validação com Separação no Tempo    & 0,363     \\ \hline
 
 \begin{figure}[h]
 \center
+\hspace{-2cm}
 \makebox[\textwidth][c]
 {
 \subfigure[fig:classomk1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-original/classification_kfold_original_958_1742_confusion_matrix.eps}}
-\,\,
 \subfigure[fig:classoik2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost.]{\includegraphics[width=9.5cm]{./Figuras/results-original/classification_kfold_original_958_1742_importance.eps}}
 }
 \caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos para o trabalho anterior. Fonte: próprio autor.}
@@ -202,10 +201,10 @@ Validação com Separação no Tempo    & 0,363     \\ \hline
 
 \begin{figure}[h]
 \center
+\hspace{-2cm}
 \makebox[\textwidth][c]
 {
 \subfigure[fig:classoii1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-original/classification_intime_original_958_1742_confusion_matrix.eps}}
-\,\,
 \subfigure[fig:classoii2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost.]{\includegraphics[width=9.5cm]{./Figuras/results-original/classification_intime_original_958_1742_importance.eps}}
 }
 \caption{Resultados para o problema de classificação utilizando de validação com separação no tempo para o trabalho anterior. Fonte: próprio autor.}
@@ -222,7 +221,7 @@ Validação com Separação no Tempo    & 0,363     \\ \hline
 A seguir, a predição proposta no trabalho anterior foi refeita, mas utilizando-se novas variáveis e redefinindo algumas das variáveis existentes. Partindo do conjunto de variáveis original definido na seção \ref{se:rep} as seguintes alterações foram empregadas:
 
 \begin{itemize}
-\item Agora, somente serão aceitas variáveis de $S_4$ com valores de elevação acima de 45 graus. E, antes do processo de combinação das amostras para a geração de um único dado por minuto, o valor de $S_4$ é projetado na vertical segundo seu angulo de elevação por:
+\item Somente serão aceitas variáveis de $S_4$ com valores de elevação acima de 45 graus. E, antes do processo de combinação das amostras para a geração de um único dado por minuto, o valor de $S_4$ é projetado na vertical segundo seu angulo de elevação por:
 \begin{equation}
 {S_4}_{proj}=S_4[\sin\theta]^{0,9}\mbox{,}~
 \end{equation}
@@ -261,7 +260,6 @@ Validação com Separação no Tempo    & 0,011  & 0,016  & 0,250     & 0,553  \
 \center
 \makebox[\textwidth][c]{
 \subfigure[fig:regv11][Validação cruzada com 10 subconjuntos.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/regression_kfold_v1_899_1635_importance.eps}}
-\,\,
 \subfigure[fig:regv12][Validação com separação no tempo.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/regression_intime_v1_899_1635_importance.eps}}
 }
 \caption{Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost para os novos atributos. Fonte: próprio autor.}\label{fig:regv1}
@@ -288,10 +286,10 @@ Quando comparando as Tabelas \ref{tab:results_v1_class} e \ref{tab:results_class
 
 \begin{figure}[h]
 \center
+\hspace{-2cm}
 \makebox[\textwidth][c]
 {
 \subfigure[fig:classv1mk1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-v1/classification_kfold_v1_899_1635_confusion_matrix.eps}}
-\,\,
 \subfigure[fig:classv1ik2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_kfold_v1_899_1635_importance.eps}}
 }
 \caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos para os novos atributos. Fonte: próprio autor.}
@@ -300,10 +298,10 @@ Quando comparando as Tabelas \ref{tab:results_v1_class} e \ref{tab:results_class
 
 \begin{figure}[h]
 \center
+\hspace{-2cm}
 \makebox[\textwidth][c]
 {
 \subfigure[fig:classv1ii1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-v1/classification_intime_v1_899_1635_confusion_matrix.eps}}
-\,\,
 \subfigure[fig:classv1ii2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_intime_v1_899_1635_importance.eps}}
 }
 \caption{Resultados para o problema de classificação utilizando de validação com separação no tempo para os novos atributos. Fonte: próprio autor.}
@@ -361,10 +359,10 @@ Validação com Separação no Tempo    & 0,248     \\ \hline
 
 \begin{figure}[H]
 \center
+\hspace{-2cm}
 \makebox[\textwidth][c]
 {
 \subfigure[fig:classv1wmk1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-v1/classification_kfold_v1-without-sl_2627_4778_confusion_matrix.eps}}
-\,\,
 \subfigure[fig:classv1wik2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_kfold_v1-without-sl_2627_4778_importance.eps}}
 }
 \caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos para os novos atributos excluindo São Luis. Fonte: próprio autor.}
@@ -373,10 +371,10 @@ Validação com Separação no Tempo    & 0,248     \\ \hline
 
 \begin{figure}[H]
 \center
+\hspace{-2cm}
 \makebox[\textwidth][c]
 {
 \subfigure[fig:classv1wii1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-v1/classification_intime_v1-without-sl_2627_4778_confusion_matrix.eps}}
-\,\,
 \subfigure[fig:classv1wii2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost.]{\includegraphics[width=9.5cm]{./Figuras/results-v1/classification_intime_v1-without-sl_2627_4778_importance.eps}}
 }
 \caption{Resultados para o problema de classificação utilizando de validação com separação no tempo para os novos atributos excluindo São Luis. Fonte: próprio autor.}
@@ -388,44 +386,29 @@ De forma geral, os resultados obtidos descartando os dados de $S_4$ de São Luiz
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Previsão de de cintilação ionosférica com antecedência horária ao longo do território brasileiro}\label{sec:bra}
+\section{Previsão de de cintilação ionosférica com antecedência horária no do território brasileiro}\label{sec:bra}
 
-Uma vez descarta a contribuição do índice $S_4$ da estação de São Luiz, na variável {\bf s4\_smooth\_sv\_sl}, tem-se que o modelo só apresenta dependência local no índice $S_4$, o que leva a uma possibilidade de generalização imediata: a previsão de cintilação ionosférica para múltiplas localizações ao longo do território brasileiro. Nesta configuração fica associada uma localização para cada cidade na base de dados, em outras palavras, cidades com múltiplas estações de medida do índice $S_4$ tem suas medidas agrupadas por uma única tupla de localização da forma (longitude, latitude, altura) medidas respectivamente em graus e metros. Este agrupamento é feito de forma a reduzir lacunas no tempo, ou seja, tratar situações onde uma estação funciona para um dado período, enquanto a outra não, e descartar estruturas na cintilação de pequenas escalas. As anomalias na ionosfera se apresentam em múltiplos tamanhos, o que por sua vez produz pertubações em múltiplas escalas, porém atualmente a rede de coleta de dados não apresenta resolução uniforme ao longo do território brasileiro para o tratamento de de pequenas interferências, assim essas devem ser descartadas.
+Uma vez descarta a contribuição do índice $S_4$ da estação de São Luiz, na variável {\bf s4\_smooth\_sv\_sl}, tem-se que o modelo só apresenta dependência local no índice $S_4$, o que leva a uma possibilidade de generalização imediata: a previsão de cintilação ionosférica para múltiplas localizações no território brasileiro. Nesta configuração fica associada uma localização para cada cidade na base de dados, em outras palavras, cidades com múltiplas estações de medida do índice $S_4$ tem suas medidas agrupadas por uma única tupla de localização da forma (longitude, latitude, altura) medidas respectivamente em graus e metros. Este agrupamento é feito de forma a reduzir lacunas no tempo, ou seja, tratar situações onde uma estação funciona para um dado período, enquanto a outra não, e descartar estruturas na cintilação de pequenas escalas. As anomalias na ionosfera se apresentam em múltiplos tamanhos, o que por sua vez produz pertubações em múltiplas escalas, porém atualmente a rede de coleta de dados não apresenta resolução uniforme no do território brasileiro para o tratamento de de pequenas interferências, assim essas devem ser descartadas.
 
-A Tabela \ref{tab:stations} fornece as localizações utilizadas nesta etapa. A cada localização fica associada um identificador formado pela sigla do estado e o nome da cidade e uma tupla no sistema geodético, ou seja, longitude, latitude e altura. A identificação de uma localização é utilizada diretamente para a construção das variáveis preditoras para este problema a serem definidas, porém, nas fases de treinamento e validação propriamente dita elas devem ser substituídas pela seu correspondente numérico, ou seja, o valor no sistema de coordenadas geodético.
+A Tabela \ref{tab:stations} fornece as localizações utilizadas nesta etapa, assim como o número de amostras (NA) para treinamento e teste. A cada localização fica associada um identificador formado pela sigla do estado e o nome da cidade e uma tupla no sistema geodético, ou seja, longitude, latitude e altura. A identificação de uma localização é utilizada diretamente para a construção das variáveis preditoras para este problema a serem definidas, porém, nas fases de treinamento e validação propriamente dita elas devem ser substituídas pela seu correspondente numérico, ou seja, o valor no sistema de coordenadas geodético.
 
 \begin{table}[h]
 \begin{center}
-\begin{tabular}{|l|c|c|c|}
+\begin{tabular}{|l|c|c|c|c|c|}
 \hline
-Identificação           & Longitude & Latitude & Altura \\ \hline
-am\_manaus               & -59,98  & -3,10   & 39 \\ \hline
-am\_tefe                 & -64,44  & -3,18   & 0 \\ \hline
-ba\_ilheus               & -39,10  & -14,47  & 0 \\ \hline
-ba\_salvador             & -38,51  & -13,00  & 12 \\ \hline
-ce\_fortaleza            & -38,54  & -3,47   & 14 \\ \hline
-df\_brasilia             & -47,87  & -15,76  & 1050 \\ \hline
-ma\_sao\_luis             & -44,21  & -2,59   & 0 \\ \hline
-ma\_imperatriz           & -47,28  & -5,31   & 134 \\ \hline
-mg\_inconfidentes        & -46,33  & -22,32  & 864 \\ \hline
-mg\_belo\_horizonte       & -43,95  & -19,87  & 858 \\ \hline
-ms\_campo\_grande         & -54,61  & -20,50  & 612 \\ \hline
-ms\_dourados             & -54,55  & -22,11  & 756 \\ \hline
-mt\_alta\_floresta        & -55,90  & -9,90   & 267 \\ \hline
-mt\_cuiaba               & -56,07  & -15,55  & 278 \\ \hline
-rj\_macae                & -41,79  & -22,82  & 7 \\ \hline
-rj\_ae\_galeao            & -43,24  & -22,82  & 20 \\ \hline
-rn\_natal                & -35,12  & -5,84   & 0 \\ \hline
-ro\_palmas               & -48,31  & -10,20  & 260 \\ \hline
-ro\_porto\_velho          & -63,55  & -8,49   & 1130 \\ \hline
-rr\_boa\_vista            & -60,70  & 2,83    & 69 \\ \hline
-rs\_santa\_maria          & -53,71  & -29,71  & 110 \\ \hline
-rs\_porto\_alegre         & -51,12  & -30,07  & 22 \\ \hline
-sp\_presidente\_prudente  & -51,41  & -21,12  & 421 \\ \hline
-sp\_sao\_jose\_dos\_campos  & -45,86  & -23,21  & 593 \\ \hline
-sp\_cachoeira\_paulista   & -45,00  & -22,41  & 580 \\ \hline
-sp\_pirassununga         & -47,33  & -21,99  & 625 \\ \hline
-sp\_guaratingueta        & -45,22  & -22,79  & 526 \\ \hline
+Identificação               & Longitude & Latitude & Altura  & NA Treinamento. & NA Teste \\ \hline
+am\_manaus                  & -59,98  & -3,10   & 39         &  47 & 7\\ \hline
+ms\_dourados                & -54,55  & -22,11  & 756        & 63  & 7 \\ \hline
+mt\_alta\_floresta          & -55,90  & -9,90   & 267        & 88  & 9\\ \hline
+mt\_cuiaba                  & -56,07  & -15,55  & 278        & 354 & 45\\ \hline
+rj\_macae                   & -41,79  & -22,82  & 7          & 381 & 39\\ \hline
+rj\_ae\_galeao              & -43,24  & -22,82  & 20         & 27  & 5\\ \hline
+rn\_natal                   & -35,12  & -5,84   & 0          & 1   & 0 \\ \hline
+ro\_palmas                  & -48,31  & -10,20  & 260        & 511 & 55\\ \hline
+rs\_porto\_alegre           & -51,12  & -30,07  & 22         & 641 & 61\\ \hline
+sp\_presidente\_prudente    & -51,41  & -21,12  & 421        & 709 & 65\\ \hline
+sp\_sao\_jose\_dos\_campos  & -45,86  & -23,21  & 593        & 673 & 101\\ \hline
+sp\_cachoeira\_paulista     & -45,00  & -22,41  & 580        & 109 & 9\\ \hline
 \end{tabular}
 \end{center}
 \vspace{12pt}
@@ -469,7 +452,7 @@ As Figuras \ref{fig:distributionall} e \ref{fig:nulltotalall} mostram respectiva
 \label{fig:nulltotalall}
 \end{figure}
 
-Nesta abordagem, somente, foi utilizada validação cruzada com 10 subconjuntos. Esta escolha se deve ao fato do número de amostras não nulas por localização serem variadas. Entretanto, de forma geral, tanto a fase de treinamento quanto a fase de validação são tendenciosas como resultado da não uniformidade do número de amostras por localização. Assim, poder-se-ia descartar os resultados apresentados nesta seção, dados pela Tabelas \ref{tab:results_all_reg} e \ref{tab:results_all_class}  e pelas Figuras \ref{fig:regall} e \ref{fig:classallmik}, porém este é um primeiro resultado interessante para este tipo de abordagem.
+Nesta abordagem foi utilizada validação cruzada com 10 subconjuntos tanto para o problema de regressão quanto para o de classificação e uma validação com conjuntos de treinamento e teste para o problema de regressão, onde o número de amostras pode ser encontrado na Tabela \ref{tab:stations}. Estas escolhas se devem ao fato do número de amostras não nulas por localização serem variadas. Entretanto, de forma geral, avaliar a fase de treinamento e a fase de validação é complicada visto não uniformidade do número de amostras por localização. Assim, poder-se-ia talvez dizer que os resultados apresentados nesta seção, dados pela Tabelas \ref{tab:results_all_reg}, \ref{tab:results_all_class} e \ref{tab:results_some_reg} e pelas Figuras \ref{fig:regall} e \ref{fig:classallmik} não são muito bons, porém este é um primeiro resultado interessante para este tipo de abordagem, isto é, considerando o desenvolvimento de um modelo para o território brasileiro.
 
 \begin{table}[H]
 \begin{center}
@@ -484,15 +467,41 @@ Validação Cruzada                   & 0,009   & 0,556  \\ \hline
 \label{tab:results_all_reg}
 \end{table}
 
+De forma geral os resultados apresentados na Tabela \ref{tab:results_some_reg} apresentam erros relativamente consistentes, isto é, tem mais ou menos a mesma ordem de grandeza. Os menores erros aparecem para as estações com o menor número de dados coletados, tal fato fica evidenciado comparando com a Tabela \ref{tab:stations}.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Localização & $mse$ & $mae$ \\ \hline
+am\_manaus               & 0.0012 & 0.06 \\ \hline
+sp\_sao\_jose\_dos\_campos  & 0.0152 & 0.54 \\ \hline
+ro\_palmas               & 0.0103 & 0.36 \\ \hline
+rj\_macae                & 0.0070 & 0.24 \\ \hline
+rs\_porto\_alegre         & 0.0030 & 0.23 \\ \hline
+rj\_ae\_galeao            & 0.0005 & 0.03 \\ \hline
+ms\_dourados             & 0.0005 & 0.04 \\ \hline
+mt\_alta\_floresta        & 0.0016 & 0.05 \\ \hline
+sp\_cachoeira\_paulista   & 0.0152 & 0.28 \\ \hline
+mt\_cuiaba               & 0.0022 & 0.11 \\ \hline
+sp\_presidente\_prudente  & 0.0242 & 0.40 \\ \hline
+\end{tabular}
+\end{center}
+\vspace{12pt}
+\caption{Resultados para a regressão por localização. Fonte: Próprio autor.}
+\label{tab:results_some_reg}
+\end{table}
+
+
 \begin{figure}[H]
 \center
 \makebox[\textwidth][c]{
-\subfigure[fig:regall1][Validação cruzada com 10 subconjuntos.]{\includegraphics[width=9.5cm]{./Figuras/results-all-stations/regression_kfold_all_2203_4007_importance.eps}}
+\subfigure[fig:regall1][Validação cruzada com 10 subconjuntos.]{\includegraphics[width=9.5cm]{./Figuras/results-all-stations/regression_kfold_all_1982_3604_importance.eps}}
 }
 \caption{Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost no território brasileiro. Fonte: próprio autor.}\label{fig:regall}
 \end{figure}
 
-A Tabela \ref{tab:results_all_class} apresenta a métrica para o resultado obtido com validação cruzada. A Figura\ \ref{fig:classallmik} apresenta a matriz de confusão e um gráfico de barras com a importância das variáveis segundo o XGBOOST.
+A Tabela \ref{tab:results_all_class} apresenta a métrica para o resultado obtido com validação cruzada. A Figura\ \ref{fig:classallmik} apresenta a matriz de confusão e um gráfico de barras com a importância das variáveis segundo o XGBOOST. Note que apesar da precisão balanceada não apresentar um valor alto, o resultado é obtido é razoável, visto que a taxa de acerto para a classe ausente foi de 81\%, para a classe fraca foi de 54\%, para a classe moderado foi de 49\% e para a classe forte foi de 69\%.
 
 \begin{table}[H]
 \begin{center}
@@ -509,14 +518,14 @@ Validação Cruzada                   & 0,499   \\ \hline
 
 \begin{figure}[H]
 \center
+\hspace{-2cm}
 \makebox[\textwidth][c]
 {
 \subfigure[fig:classallmk1][Matriz de Confusão.]{\includegraphics[width=11.5cm]{./Figuras/results-all-stations/classification_kfold_all_2203_4007_confusion_matrix.eps}}
-\,\,
-\subfigure[fig:classallik2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost.]{\includegraphics[width=9.5cm]{./Figuras/results-all-stations/classification_kfold_all_2203_4007_importance.eps}}
+\subfigure[fig:classallik2][Importância relativa dos atributos obtida no treinamento realizado pelo XGBoost.]{\includegraphics[width=9.5cm]{./Figuras/results-all-stations/classification_kfold_all_2088_3797_importance.eps}}
 }
 \caption{Resultados para o problema de classificação utilizando de validação cruzada com 10 subconjuntos no território brasileiro. Fonte: próprio autor.}
 \label{fig:classallmik}
 \end{figure}
 
-A busca pela melhoria dos resultados obtidos deve passar por uma etapa natural de expansão horizontal e vertical, isto é, deve-se aumentar o número de atributos preditores, assim como aumentar o número de amostras não nulas. Quanto a questão do número de amostras os objetivos imediatos são a criação de uma base de dados de 2000 à 2018 e a implementação de algoritmo de regressão para expandir o número de amostras de dados de hF. Os objetivos apresentados também se aplicam aos demais modelos explorados nesta proposta.
+A busca pela melhoria dos resultados obtidos deve passar por uma etapa natural de expansão horizontal e vertical, isto é, deve-se aumentar o número de atributos preditores, assim como aumentar o número de amostras não nulas. Quanto a questão do número de amostras os objetivos imediatos são a criação de uma base de dados de 2000 à 2018 e a implementação de um algoritmo de regressão para expandir o número de amostras de dados de hF. Os objetivos apresentados também se aplicam aos demais modelos explorados nesta proposta.
