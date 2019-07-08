@@ -1,17 +1,77 @@
 \chapter{PROPOSTA}
 
-Tendo em vista os objetivos deste trabalho, as próximas etapas ficam sintetizadas por:
+Nas últimas décadas um grande embasamento teórico foi desenvolvido de modo a explicar a dinâmica ionosférica, e apesar das relações causas e efeitos serem conhecidos, uma completa caracterização matemática da dinâmica está incompleta, ou seja, não existe modelos numéricos que sejam capazes de descrever a riqueza de fenômenos ocorrendo nesta. Assim, surge a necessidade de modelos derivados de conjunto de dados que representam aproximadamente o estado da ionosfera. Diferentes abordagens podem ser aplicadas para tal, como aproximação de distribuições, representações em séries entre outras. O problema geral dessas abordagens é assumir hipóteses que são incompletas ou restritivas de mais para uma completa modelagem. Finalmente, a mineração de dados com o auxílio da aprendizagem de máquina permite expandir as manipulações que podem ser realizadas sobre os dados.
 
-\begin{enumerate}
-\item revisão bibliográfica continuada;
-\item expansão vertical (2000-2018), horizontal (novas variáveis) da base de dados;
-\item análise de atributos preditores utilizando métodos de seleção;
-\item desenvolvimento de um conjunto de benchmarking para predição de cintilação ionosférica;
-\item desenvolver um modelo baseado em redes neurais para a previsão da cintilação, baseado nas variáveis utilizadas nesta proposta;
-\item desenvolvimento de redes de autocodificação convolucionais para extração automática de dados de VTEC;
-\item combinação da rede de extração automática de dados de VTEC com a rede de previsão de cintilação;
-\item escrita de artigos científicos;
-\item escrita da tese;
-\item defesa.
+O objetivo desta tese é o desenvolvimento de um modelo para a predição de cintilação ionosférica com antecedência horária no território brasileiro, para tal alguns pontos precisam ser discutidos. Ficou claro com a extensão para algumas localizações no território brasileiro que o número de amostras por estação no Brasil é pequeno e precisa ser aumentado. Felizmente, depois do ano de 2011-2012 uma nova rede de coleta de dados de cintilação foi implementada, a CIGALA/CALIBRA \cite{VANI:2017} o qual integra também com os dados da rede LISN e SPENTENTRIO utilizadas neste trabalho. Assim, a extensão da amostra de dados para o período de 2000-2018 deve prover um grande número de novas possibilidades, contudo a vasta quantidade de lacunas para a variável hF deve ser tratada. O preenchimento de lacunas para as variáveis hF será feito utilizando uma abordagem de regressão onde mais variáveis associadas ao fenômeno de cintilação serão empregadas, alguns exemplos destas podem ser encontradas na referencia \cite{MCGRANAGHAN:2018}.
 
-\end{enumerate}
+Finalmente uma variável importante para o estudo e modelagem da dinâmica ionosférica é o VTEC, o qual é apresentada no capitulo \ref{ch:tec} cuja abordagem utilizada na exploração se mostrou insuficiente, porém a possibilidade de algoritmos de aprendizagem que busquem extrair padrões diretamente da estrutura matricial do VTEC por meio de redes convolucionais abre também um enorme conjunto de possibilidades.
+
+O plano de trabalho relativo a tese compreende as seguintes etapas de forma a completar o doutorado em quatro anos.
+
+\begin{itemize}
+\item {\bf REVISÃO} - revisão bibliográfica continuada: tanto algoritmos de aprendizagem de máquina como informações sobre a dinâmica ionosférica estão constantemente sendo atualizadas, portanto é necessário uma revisão contínua da bibliografia pertinente;
+\item {\bf AUMENTO} - expansão vertical (2000-2018), horizontal (novas variáveis) da base de dados: atualmente fica evidente que a base dados não é adequada para a geração de um modelo de predição para todo o território brasileiro, isto se deve principalmente a grande lacuna nas amostras de dados, portanto, deve-se buscar novas variáveis, assim, como preencher as lacunas nos conjuntos de dados;
+\item {\bf ANÁLISE} - análise de atributos preditores utilizando métodos de seleção: uma vez expandida horizontalmente a base de dados, algoritmos de seleção como entropia cruzada serão utilizados para o descarte ou não das variáveis;
+\item {\bf VALIDAÇÃO} - desenvolvimento de um conjunto de benchmark para predição de cintilação ionosférica: atualmente não existe um conjunto de dados definido para a avaliação do problema de cintilação, todavia alguns trabalhos neste sentido já foram iniciados para outras regiões \cite{MCGRANAGHAN:2018}. Assim, nota-se a necessidade de uma base para o território brasileiro, o que permite uma comparação mais adequada entre os resultados gerados por diferentes algoritmos de aprendizagem de máquina;
+\item {\bf ALGORITMO} - aprimorar o algoritmo de predição de cintilação ionosférica: desenvolver uma rede neural dividida em dois blocos entrada e saída utilizando técnicas de autocodificação para a geração do bloco de entrada. Comparar o modelo obtido pelo XGBoost contra o modelo obtido pela rede neural;
+\item {\bf CNN} - desenvolvimento de uma rede de autocodificação convolucional para extração automática de dados de VTEC: a abordagem adotada no Capítulo \ref{ch:tec} para a formulação de variáveis de VTEC é inadequada. Note primeiro que esta é realizada utilizando de antemão conhecimento especialista, porém existe um enorme conjunto de combinações que não é explorada dessa maneira. Assim, é necessário adotar uma abordagem automática que investigue outras possibilidades por meio de um processo de otimização, o qual fica formulado em termos de uma rede neural com dois grandes blocos: 
+\begin{itemize}
+\item {\bf codificação} neste bloco a rede aprende a gerar uma representação reduzida para os dados, no caso, o campo de VTEC,
+\item {\bf decodificação} neste bloco a rede aprende a reconstruir os dados a partir representação reduzida encontrada para o campo de VTEC,
+\end{itemize}
+os quais são aprendidos simultaneamente. Um outro aspecto importante é que cada camada da rede é constituída por um conjunto de filtros (representados por matrizes quadradas) cujos pesos são parâmetros a serem otimizados, isto é, a serem aprendidos. Cada filtro interage com o dado gerado na camada anterior por meio de uma operação de convolução (correlação). Esta rede completa é o que denominasse de rede de autocodificação convolucional;
+\item {\bf TEC} - uso da rede de extração automática de dados de VTEC para alimentar a rede de predição de cintilação: o processo de construção das redes neurais apresentadas anteriormente será entendido como uma fase de prétreinamento, e o próprio treinamento individual de cada bloco é necessário, pois o número de amostras de dados de VTEC e $S_4$ são muitos diferentes, assim esta abordagem permite obter o melhor de cada conjunto de dados. Geradas essas redes em uma fase de prétreinamento, elas são conectados por um novo conjunto de camadas MLP que irão fornecer o resultado de saída, finalmente a rede completa (blocos gerados anteriormente, mais bloco de conexão) é ajustado. Estudar maneiras para combinar os dados da rede de extração automática de dados de VTEC com o XGBoost;
+\item {\bf ARTIGOS} - escrita de artigos científicos;
+\item {\bf ESCRITA} - escrita da tese;
+\item {\bf DEFESA} - defesa.
+\end{itemize}
+
+\begin{table}[!ht]
+\centering
+\medskip
+\begin{tabular}{|c|>{\centering\arraybackslash}p{1.2cm}|
+                   >{\centering\arraybackslash}p{1.2cm}|
+                   >{\centering\arraybackslash}p{1.2cm}|
+                   >{\centering\arraybackslash}p{1.2cm}|
+                   >{\centering\arraybackslash}p{1.2cm}|
+                   >{\centering\arraybackslash}p{1.2cm}|}
+\hline
+                         & \multicolumn{2}{c|}{2019} & \multicolumn{4}{c|}{2020} \\ \cline{2-7}
+
+\multirow{-2}{*}{Etapas} & 8-9 & 10-12               & 1-3 & 4-6 & 7-9 & 10-12 \\ \hline
+
+{\bf REVISÃO}   & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} \\ \hline
+{\bf AUMENTO}   & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} \\ \hline
+{\bf ANÁLISE}   &                  &                  & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} \\ \hline
+{\bf VALIDAÇÃO} &                  &                  & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} \\ \hline
+{\bf ALGORITMO} &                  &                  & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} \\ \hline
+{\bf CNN}       &                  &                  & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} \\ \hline
+{\bf TEC}       &                  &                  &                  &                  &                  & \cellcolor{Gray} \\ \hline
+{\bf ARTIGOS}   & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} \\ \hline
+{\bf ESCRITA}   &                  &                  &                  &                  &                  &                  \\ \hline
+{\bf DEFESA}    &                  &                  &                  &                  &                  &                  \\ \hline
+\end{tabular}
+
+\vspace{12pt}
+
+\begin{tabular}{|c|>{\centering\arraybackslash}p{1.2cm}|
+                   >{\centering\arraybackslash}p{1.2cm}|
+                   >{\centering\arraybackslash}p{1.2cm}|}
+\hline
+                         & \multicolumn{3}{c|}{2021}\\ \cline{2-4}
+
+\multirow{-2}{*}{Etapas} & 1-3 & 4-6 & 7-8 \\ \hline
+
+{\bf REVISÃO}   & \cellcolor{Gray} & \cellcolor{Gray} & \\ \hline
+{\bf AUMENTO}   & \cellcolor{Gray} &                  & \\ \hline
+{\bf ANÁLISE}   &                  &                  & \\ \hline
+{\bf VALIDAÇÃO} &                  &                  & \\ \hline
+{\bf ALGORITMO} &                  &                  & \\ \hline
+{\bf CNN}       & \cellcolor{Gray} &                  & \\ \hline
+{\bf TEC}       & \cellcolor{Gray} & \cellcolor{Gray} & \\ \hline
+{\bf ARTIGOS}   & \cellcolor{Gray} & \cellcolor{Gray} & \\ \hline
+{\bf ESCRITA}   & \cellcolor{Gray} & \cellcolor{Gray} & \cellcolor{Gray} \\ \hline
+{\bf DEFESA}    &                  &                  & \cellcolor{Gray} \\ \hline
+\end{tabular}
+\caption{Cronograma (em meses). Fonte: próprio autor}
+\end{table}
