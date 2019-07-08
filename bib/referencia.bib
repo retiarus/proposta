@@ -26,7 +26,7 @@
 @article{RAGHUNATH:2016,
   title={Detection of ionospheric spatial and temporal gradients for ground based augmentation system applications},
   author={Raghunath, Swapna ; Venkata Ratnam, Devanaboyina},
-  journal={Indian Journal of Radio & Space Physics (IJRSP)},
+  journal={Indian Journal of Radio \& Space Physics (IJRSP)},
   volume={45},
   number={1},
   pages={11--19},
@@ -416,4 +416,68 @@ year = {1979},
 month = {02},
 pages = {},
 title = {Earth's magnetosphere - Global problems in magnetospheric plasma physics}
+}
+
+@article{MCGRANAGHAN:2018,
+author = {McGranaghan, Ryan M. and Mannucci, Anthony J. and Wilson, Brian and Mattmann, Chris A and Chadwick, Richard},
+title = {New Capabilities for Prediction of High-Latitude Ionospheric Scintillation: A Novel Approach With Machine Learning},
+journal = {Space Weather},
+volume = {16},
+number = {11},
+pages = {1817-1846},
+keywords = {machine learning, high-latitude ionosphere, scintillation, Global Navigation Satellite Systems (GNSS), space weather prediction, data driven},
+doi = {10.1029/2018SW002018},
+url = {https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2018SW002018},
+eprint = {https://agupubs.onlinelibrary.wiley.com/doi/pdf/10.1029/2018SW002018},
+abstract = {Abstract As societal dependence on transionospheric radio signals grows, space weather impact on these signals becomes increasingly important yet our understanding of the effects remains inadequate. This challenge is particularly acute at high latitudes where the effects of space weather are most direct and no reliable predictive capability exists. We take advantage of a large volume of data from Global Navigation Satellite Systems (GNSS) signals, increasingly sophisticated tools for data-driven discovery, and a machine learning algorithm known as the support vector machine (SVM) to develop a novel predictive model for high-latitude ionospheric phase scintillation. This work, to our knowledge, represents the first time an SVM model has been created to predict high-latitude phase scintillation. We use the true skill score to evaluate the SVM model and to establish a benchmark for high-latitude ionospheric phase scintillation prediction. The SVM model significantly outperforms persistence (i.e., current and future scintillation are identical), doubling the predictive skill according to the true skill score for a 1-hr lead time. For a 3-hr lead time, persistence is comparable to a random chance prediction, suggesting that the memory of the ionosphere in terms of high-latitude plasma irregularities is on the order of, or shorter than, a few hours. The SVM model predictive skill only slightly decreases between the 1- and 3-hr predictive tasks, pointing to the potential of this method. Our findings can serve as a foundation on which to evaluate future predictive models, a critical development toward the resolution of space weather impact on transionospheric radio signals.},
+year = {2018}
+}
+
+@article{REZENDE:2010,
+author = {Rezende, L. F. C. and de Paula, E. R. and Stephany, S. and Kantor, I. J. and Muella, M. T. A. H. and de Siqueira, P. M. and Correa, K. S.},
+title = {Survey and prediction of the ionospheric scintillation using data mining techniques},
+journal = {Space Weather},
+volume = {8},
+number = {6},
+pages = {},
+keywords = {data mining, ionospheric scintillation, scintillation prediction},
+doi = {10.1029/2009SW000532},
+url = {https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2009SW000532},
+eprint = {https://agupubs.onlinelibrary.wiley.com/doi/pdf/10.1029/2009SW000532},
+abstract = {Irregularly structured ionospheric regions may cause amplitude and phase fluctuations of radio signals. Such distortion is called ionospheric scintillation. These ionospheric irregularities occur as part of depleted plasma density regions that are generated at the magnetic equator after sunset by equatorial ionospheric plasma instability mechanism. Also known as ionospheric bubbles, they drift upward to high altitudes at the equator and extend/expand to low latitudes along the Earth magnetic field lines. Ionospheric irregularities affect the space weather since they present large variations with the solar cycle and during solar flares and coronal mass ejections. In general, navigation systems such as the Global Positioning System and telecommunications systems are also affected by the scintillation. The aim of this work is to apply data mining for the prediction of ionospheric scintillation. Data mining can be divided into two categories: descriptive or predictive. The first one describes a data set in a concise and summarized way, while the second one, used in this work, analyzes the data to build a model and tries to predict the behavior of a new data set. In this study we employed data series of ionospheric scintillation and other parameters such as the level of solar activity, vertical drift velocity of the plasma at the magnetic equator, and magnetic activity. The results show that prediction of the ionospheric scintillation occurrence during the analyzed period was possible regardless of the high variability of the ionospheric parameters that affect the generation of such irregularities.},
+year = {2010}
+}
+
+@misc{KP:2019,
+  title = {Geomagnetic kp and ap Indices},
+  howpublished = {url{https://www.ngdc.noaa.gov/stp/GEOMAG/kp\_ap.html}},
+  note = {Acessado em: 03/05/2019}
+}
+
+@article{VANI:2017,
+title = "Visual exploration and analysis of ionospheric scintillation monitoring data: The ISMR Query Tool",
+journal = "Computers \& Geosciences",
+volume = "104",
+pages = "125 - 134",
+year = "2017",
+issn = "0098-3004",
+doi = "https://doi.org/10.1016/j.cageo.2016.08.022",
+url = "http://www.sciencedirect.com/science/article/pii/S0098300416303065",
+author = "Bruno César Vani and Milton Hirokazu Shimabukuro and João Francisco Galera Monico",
+keywords = "Ionospheric scintillation, GNSS, Visual exploration",
+abstract = "Ionospheric Scintillations are rapid variations on the phase and/or amplitude of a radio signal as it passes through ionospheric plasma irregularities. The ionosphere is a specific layer of the Earth's atmosphere located approximately between 50km and 1000km above the Earth's surface. As Global Navigation Satellite Systems (GNSS) – such as GPS, Galileo, BDS and GLONASS – use radio signals, these variations degrade their positioning service quality. Due to its location, Brazil is one of the places most affected by scintillation in the world. For that reason, ionosphere monitoring stations have been deployed over Brazilian territory since 2011 through cooperative projects between several institutions in Europe and Brazil. Such monitoring stations compose a network that generates a large amount of monitoring data everyday. GNSS receivers deployed at these stations – named Ionospheric Scintillation Monitor Receivers (ISMR) – provide scintillation indices and related signal metrics for available satellites dedicated to satellite-based navigation and positioning services. With this monitoring infrastructure, more than ten million observation values are generated and stored every day. Extracting the relevant information from this huge amount of data was a hard process and required the expertise of computer and geoscience scientists. This paper describes the concepts, design and aspects related to the implementation of the software that has been supporting research on ISMR data – the so-called ISMR Query Tool. Usability and other aspects are also presented via examples of application. This web based software has been designed and developed aiming to ensure insights over the huge amount of ISMR data that is fetched every day on an integrated platform. The software applies and adapts time series mining and information visualization techniques to extend the possibilities of exploring and analyzing ISMR data. The software is available to the scientific community through the World Wide Web, therefore constituting an analysis infrastructure that complements the monitoring one, providing support for researching ionospheric scintillation in the GNSS context. Interested researchers can access the functionalities without cost at http://is-cigala-calibra.fct.unesp.br/, under online request to the Space Geodesy Study Group from UNESP – Univ Estadual Paulista at Presidente Prudente."
+}
+
+@article{CAMPOREALE:2019,
+author = {Camporeale, E.},
+title = {The Challenge of Machine Learning in Space Weather: Nowcasting and Forecasting},
+journal = {Space Weather},
+volume = {0},
+number = {ja},
+pages = {},
+year = {2019},
+doi = {10.1029/2018SW002061},
+url = {https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2018SW002061},
+eprint = {https://agupubs.onlinelibrary.wiley.com/doi/pdf/10.1029/2018SW002061},
+abstract = {Abstract The numerous recent breakthroughs in machine learning make imperative to carefully ponder how the scientific community can benefit from a technology that, although not necessarily new, is today living its golden age. This Grand Challenge review paper is focused on the present and future role of machine learning in Space Weather. The purpose is twofold. On one hand, we will discuss previous works that use machine learning for Space Weather forecasting, focusing in particular on the few areas that have seen most activity: the forecasting of geomagnetic indices, of relativistic electrons at geosynchronous orbits, of solar flares occurrence, of coronal mass ejection propagation time, and of solar wind speed. On the other hand, this paper serves as a gentle introduction to the field of machine learning tailored to the Space Weather community and as a pointer to a number of open challenges that we believe the community should undertake in the next decade. The recurring themes throughout the review are the need to shift our forecasting paradigm to a probabilistic approach focused on the reliable assessment of uncertainties, and the combination of physics-based and machine learning approaches, known as gray-box.},
 }
