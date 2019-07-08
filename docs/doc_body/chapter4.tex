@@ -1,4 +1,6 @@
-\chapter{CONTEÚDO TOTAL ELETRÔNICO}
+\chapter{CONTEÚDO ELETRÔNICO TOTAL}\label{ch:tec}
+
+Pretende-se no trabalho de tese utilizar mais atributos, no caso, os dados de VTEC e variáveis derivadas (gradientes e derivadas temporais, ou geradas por uma rede neural) para obter predições mais precisas. Nesta direção, foi feito anteriormente um estudo sobre a correlação entre o índice $S_4$ e o VTEC e suas variáveis derivadas, que foi objeto do exame de qualificação. Este estudo encontra-se resumido e atualizado no presente capítulo.
 
 O índice $S_4$ somente fornece informação indireta sobre uma bolha de plasma. Logo, outras medidas quantitativas a respeito da estrutura da ionosfera são desejáveis para observar, rastrear e monitorar bolhas ionosféricas. Uma destas é o Total Eletronic Content (TEC), ou conteúdo total de elétrons em português, é uma quantidade descritiva utilizada para avaliar a densidade de elétrons no plasma ionosférico. Corresponde ao número total de elétrons integrado ao longo da trajetória entre um transmissor, no espaço, e um receptor, na Terra, em uma seção unitária \cite{HOFMANN:2013}. Por sua definição o TEC é uma quantidade que depende da trajetória, seu cálculo fica mais claro, ao dizer que é a integral de um densidade de elétrons dependente de posição ao longo de uma trajetória que atravessa a ionosfera:
 
@@ -26,7 +28,7 @@ O problema tratado constitui de uma regressão, onde o procedimento de validaç�
 
 \begin{eqnarray}
 \mbox{POD}&=&\mbox{TP}/(\mbox{TP}+\mbox{FN})\mbox{,}\\
-\mbox{FAR}&=&\mbox{FP}/(\mbox{TP}+\mbox{FP})\mbox{,}\\ 
+\mbox{FAR}&=&\mbox{FP}/(\mbox{TP}+\mbox{FP})\mbox{,}\\
 \mbox{ACC}&=&(\mbox{TN}+\mbox{TP})/(\mbox{TN}+\mbox{TP}+\mbox{FN}+\mbox{FP})\mbox{.}
 \end{eqnarray}
 
@@ -77,40 +79,40 @@ Os resultados obtidos nesta fase são apresentados pela Tabela \ref{tab:final_re
 
 \begin{table}
 \begin{center}
-\begin{tabular}{|l|c|c|c|c|} 
+\begin{tabular}{|l|c|c|c|c|}
 \hline
- 
+
 	                          & Erro médio relativo	& POD	& FAR	& ACC  \\ \hline
-original	                               & 14.34\%	& 0.88	& 0.55	& 0.84 \\ \hline
-original - {\bf vtec}	                       & 17.78\%	& 0.85	& 0.63	& 0.79 \\ \hline
-original - {\bf vtec\_dt}	               & 14.81\%	& 0.93	& 0.50	& 0.87 \\ \hline
-original - {\bf vtec\_dt2}	               & 14.97\%	& 0.83	& 0.57	& 0.83 \\ \hline 
-original - {\bf gvtec1}	                       & 16.22\%	& 0.80	& 0.64	& 0.79 \\ \hline
-original - {\bf gvtec1\_dt}	               & 13.84\%	& 0.83	& 0.50	& 0.87 \\ \hline
-original - {\bf gvtec2}	                       & 16.09\%	& 0.92	& 0.60	& 0.82 \\ \hline
-original - {\bf gvtec2\_dt}	               & 14.81\%	& 0.94	& 0.49	& 0.88 \\ \hline
-original - {\bf gvtec2} - {\bf gvtec2\_dt}     & 15.81\%        & 0.81  & 0.64  & 0.80 \\ \hline
-original + tempo	                       & 13.54\%	& 0.88	& 0.59	& 0.83 \\ \hline
-original + {\bf gvtec1\_dt\_lag\_9}            & 14.78\%	& 0.90	& 0.62	& 0.81 \\ \hline
-original + {\bf gvtec2\_dt\_lag\_20}           & 14.34\%	& 0.81	& 0.63	& 0.81 \\ \hline
-original + lag	                               & 15.53\%	& 0.86	& 0.63	& 0.81 \\ \hline
-original + mdv1	                               & 13.69\%	& 0.69	& 0.60	& 0.84 \\ \hline
-original + mdv2	                               & 15.40\%	& 0.69	& 0.66	& 0.80 \\ \hline
-original + tempo + lag	                       & 15.00\%	& 0.85	& 0.64	& 0.80 \\ \hline
-original + tempo + mdv2	                       & 13.62\%	& 0.76	& 0.62	& 0.82 \\ \hline
-original + tempo + mdv2 + lag 	               & 12.20\%	& 0.77	& 0.54	& 0.85 \\ \hline
-original + tempo + lag + mdv1 + mdv2	       & 12.23\%	& 0.77	& 0.54	& 0.86 \\ \hline
-{\bf vtec}	                               & 15.43\%	& 0.29	& 0.70	& 0.82 \\ \hline
-{\bf vtec} + {\bf gvtec1\_dt\_lag\_9}          & 16.43\%        & 0.67  & 0.67  & 0.79 \\ \hline
-{\bf vtec} + {\bf gvtec2\_dt\_lag\_20}         & 14.81\%        & 0.56  & 0.64  & 0.82 \\ \hline
-{\bf vtec} + {\bf vtec\_dt} + {\bf vtec\_dt2}  & 16.65\%	& 0.71	& 0.63	& 0.81 \\ \hline
-{\bf vtec} + {\bf gvtec1} + {\bf gvtec2}       & 15.35\%	& 0.67	& 0.54	& 0.86 \\ \hline
-{\bf vtec} + tempo	                       & 15.73\%	& 0.75	& 0.54	& 0.86 \\ \hline
-{\bf vtec} + tempo + mdv1	               & 13.73\%	& 0.41	& 0.58	& 0.86 \\ \hline
-{\bf vtec} + tempo + lag	               & 13.54\%	& 0.79	& 0.52	& 0.86 \\ \hline
-{\bf vtec} + tempo + lag + mdv1	               & 12.21\%	& 0.71	& 0.48	& 0.88 \\ \hline
-{\bf vtec} + tempo + lag + mdv2	               & 13.58\%	& 0.61	& 0.52	& 0.87 \\ \hline
-{\bf vtec} + tempo + lag + mdv1 + mdv2	       & 11.95\%	& 0.52	& 0.54	& 0.86 \\ \hline
+original	                                     & 24.52 \%	&0.47 & 	0.44 &  0.86 \\ \hline
+original - {\bf vtec}	                         & 30.83 \%	&0.62 & 	0.52 &  0.83 \\ \hline
+original - {\bf vtec\_dt}	                     & 23.43 \%	&0.48 & 	0.41 &  0.86 \\ \hline
+original - {\bf vtec\_dt2}	                     & 24.56 \%	&0.47 & 	0.42 &  0.86 \\ \hline
+original - {\bf gvtec1}	                         & 24.19 \%	&0.46 & 	0.39 &  0.87 \\ \hline
+original - {\bf gvtec1\_dt}	                     & 22.89 \%	&0.44 &  	0.42 &  0.86 \\ \hline
+original - {\bf gvtec2}	                         & 31.42 \%	&0.58 & 	0.56 &  0.82 \\ \hline
+original - {\bf gvtec2\_dt}	                     & 23.82 \%	&0.47 & 	0.43 &  0.86 \\ \hline
+original - {\bf gvtec2} - {\bf gvtec2\_dt}       & 31.63 \% &0.54 &     0.57 &  0.81 \\ \hline
+original + tempo	                             & 17.12 \%	&0.51 & 	0.18 &  0.90 \\ \hline
+original + {\bf gvtec1\_dt\_lag\_9}              & 23.69 \%	&0.58 & 	0.41 &  0.87 \\ \hline
+original + {\bf gvtec2\_dt\_lag\_20}             & 24.67 \%	&0.51 & 	0.45 &  0.86 \\ \hline
+original + lag	                                 & 24.28 \%	&0.60 & 	0.42 &  0.87 \\ \hline
+original + mdv1	                                 & 28.28 \%	&0.64 & 	0.52 &  0.83 \\ \hline
+original + mdv2	                                 & 26.43 \%	&0.52 & 	0.44 &  0.86 \\ \hline
+original + tempo + lag	                         & 16.92 \%	&0.59 & 	0.18 &  0.91 \\ \hline
+original + tempo + mdv2	                         & 20.39 \%	&0.52 & 	0.26 &  0.89 \\ \hline
+original + tempo + mdv2 + lag 	                 & 21.71 \%	&0.59 & 	0.37 &  0.88 \\ \hline
+original + tempo + lag + mdv1 + mdv2	         & 21.13 \%	&0.63 & 	0.35 &  0.89 \\ \hline
+{\bf vtec}	                                     & 30.25 \%	&0.24 & 	0.72 &  0.78 \\ \hline
+{\bf vtec} + {\bf gvtec1\_dt\_lag\_9}            & 34.87 \% &0.60 &     0.59 &  0.80 \\ \hline
+{\bf vtec} + {\bf gvtec2\_dt\_lag\_20}           & 26.78 \% &0.49 &     0.54 &  0.83 \\ \hline
+{\bf vtec} + {\bf vtec\_dt} + {\bf vtec\_dt2}    & 31.43 \%	&0.62 & 	0.52 &  0.83 \\ \hline
+{\bf vtec} + {\bf gvtec1} + {\bf gvtec2}         & 23.73 \%	&0.29 & 	0.53 &  0.84 \\ \hline
+{\bf vtec} + tempo	                             & 23.98 \%	&0.46 & 	0.48 &  0.85 \\ \hline
+{\bf vtec} + tempo + mdv1	                     & 25.69 \%	&0.62 & 	0.44 &  0.86 \\ \hline
+{\bf vtec} + tempo + lag	                     & 22.42 \%	&0.62 & 	0.44 &  0.86 \\ \hline
+{\bf vtec} + tempo + lag + mdv1	                 & 21.56 \%	&0.66 & 	0.41 &  0.87 \\ \hline
+{\bf vtec} + tempo + lag + mdv2	                 & 21.29 \%	&0.61 & 	0.40 &  0.87 \\ \hline
+{\bf vtec} + tempo + lag + mdv1 + mdv2	         & 20.77 \%	&0.64 & 	0.40 &  0.88 \\ \hline
 \end{tabular}
 \end{center}
 \vspace{12pt}
@@ -120,10 +122,10 @@ original + tempo + lag + mdv1 + mdv2	       & 12.23\%	& 0.77	& 0.54	& 0.86 \\ \h
 
 Observando a Tabela \ref{tab:final_result} se notou que a presença de baixos valores de POD e FAR com altos valores de ACC é um forte indicativo da predominância de verdadeiros negativos (TN) que neste caso correspondem a valores com S4 $<0.2$.
 
-A variável {\bf vtec\_dt} que correspondem à diferença finita no tempo da variável{\bf vtec} não apresentou a influência e contribuição esperadas. Esta expectativa vinha da observação de uma tendência de diminuição do VTEC ao longo do tempo precedendo ou acompanhando a cintilação. 
+A variável {\bf vtec\_dt} que correspondem à diferença finita no tempo da variável{\bf vtec} não apresentou a influência e contribuição esperadas. Esta expectativa vinha da observação de uma tendência de diminuição do VTEC ao longo do tempo precedendo ou acompanhando a cintilação.
 
 O gradiente espacial foi avaliado apenas em relação a duas localizações, Pirassununga e Brasília, resultando, respectivamente, nas variáveis  {\bf gvtec1} e {\bf gvtec2}. Observou-se que a contribuição destas varáveis foi bem diferente, sendo a definida por Brasília a que apresenta menor impacto, o que pode decorrer do fato de Brasília estar em meridiano magnético ligeiramente distinto de São José dos Campos quando comparado a Pirassununga. Entretanto, deve-se considerar que a evolução espaço-temporal das bolhas ionosféricas, bem como sua forma e extensão, podem variar muito, o que implica em diferentes influências do VTEC medido em diferentes estações de medição. Assim, embora seja desejável utilizar dados de diversas estações, não se pode esperar que sua contribuição seja a mesma.
 
+O número de variáveis possíveis a serem definidos utilizando VTEC é grande
+
 Finalmente ficou claro que o processo de engenharia de atributos para o tratamento dados dados de VTEC não é uma tarefa trivial e uma abordagem automática deve ser empregada tais como filtros convolutivos, indo em direção a redes convolucionais.
-
-
